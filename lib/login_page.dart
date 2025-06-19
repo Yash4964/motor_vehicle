@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/utils.dart';
+import 'package:motor_vehicle/registration_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
 class login extends StatelessWidget {
@@ -7,15 +10,9 @@ class login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        
-        
-      ),
+      appBar: AppBar(backgroundColor: Colors.white),
       backgroundColor: Colors.white,
       body: Center(
-
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Form(
@@ -25,10 +22,12 @@ class login extends StatelessWidget {
               children: [
                 Center(
                   child: Container(
-
-                    child: Image.asset('images/logo.jpg',width: 200,height: 100,),
+                    child: Image.asset(
+                      'images/logo.jpg',
+                      width: 200,
+                      height: 100,
+                    ),
                   ),
-
                 ),
                 Center(
                   child: Text(
@@ -37,19 +36,14 @@ class login extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 40),
-                Text(
-                  "Email",
-                  style: TextStyle(fontSize: 18),
-                ),
+                Text("Email", style: TextStyle(fontSize: 18)),
                 const SizedBox(height: 8),
                 TextFieldWidget(
                   hint: "ex: jon.smith@gmail.com",
                   textInputType: TextInputType.emailAddress,
                 ),
                 SizedBox(height: 24),
-                Text("Password",
-                  style: TextStyle(fontSize: 18),
-                ),
+                Text("Password", style: TextStyle(fontSize: 18)),
                 const SizedBox(height: 8),
                 TextFieldWidget(
                   hint: "**********",
@@ -60,38 +54,29 @@ class login extends StatelessWidget {
                   height: 40,
                   width: double.infinity,
                   child: ElevatedButton(
-                    
-                    onPressed: () {
-                    },
+                    onPressed: () {},
                     style: ElevatedButton.styleFrom(
-
-                      backgroundColor: const Color.fromARGB(
-                        255,
-                        65,
-                        33,
-                        243,
-                      ),
+                      backgroundColor: const Color.fromARGB(255, 65, 33, 243),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(7)
+                        borderRadius: BorderRadius.circular(7),
                       ),
                     ),
                     child: Text(
-                      
                       "SIGN IN",
-                      style: TextStyle(fontSize: 16,color: Colors.black),
+                      style: TextStyle(fontSize: 16, color: Colors.black),
                     ),
-                    
                   ),
                 ),
-               SizedBox(height: 16),
-                
+                SizedBox(height: 16),
+
                 Center(
                   child: InkWell(
                     onTap: () {
+                      Get.to(RegistrationPage());
                     },
                     child: Text("Don't have an account ? SIGN UP"),
                   ),
-                )
+                ),
               ],
             ),
           ),
