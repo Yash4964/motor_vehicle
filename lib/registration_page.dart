@@ -87,7 +87,7 @@ class RegistrationPage extends StatelessWidget {
 
                         SizedBox(height: 20),
 
-                        Container(
+                        SizedBox(
                           width: double.infinity,
                           height: 42,
                           child: ElevatedButton(
