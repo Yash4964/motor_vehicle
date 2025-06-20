@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motor_vehicle/ui/customer/home/home_page.dart';
+import 'package:motor_vehicle/ui/login_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
 class RegistrationPage extends StatelessWidget {
@@ -14,7 +16,7 @@ class RegistrationPage extends StatelessWidget {
         title: Text('Registration '),
         automaticallyImplyLeading: true,
         actions: [
-          Image.asset('assets/images/logo.jpg', height: 40, width: 80),
+          Image.asset('assets/images/logo.png', height: 40, width: 80),
           SizedBox(width: 20),
         ],
       ),
@@ -104,7 +106,7 @@ class RegistrationPage extends StatelessWidget {
                     Center(
                       child: InkWell(
                         onTap: () {
-                          Get.back();
+                          Get.to(LoginPage());
                         },
                         child: Text("Have an account? SIGN IN"),
                       ),
