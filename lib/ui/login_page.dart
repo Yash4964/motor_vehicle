@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/utils.dart';
-import 'package:motor_vehicle/registration_page.dart';
+import 'package:motor_vehicle/ui/registration_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
-class login extends StatelessWidget {
+class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(backgroundColor: Colors.white),
-    
       backgroundColor: Colors.white,
       body: Center(
         child: Padding(
@@ -30,7 +28,6 @@ class login extends StatelessWidget {
                       height: 100,
                     ),
                   ),
-                  
                 ),
                 Center(
                   child: Text(
@@ -44,7 +41,6 @@ class login extends StatelessWidget {
                 TextFieldWidget(
                   hint: "ex: jon.smith@gmail.com",
                   textInputType: TextInputType.emailAddress,
-                  
                 ),
                 SizedBox(height: 24),
                 Text("Password", style: TextStyle(fontSize: 18)),
@@ -67,7 +63,7 @@ class login extends StatelessWidget {
                     ),
                     child: Text(
                       "SIGN IN",
-                      style: TextStyle(fontSize: 16, color: Colors.black),
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ),
                 ),
