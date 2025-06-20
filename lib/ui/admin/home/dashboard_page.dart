@@ -72,7 +72,12 @@ class Dashboard_page extends StatelessWidget {
               Container_table(
                 tital: "Attendance",
                 u_icon: Icons.add_task,
-                bg_color: Color.fromARGB(255, 26, 180, 216),
+                bg_color: Color.fromARGB(255, 131, 26, 216),
+              ),
+              Container_table(
+                tital: "Pending Payment",
+                u_icon: Icons.payment,
+                bg_color: Colors.lightBlue
               ),
             ],
             ),

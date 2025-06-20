@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/admin/home/dashboard_page.dart';
-import 'package:motor_vehicle/ui/login_page.dart';
 
 class SplashPage extends StatefulWidget {
   @override
