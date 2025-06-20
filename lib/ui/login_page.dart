@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/utils.dart';
-import 'package:motor_vehicle/registration_page.dart';
+import 'package:motor_vehicle/ui/registration_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
-class login extends StatelessWidget {
+class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -23,7 +23,7 @@ class login extends StatelessWidget {
                 Center(
                   child: Container(
                     child: Image.asset(
-                      'images/logo.jpg',
+                      'assets/images/logo.jpg',
                       width: 200,
                       height: 100,
                     ),
@@ -63,7 +63,7 @@ class login extends StatelessWidget {
                     ),
                     child: Text(
                       "SIGN IN",
-                      style: TextStyle(fontSize: 16, color: Colors.black),
+                      style: TextStyle(fontSize: 16, color: Colors.white),
                     ),
                   ),
                 ),

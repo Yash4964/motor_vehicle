@@ -8,7 +8,6 @@ plugins {
 android {
     namespace = "com.example.motor_vehicle"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
