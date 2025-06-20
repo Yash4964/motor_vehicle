@@ -12,6 +12,7 @@ class RegistrationPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text('Registration '),
+        automaticallyImplyLeading: true,
         actions: [
           Image.asset('assets/images/logo.jpg', height: 40, width: 80),
           SizedBox(width: 20),
