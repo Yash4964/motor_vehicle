@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/utils.dart';
+import 'package:motor_vehicle/ui/customer/home/home_page.dart';
 import 'package:motor_vehicle/ui/registration_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
@@ -54,7 +55,9 @@ class LoginPage extends StatelessWidget {
                   height: 40,
                   width: double.infinity,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(Home_page());
+                    },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 65, 33, 243),
                       shape: RoundedRectangleBorder(
