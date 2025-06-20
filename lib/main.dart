@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:motor_vehicle/ui/login_page.dart';
-import 'package:motor_vehicle/ui/registration_page.dart';
 import 'package:motor_vehicle/ui/splash_page.dart';
 
 void main() {
