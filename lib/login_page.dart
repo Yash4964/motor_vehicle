@@ -10,7 +10,9 @@ class login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      
       appBar: AppBar(backgroundColor: Colors.white),
+    
       backgroundColor: Colors.white,
       body: Center(
         child: Padding(
@@ -23,11 +25,12 @@ class login extends StatelessWidget {
                 Center(
                   child: Container(
                     child: Image.asset(
-                      'images/logo.jpg',
+                      'images/logo.png',
                       width: 200,
                       height: 100,
                     ),
                   ),
+                  
                 ),
                 Center(
                   child: Text(
@@ -41,6 +44,7 @@ class login extends StatelessWidget {
                 TextFieldWidget(
                   hint: "ex: jon.smith@gmail.com",
                   textInputType: TextInputType.emailAddress,
+                  
                 ),
                 SizedBox(height: 24),
                 Text("Password", style: TextStyle(fontSize: 18)),
