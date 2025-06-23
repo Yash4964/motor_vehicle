@@ -3,6 +3,9 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motor_vehicle/main.dart';
+import 'package:motor_vehicle/ui/admin/home/dashboard_page.dart';
+import 'package:motor_vehicle/ui/customer/home/home_page.dart';
 import 'package:motor_vehicle/ui/login_page.dart';
 
 class SplashPage extends StatefulWidget {
@@ -15,19 +18,20 @@ class _SplashPageState extends State<SplashPage> {
   void initState() {
     super.initState();
 
+    // Timer(
+    //   Duration(seconds: 5),
+    //   () => Get.off(LoginPage()),
+    // );
     Timer(
-      Duration(seconds: 5),
-      () => Get.off(LoginPage()),
+      Duration(seconds: 1),
+      () => Get.off(Homepage()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(
-      child: Container(
-        height:200,
-        width:200,
-        child: Image.asset("assets/images/logo.png")),
-    ));
+    return Scaffold(
+        body: Center(child: Image.asset("assets/images/logo.jpg"))
+    );
   }
 }

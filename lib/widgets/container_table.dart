@@ -5,7 +5,7 @@ class Container_table extends StatelessWidget {
   final IconData? u_icon;
   final Color? bg_color;
 
-  const Container_table({
+    Container_table({
     super.key,
     this.tital,
     this.u_icon,
@@ -20,9 +20,9 @@ class Container_table extends StatelessWidget {
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
-            offset: Offset(0, 5),
+            offset: Offset(-2,-2),
             color: Colors.grey,
-            spreadRadius: 2,
+            spreadRadius: 1,
             blurRadius: 5,
           )
         ],
