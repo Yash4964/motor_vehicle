@@ -16,13 +16,18 @@ class _SplashPageState extends State<SplashPage> {
     super.initState();
 
     Timer(
-      Duration(seconds: 1),
+      Duration(seconds: 5),
       () => Get.off(LoginPage()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Image.asset("assets/images/logo.png")));
+    return Scaffold(body: Center(
+      child: Container(
+        height:200,
+        width:200,
+        child: Image.asset("assets/images/logo.png")),
+    ));
   }
 }
