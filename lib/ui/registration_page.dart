@@ -23,7 +23,7 @@ class RegistrationPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 20,),
+            SizedBox(height: 20),
             Center(
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 24),
@@ -91,7 +91,12 @@ class RegistrationPage extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(255, 65, 33, 243),
+                          backgroundColor: const Color.fromARGB(
+                            255,
+                            65,
+                            33,
+                            243,
+                          ),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(7),
                           ),
@@ -102,7 +107,7 @@ class RegistrationPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10,),
+                    SizedBox(height: 10),
                     Center(
                       child: InkWell(
                         onTap: () {
@@ -111,7 +116,6 @@ class RegistrationPage extends StatelessWidget {
                         child: Text("Have an account? SIGN IN"),
                       ),
                     ),
-
                   ],
                 ),
               ),

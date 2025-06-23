@@ -21,15 +21,17 @@ class LoginPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                SizedBox(height: 20,),
                 Center(
                   child: Container(
                     child: Image.asset(
-                      'images/logo.png',
+                      'assets/images/logo.png',
                       width: 200,
-                      height: 100,
+                      height: 130,
                     ),
                   ),
                 ),
+                SizedBox(height: 20),
                 Center(
                   child: Text(
                     "Sign in your account",
@@ -56,7 +58,7 @@ class LoginPage extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.to(Home_page());
+                      Get.to((HomePage()));
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color.fromARGB(255, 65, 33, 243),
