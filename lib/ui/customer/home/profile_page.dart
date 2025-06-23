@@ -24,13 +24,14 @@ class ProfilePage extends StatelessWidget {
       //   centerTitle: true,
       //   iconTheme: const IconThemeData(color: Colors.blueAccent),
       // ),
+      
       body: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: const EdgeInsets.only(top:50.0,left: 25,right: 25,bottom: 30),
               child: Container(
-                height: 140,
+                height: 150,
                 width: 600,
                 decoration: BoxDecoration(
                   color: Colors.white,
@@ -208,36 +209,36 @@ class ProfilePage extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-            Container(
-              width: 335,
-              child: TextButton(
-                onPressed: () {Get.to(EditProfilePage());},
-                style: TextButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  padding: EdgeInsets.symmetric(horizontal: 100, vertical: 10),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    side: BorderSide(color: Colors.black45),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 30),
-                      child: Icon(Icons.edit, color: Colors.black),
-                    ),
+            // Container(
+            //   width: 335,
+            //   child: TextButton(
+            //     onPressed: () {Get.to(EditProfilePage());},
+            //     style: TextButton.styleFrom(
+            //       backgroundColor: Colors.white,
+            //       padding: EdgeInsets.symmetric(horizontal: 100, vertical: 10),
+            //       shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.circular(12),
+            //         side: BorderSide(color: Colors.black45),
+            //       ),
+            //     ),
+                // child: Row(
+                //   children: [
+                //     Padding(
+                //       padding: EdgeInsets.only(left: 30),
+                //       child: Icon(Icons.edit, color: Colors.black),
+                //     ),
 
-                    Padding(
-                      padding: EdgeInsets.only(left: 4),
-                      child: Text(
-                        "Edit Profile",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+                //     Padding(
+                //       padding: EdgeInsets.only(left: 4),
+                //       child: Text(
+                //         "Edit Profile",
+                //         style: TextStyle(color: Colors.black),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+            //   ),
+            // ),
             SizedBox(height: 10),
 
             Container(
