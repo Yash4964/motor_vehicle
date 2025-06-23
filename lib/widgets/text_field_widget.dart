@@ -18,12 +18,13 @@ class TextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
-      obscureText: obscureText,
+      obscureText: true,
       keyboardType: textInputType ?? TextInputType.text,
       decoration: InputDecoration(
         hintText: hint ?? "",
+        hintStyle: TextStyle(fontSize: 15),
         filled: true,
-        fillColor: const Color.fromARGB(255, 241, 241, 241),
+        fillColor:const Color.fromARGB(255, 226, 230, 236),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide.none,

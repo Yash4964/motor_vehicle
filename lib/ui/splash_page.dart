@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motor_vehicle/main.dart';
 import 'package:motor_vehicle/ui/admin/home/dashboard_page.dart';
+import 'package:motor_vehicle/ui/customer/home/home_page.dart';
 
 class SplashPage extends StatefulWidget {
   @override
@@ -21,12 +23,14 @@ class _SplashPageState extends State<SplashPage> {
     // );
     Timer(
       Duration(seconds: 1),
-      () => Get.off(Dashboard_page()),
+      () => Get.off(Homepage()),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Image.asset("assets/images/logo.jpg")));
+    return Scaffold(
+        body: Center(child: Image.asset("assets/images/logo.jpg"))
+    );
   }
 }

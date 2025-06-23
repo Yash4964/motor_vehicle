@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:motor_vehicle/ui/admin/customer/customerlist_page.dart';
 import 'package:motor_vehicle/widgets/container_table.dart';
+
+import '../bokking/bookng_list_page.dart';
 
 class Dashboard_page extends StatelessWidget {
   const Dashboard_page({super.key});
@@ -7,7 +11,7 @@ class Dashboard_page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(),
+
       appBar: AppBar(
         iconTheme: IconThemeData(color: Colors.white),
         backgroundColor: Colors.blue,
@@ -15,7 +19,7 @@ class Dashboard_page extends StatelessWidget {
         title: Text('Dashboard',
             style: TextStyle(color: Colors.white),
         ),
-        
+
       ),
       body: ListView(
 
@@ -39,20 +43,31 @@ class Dashboard_page extends StatelessWidget {
 
           GridView.count(
             shrinkWrap: true,
+            physics: NeverScrollableScrollPhysics(),
             crossAxisSpacing: 20,
             mainAxisSpacing: 20,
             padding: EdgeInsets.all(30),
             crossAxisCount: 2,
             children: [
-              Container_table(
-                tital: "Customer",
-                u_icon: Icons.people,
-                bg_color: Colors.lightBlue,
+              InkWell(
+                onTap: (){
+                  Get.to(CustomerListPage());
+                },
+                child: Container_table(
+                  tital: "Customer",
+                  u_icon: Icons.people,
+                  bg_color: Colors.lightBlue,
+                ),
               ),
-              Container_table(
-                tital: "Booking",
-                u_icon: Icons.bookmark_add,
-                bg_color: Colors.amber,
+              InkWell(
+                onTap: (){
+                  Get.to(BookngListPage());
+                },
+                child: Container_table(
+                  tital: "Booking",
+                  u_icon: Icons.bookmark_add,
+                  bg_color: Colors.amber,
+                ),
               ),
               Container_table(
                 tital: "Driver",
@@ -75,10 +90,11 @@ class Dashboard_page extends StatelessWidget {
                 bg_color: Color.fromARGB(255, 131, 26, 216),
               ),
               Container_table(
-                tital: "Pending Payment",
+                tital: "Payment",
                 u_icon: Icons.payment,
-                bg_color: Colors.lightBlue
+                bg_color: Colors.teal,
               ),
+
             ],
             ),
         ],
