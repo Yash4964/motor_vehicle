@@ -52,7 +52,7 @@ class Homepage extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(width: 30,),
+                SizedBox(width: 35,),
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
