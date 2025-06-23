@@ -24,7 +24,6 @@ class ProfilePage extends StatelessWidget {
       //   centerTitle: true,
       //   iconTheme: const IconThemeData(color: Colors.blueAccent),
       // ),
-      
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -227,18 +226,36 @@ class ProfilePage extends StatelessWidget {
                 //       padding: EdgeInsets.only(left: 30),
                 //       child: Icon(Icons.edit, color: Colors.black),
                 //     ),
+            Container(
+              width: 335,
+              child: TextButton(
+                onPressed: () {},
+                style: TextButton.styleFrom(
+                  backgroundColor: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 100, vertical: 10),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: BorderSide(color: Colors.black45),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(left: 30),
+                      child: Icon(Icons.edit, color: Colors.black),
+                    ),
 
-                //     Padding(
-                //       padding: EdgeInsets.only(left: 4),
-                //       child: Text(
-                //         "Edit Profile",
-                //         style: TextStyle(color: Colors.black),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-            //   ),
-            // ),
+                    Padding(
+                      padding: EdgeInsets.only(left: 4),
+                      child: Text(
+                        "Edit Profile",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             SizedBox(height: 10),
 
             Container(
