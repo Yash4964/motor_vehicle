@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
     Aboutus(),
     Center(child: Text(" Vehicle ", style: TextStyle(fontSize: 24))),
     //Center(child: Text(" Booking Page", style: TextStyle(fontSize: 24))),
-    //BookingPage(),
+    BookingPage(),
     ProfilePage(),
   ];
 
