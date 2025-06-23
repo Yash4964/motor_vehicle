@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:motor_vehicle/main.dart';
 import 'package:motor_vehicle/ui/admin/home/dashboard_page.dart';
 import 'package:motor_vehicle/ui/customer/home/home_page.dart';
+import 'package:motor_vehicle/ui/login_page.dart';
 
 class SplashPage extends StatefulWidget {
   @override
