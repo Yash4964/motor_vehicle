@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
 class AddcustomerPage extends StatelessWidget {
   AddcustomerPage({super.key});
 
+  var args=Get.arguments;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Booking Details', style: TextStyle(color: Colors.white)),
+        title: const Text('Customer Details', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blue,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -18,34 +21,45 @@ class AddcustomerPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: Stack(
-                children: [
-                  const CircleAvatar(
-                    radius: 50,
-                    backgroundImage: AssetImage('assets/images/person.jpg'),
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Colors.lightBlue,
+                    width: 2.5,
                   ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: InkWell(
-                      onTap: () {},
-                      child: Container(
-                        padding: const EdgeInsets.all(6),
-                        decoration: const BoxDecoration(
-                          color: Colors.lightBlue,
-                          shape: BoxShape.circle,
+                ),padding: EdgeInsets.all(2),
+                child: Stack(
+                  children: [
+                     CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.white,
+                      backgroundImage: AssetImage(args?[2] ?? 'assets/images/default_person.png',),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: const BoxDecoration(
+                            color: Colors.lightBlue,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.add, color: Colors.white, size: 22),
                         ),
-                        child: const Icon(Icons.add, color: Colors.white, size: 22),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 10),
-            const Center(
+             Center(
               child: Text(
-                'Customer Details',
+                args?[0] ?? 'Customer Details',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
               ),
             ),
@@ -53,31 +67,28 @@ class AddcustomerPage extends StatelessWidget {
 
             labels("Name"),
             TextFieldWidget(
-              hint: 'Name',
+              hint: args?[0] ?? 'Name',
               textInputType: TextInputType.name,
             ),
 
             labels("Email"),
             TextFieldWidget(
-              hint: "ex: jon.smith@gmail.com",
+              hint: args?[1] ?? 'ex: jon.smith@gmail.com',
               textInputType: TextInputType.emailAddress,
             ),
 
-            labels("New Password"),
-            TextFieldWidget(
-              hint: "New password",
-              obscureText: true,
-            ),
 
-            labels("Confirm Password"),
+
+            labels("Password"),
             TextFieldWidget(
-              hint: "Confirm password",
+              hint:
+                  "password",
               obscureText: true,
             ),
 
             labels("Mobile"),
             TextFieldWidget(
-              hint: "+91 9632587415",
+              hint: args?[3] ?? '91+ 9698521475',
               textInputType: TextInputType.phone,
             ),
 
