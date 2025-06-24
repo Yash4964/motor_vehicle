@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/admin/customer/addcustomer_page.dart';
+import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
 
 class CustomerListPage extends StatelessWidget {
   CustomerListPage({super.key});
@@ -10,19 +11,19 @@ class CustomerListPage extends StatelessWidget {
       'name': 'John Doe',
       'email': 'john.doe@example.com',
       'phone': '9876543210',
-      'image': 'assets/images/person.jpg'
+      'image': 'assets/images/person1.jpg',
     },
     {
       'name': 'Priya Sharma',
       'email': 'priya.sharma3232@example.com',
       'phone': '9123456780',
-      'image': 'assets/images/person.jpg'
+      'image': 'assets/images/person2.jpg',
     },
     {
       'name': 'Amit Patel',
       'email': 'abc.patel@example.com',
       'phone': '9012345678',
-      'image': 'assets/images/person.jpg'
+      'image': 'assets/images/person3.jpg',
     },
   ];
 
@@ -30,10 +31,8 @@ class CustomerListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Customer List',style: TextStyle(color: Colors.white),),
+        title:  Text('Customer List',style: TextStyle(color: Colors.white),),
         backgroundColor: Colors.blue,
-
-
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: ListView.builder(
@@ -41,37 +40,52 @@ class CustomerListPage extends StatelessWidget {
         itemBuilder: (BuildContext context ,int index) {
           final customer = customers[index];
           return Card(
-            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            margin:  EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             elevation: 2,
             child: ListTile(
-              contentPadding: const EdgeInsets.all(12),
+              contentPadding:  EdgeInsets.all(12),
               leading: InkWell(
-                onTap: (){},
+                onTap: (){
+                  Get.to(
+                        () => CustomerProfilePage(),
+                    arguments:[
+                        customer['name'] ,
+                         customer['email'] ,
+                       customer['image'] ,
+                      customer['phone'] ,
+                    ],
+                  );
+                },
                 child: CircleAvatar(
                   radius: 30,
                   backgroundImage: AssetImage(customer['image']!),
                 ),
               ),
-              title: Text(
-                customer['name']!,
-                style: const TextStyle(fontWeight: FontWeight.bold),
+              title: InkWell(
+                onTap: (){
+                  Get.to(CustomerProfilePage());
+                  },
+                child: Text(
+                  customer['name']!,
+                  style:  TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 6),
+                   SizedBox(height: 6),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Padding(
+                       Padding(
                         padding: EdgeInsets.only(top: 2),
                         child: Icon(Icons.email, size: 16),
                       ),
-                      const SizedBox(width: 4),
+                       SizedBox(width: 4),
                       Expanded(
                         child: Text(
                           customer['email']!,
-                          style: const TextStyle(fontSize: 13),
+                          style:  TextStyle(fontSize: 13),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           softWrap: false,
@@ -82,11 +96,11 @@ class CustomerListPage extends StatelessWidget {
                   SizedBox(height: 4),
                   Row(
                     children: [
-                      const Icon(Icons.call, size: 16),
-                      const SizedBox(width: 4),
+                       Icon(Icons.call, size: 16),
+                       SizedBox(width: 4),
                       Text(
                         customer['phone']!,
-                        style: const TextStyle(fontSize: 13),
+                        style:  TextStyle(fontSize: 13),
                       ),
                     ],
                   ),
@@ -98,12 +112,43 @@ class CustomerListPage extends StatelessWidget {
                 children: [
                   IconButton(
                     icon:  Icon(Icons.edit, color: Colors.green),
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.to(()=>AddcustomerPage(),arguments:[
+                        customer['name'] ,
+                        customer['email'] ,
+                        customer['image'] ,
+                        customer['phone'] ,
+                      ],);
+                    },
                   ),
                   IconButton(
                     icon:  Icon(Icons.delete, color: Colors.red),
                     onPressed: () {
+                        showDialog(
+                          context: context, 
+                          builder: (BuildContext context)
+                          {
+                            return AlertDialog(
+                                title: Text("Delete"),
+                                content:  Text("Are you Sure delete",style: TextStyle(fontSize: 16),),
+                                actions: [
 
+                                      TextButton(
+
+                                        onPressed: (){
+                                          Get.back();
+                                        }, child:Text("Cancel",style: TextStyle(fontSize: 18),)
+                                        ),
+                                      TextButton(
+                                        onPressed: (){}, child:Text("ok",style: TextStyle(fontSize: 18),)
+                                        )
+                                    
+                                  
+                                ],
+               
+                          );
+                          }
+                        );
                     },
                   ),
 
@@ -113,6 +158,7 @@ class CustomerListPage extends StatelessWidget {
           );
         },
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: (){
           Get.to(AddcustomerPage());
