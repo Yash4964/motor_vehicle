@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/admin/customer/customerlist_page.dart';
+import 'package:motor_vehicle/ui/admin/driver/driver_list_page.dart';
+import 'package:motor_vehicle/ui/admin/package/package_list_page.dart';
+import 'package:motor_vehicle/ui/admin/vehicle/vehicle_list_page.dart';
 import 'package:motor_vehicle/widgets/container_table.dart';
 
 import '../bokking/bookng_list_page.dart';
@@ -11,25 +14,27 @@ class Dashboard_page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
-        backgroundColor: Colors.blue,
-        centerTitle: true,
-        title: Text('Dashboard',
-            style: TextStyle(color: Colors.white),
-        ),
-
-      ),
-      body: ListView(
-
+      body: Column(
         children: [
+          Container(
+            padding: EdgeInsets.only(top:26),
+            decoration: BoxDecoration(
+              color: Colors.blue,
+              // borderRadius: BorderRadius.only(
+              //     topLeft: Radius.circular(30),topRight: Radius.circular(30)
+              // ),
+            ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Center(child: Text("Dashboard",style: TextStyle(color: Colors.white,fontSize: 24,fontWeight: FontWeight.bold),)),
+            ),
+          ),
           Container(
             decoration: BoxDecoration(
               color: Colors.blue,
               borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),bottomRight: Radius.circular(30)
-                ),
+                  bottomLeft: Radius.circular(30),bottomRight: Radius.circular(30)
+              ),
             ),
             child: Padding(
               padding: const EdgeInsets.only(bottom: 20),
@@ -41,62 +46,79 @@ class Dashboard_page extends StatelessWidget {
             ),
           ),
 
-          GridView.count(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            crossAxisSpacing: 20,
-            mainAxisSpacing: 20,
-            padding: EdgeInsets.all(30),
-            crossAxisCount: 2,
-            children: [
-              InkWell(
-                onTap: (){
-                  Get.to(CustomerListPage());
-                },
-                child: Container_table(
-                  tital: "Customer",
-                  u_icon: Icons.people,
-                  bg_color: Colors.lightBlue,
+          Expanded(
+            child: GridView.count(
+              shrinkWrap: true,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20,
+              padding: EdgeInsets.all(30),
+              crossAxisCount: 2,
+              children: [
+                InkWell(
+                  onTap: (){
+                    Get.to(CustomerListPage());
+                  },
+                  child: Container_table(
+                    tital: "Customer",
+                    u_icon: Icons.people,
+                    bg_color: Colors.lightBlue,
+                  ),
                 ),
-              ),
-              InkWell(
-                onTap: (){
-                  Get.to(BookngListPage());
-                },
-                child: Container_table(
-                  tital: "Booking",
-                  u_icon: Icons.bookmark_add,
-                  bg_color: Colors.amber,
+                InkWell(
+                  onTap: (){
+                    Get.to(BookingListPage());
+                  },
+                  child: Container_table(
+                    tital: "Booking",
+                    u_icon: Icons.bookmark_add,
+                    bg_color: Colors.amber,
+                  ),
                 ),
-              ),
-              Container_table(
-                tital: "Driver",
-                u_icon: Icons.emoji_people,
-                bg_color: Colors.purple,
-              ),
-              Container_table(
-                tital: "Package",
-                u_icon: Icons.paste_outlined,
-                bg_color: Colors.lightGreen,
-              ),
-              Container_table(
-                tital: "Vehicle",
-                u_icon: Icons.drive_eta,
-                bg_color: Color.fromARGB(255, 218, 67, 40),
-              ),
-              Container_table(
-                tital: "Attendance",
-                u_icon: Icons.add_task,
-                bg_color: Color.fromARGB(255, 131, 26, 216),
-              ),
-              Container_table(
-                tital: "Payment",
-                u_icon: Icons.payment,
-                bg_color: Colors.teal,
-              ),
+                InkWell(
+                  onTap:(){
+                    Get.to(DriverListPage());
+                  },
+                  child: Container_table(
+                    tital: "Driver",
+                    u_icon: Icons.emoji_people,
+                    bg_color: Colors.purple,
+                  ),
+                ),
+                InkWell(
+                  onTap: ()
+                  {
+                    Get.to(()=>PackageListPage());
+                  },
+                  child: Container_table(
+                    tital: "Package",
+                    u_icon: Icons.paste_outlined,
+                    bg_color: Colors.lightGreen,
+                  ),
+                ),
+                InkWell(
+                  onTap: (){
+                    Get.to(VehicleListPage());
+                  },
+                  child: Container_table(
+                    tital: "Vehicle",
+                    u_icon: Icons.drive_eta,
+                    bg_color: Color.fromARGB(255, 218, 67, 40),
+                  ),
+                ),
+                Container_table(
+                  tital: "Attendance",
+                  u_icon: Icons.add_task,
+                  bg_color: Color.fromARGB(255, 131, 26, 216),
+                ),
+                Container_table(
+                  tital: "Payment",
+                  u_icon: Icons.payment,
+                  bg_color: Colors.teal,
+                ),
 
-            ],
-            ),
+              ],
+              ),
+          ),
         ],
       ),
     );
