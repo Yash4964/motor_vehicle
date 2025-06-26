@@ -75,7 +75,7 @@ class AddBookingPage extends StatelessWidget {
             labels("Booking Name"),
 
             TextFieldWidget(
-              hint: args?[1] ?? 'Ashish ',
+              hint: args?['booking_name'] ?? 'Enter Booking Name',
               textInputType: TextInputType.name,
             ),
 
@@ -152,7 +152,7 @@ class AddBookingPage extends StatelessWidget {
                 ),
               ),
             ),
-            labels("Select Vehicle"),
+            labels("Select Time"),
             Container(
               child: Row(
                 children: [
@@ -165,7 +165,7 @@ class AddBookingPage extends StatelessWidget {
                           color: Color.fromARGB(255, 226, 230, 236),
                                                 ),
                                                 padding: EdgeInsets.only(left: 5),
-                                                
+
                                                 child: DropdownButton(
                           isExpanded: true,
                           value: d.timeselected.value,

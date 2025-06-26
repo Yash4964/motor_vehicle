@@ -37,7 +37,7 @@ class Dashboard_page extends StatelessWidget {
               ),
             ),
             child: Padding(
-              padding: const EdgeInsets.only(bottom: 20),
+              padding: const EdgeInsets.only(bottom: 10),
               child: ListTile(
                 title: Text('BL Kumawat',style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),),
                 subtitle: Text('Welcome Back',style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold),),
