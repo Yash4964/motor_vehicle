@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // ignore: must_be_immutable
-class CustomerProfilePage extends StatelessWidget {
-   CustomerProfilePage({super.key});
-   var arg = Get.arguments;
+class ViewVehicleDetails extends StatelessWidget {
+  ViewVehicleDetails({super.key});
+  var arg = Get.arguments;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
 
       backgroundColor: Colors.white,
-    appBar: AppBar(
+      appBar: AppBar(
 
-    title:  Text('Customer Details',style: TextStyle(color: Colors.white),),
-    backgroundColor: Colors.blue,
-    iconTheme: IconThemeData(color: Colors.white),
-    ),
+        title:  Text('Vehicle Details',style: TextStyle(color: Colors.white),),
+        backgroundColor: Colors.blue,
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
       body: SingleChildScrollView(
 
         child: Column(
@@ -35,7 +35,7 @@ class CustomerProfilePage extends StatelessWidget {
                 ),padding: EdgeInsets.all(2),
                 child: ClipOval(
                   child: Image.asset(
-                    arg[2],
+                    arg[1],
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -48,7 +48,7 @@ class CustomerProfilePage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 20, bottom: 10),
                   child: Text(
-                    "Personal Details",
+                    "Vehicle Details",
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -80,33 +80,7 @@ class CustomerProfilePage extends StatelessWidget {
                       ),
                     ),
                   ),
-                  Center(
-                    child: Container(
-                      width: 320,
-                      child: Divider(color: Colors.grey, thickness: 1.5),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Text(
-                      "Email",
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: const Color.fromARGB(255, 129, 129, 129),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 20),
-                    child: Text(
-                      arg[1],
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
+
                   Center(
                     child: Container(
                       width: 320,
@@ -118,7 +92,7 @@ class CustomerProfilePage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: Text(
-                      "phone",
+                      "Car Number",
                       style: TextStyle(
                         fontSize: 15,
                         color: const Color.fromARGB(255, 129, 129, 129),
@@ -130,7 +104,7 @@ class CustomerProfilePage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(left: 20),
                     child: Text(
-                      arg[3],
+                      arg[2],
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,

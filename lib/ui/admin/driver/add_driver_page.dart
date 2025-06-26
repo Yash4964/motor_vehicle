@@ -3,8 +3,8 @@ import 'package:get/get.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
 // ignore: must_be_immutable
-class AddcustomerPage extends StatelessWidget {
-  AddcustomerPage({super.key});
+class AddDriverPage extends StatelessWidget {
+  AddDriverPage({super.key});
 
   var args=Get.arguments;
   @override
@@ -12,7 +12,7 @@ class AddcustomerPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Customer Details', style: TextStyle(color: Colors.white)),
+        title: const Text('Driver Details', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blue,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -33,7 +33,7 @@ class AddcustomerPage extends StatelessWidget {
                 ),padding: EdgeInsets.all(2),
                 child: Stack(
                   children: [
-                     CircleAvatar(
+                    CircleAvatar(
                       radius: 50,
                       backgroundColor: Colors.white,
                       backgroundImage: AssetImage(args?[2] ?? 'assets/images/default_person.png',),
@@ -58,9 +58,9 @@ class AddcustomerPage extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 10),
-             Center(
+            Center(
               child: Text(
-                args?[0] ?? 'Customer Details',
+                args?[0] ?? 'Driver Details',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
               ),
             ),
@@ -83,7 +83,7 @@ class AddcustomerPage extends StatelessWidget {
             labels("Password"),
             TextFieldWidget(
               hint:
-                  "password",
+              "password",
               obscureText: true,
             ),
 

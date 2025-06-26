@@ -1,37 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:motor_vehicle/ui/admin/customer/addcustomer_page.dart';
 import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
+import 'package:motor_vehicle/ui/admin/driver/add_driver_page.dart';
+import 'package:motor_vehicle/ui/admin/driver/view_driver_details.dart';
+import 'package:motor_vehicle/ui/admin/vehicle/add_vehicle_page.dart';
+import 'package:motor_vehicle/ui/admin/vehicle/view_vehicle_details.dart';
 
-class CustomerListPage extends StatelessWidget {
-  CustomerListPage({super.key});
+class VehicleListPage extends StatelessWidget {
+  VehicleListPage({super.key});
 
   final List<Map<String, String>> customers = [
     {
-      'name': 'John Doe',
-      'email': 'john.doe@example.com',
-      'phone': '9876543210',
-      'image': 'assets/images/person1.jpg',
+      'name': 'Swift',
+      'car_no': 'GJ05AB1234',
+      'image': 'assets/images/baleno.jpg',
     },
     {
-      'name': 'Priya Sharma',
-      'email': 'priya.sharma3232@example.com',
-      'phone': '9123456780',
-      'image': 'assets/images/person2.jpg',
+      'name': 'Baleno',
+      'car_no': 'MH12 XY 4567',
+      'image': 'assets/images/baleno.jpg',
     },
     {
-      'name': 'Amit Patel',
-      'email': 'abc.patel@example.com',
-      'phone': '9012345678',
-      'image': 'assets/images/person3.jpg',
+      'name': 'Brezza',
+      'car_no': 'DL09 CD 7890',
+      'image': 'assets/images/brezza.png',
     },
   ];
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text('Customer List',style: TextStyle(color: Colors.white),),
+        title:  Text('Vehicle List',style: TextStyle(color: Colors.white),),
         backgroundColor: Colors.blue,
         iconTheme: IconThemeData(color: Colors.white),
       ),
@@ -47,24 +48,25 @@ class CustomerListPage extends StatelessWidget {
               leading: InkWell(
                 onTap: (){
                   Get.to(
-                        () => CustomerProfilePage(),
+                        () => ViewVehicleDetails(),
                     arguments:[
-                        customer['name'] ,
-                         customer['email'] ,
-                       customer['image'] ,
-                      customer['phone'] ,
+                      customer['name'] ,
+                      customer['image'] ,
+                      customer['car_no'] ,
                     ],
                   );
                 },
                 child: CircleAvatar(
                   radius: 30,
+                  backgroundColor: Colors.grey[300],
                   backgroundImage: AssetImage(customer['image']!),
                 ),
+
               ),
               title: InkWell(
                 onTap: (){
                   Get.to(CustomerProfilePage());
-                  },
+                },
                 child: Text(
                   customer['name']!,
                   style:  TextStyle(fontWeight: FontWeight.bold),
@@ -73,34 +75,23 @@ class CustomerListPage extends StatelessWidget {
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   SizedBox(height: 6),
+                  SizedBox(height: 5),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       Padding(
-                        padding: EdgeInsets.only(top: 2),
-                        child: Icon(Icons.email, size: 16),
+                      Padding(
+                        padding: EdgeInsets.only(top: 1),
+                        child: Icon(Icons.directions_car_filled, size: 17),
                       ),
-                       SizedBox(width: 4),
+                      SizedBox(width: 4),
                       Expanded(
                         child: Text(
-                          customer['email']!,
+                          customer['car_no']!,
                           style:  TextStyle(fontSize: 13),
                           overflow: TextOverflow.ellipsis,
                           maxLines: 1,
                           softWrap: false,
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 4),
-                  Row(
-                    children: [
-                       Icon(Icons.call, size: 16),
-                       SizedBox(width: 4),
-                      Text(
-                        customer['phone']!,
-                        style:  TextStyle(fontSize: 13),
                       ),
                     ],
                   ),
@@ -113,41 +104,40 @@ class CustomerListPage extends StatelessWidget {
                   IconButton(
                     icon:  Icon(Icons.edit, color: Colors.green),
                     onPressed: () {
-                      Get.to(()=>AddcustomerPage(),arguments:[
+                      Get.to(()=>AddVehiclePage(),arguments:[
                         customer['name'] ,
-                        customer['email'] ,
                         customer['image'] ,
-                        customer['phone'] ,
+                        customer['car_no'] ,
                       ],);
                     },
                   ),
                   IconButton(
                     icon:  Icon(Icons.delete, color: Colors.red),
                     onPressed: () {
-                        showDialog(
-                          context: context, 
+                      showDialog(
+                          context: context,
                           builder: (BuildContext context)
                           {
                             return AlertDialog(
-                                title: Text("Delete"),
-                                content:  Text("Are you Sure delete",style: TextStyle(fontSize: 16),),
-                                actions: [
+                              title: Text("Delete"),
+                              content:  Text("Are you Sure delete",style: TextStyle(fontSize: 16),),
+                              actions: [
 
-                                      TextButton(
+                                TextButton(
 
-                                        onPressed: (){
-                                          Get.back();
-                                        }, child:Text("Cancel",style: TextStyle(fontSize: 18),)
-                                        ),
-                                      TextButton(
-                                        onPressed: (){}, child:Text("ok",style: TextStyle(fontSize: 18),)
-                                        )
+                                    onPressed: (){
+                                      Get.back();
+                                    }, child:Text("Cancel",style: TextStyle(fontSize: 18),)
+                                ),
+                                TextButton(
+                                    onPressed: (){}, child:Text("ok",style: TextStyle(fontSize: 18),)
+                                )
 
-                                ],
-               
-                          );
+                              ],
+
+                            );
                           }
-                        );
+                      );
                     },
                   ),
 
@@ -160,7 +150,7 @@ class CustomerListPage extends StatelessWidget {
 
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          Get.to(AddcustomerPage());
+          Get.to(AddVehiclePage());
         },
         child: Icon(Icons.add,color: Colors.white,),
         backgroundColor: Colors.lightBlue,

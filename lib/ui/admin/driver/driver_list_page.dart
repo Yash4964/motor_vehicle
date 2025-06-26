@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/admin/customer/addcustomer_page.dart';
 import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
+import 'package:motor_vehicle/ui/admin/driver/add_driver_page.dart';
+import 'package:motor_vehicle/ui/admin/driver/view_driver_details.dart';
 
-class CustomerListPage extends StatelessWidget {
-  CustomerListPage({super.key});
+class DriverListPage extends StatelessWidget {
+  DriverListPage({super.key});
 
   final List<Map<String, String>> customers = [
     {
@@ -31,7 +33,7 @@ class CustomerListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text('Customer List',style: TextStyle(color: Colors.white),),
+        title:  Text('Driver List',style: TextStyle(color: Colors.white),),
         backgroundColor: Colors.blue,
         iconTheme: IconThemeData(color: Colors.white),
       ),
@@ -47,11 +49,11 @@ class CustomerListPage extends StatelessWidget {
               leading: InkWell(
                 onTap: (){
                   Get.to(
-                        () => CustomerProfilePage(),
+                        () => ViewDriverDetailsPage(),
                     arguments:[
-                        customer['name'] ,
-                         customer['email'] ,
-                       customer['image'] ,
+                      customer['name'] ,
+                      customer['email'] ,
+                      customer['image'] ,
                       customer['phone'] ,
                     ],
                   );
@@ -64,7 +66,7 @@ class CustomerListPage extends StatelessWidget {
               title: InkWell(
                 onTap: (){
                   Get.to(CustomerProfilePage());
-                  },
+                },
                 child: Text(
                   customer['name']!,
                   style:  TextStyle(fontWeight: FontWeight.bold),
@@ -73,15 +75,15 @@ class CustomerListPage extends StatelessWidget {
               subtitle: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                   SizedBox(height: 6),
+                  SizedBox(height: 6),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                       Padding(
+                      Padding(
                         padding: EdgeInsets.only(top: 2),
                         child: Icon(Icons.email, size: 16),
                       ),
-                       SizedBox(width: 4),
+                      SizedBox(width: 4),
                       Expanded(
                         child: Text(
                           customer['email']!,
@@ -96,8 +98,8 @@ class CustomerListPage extends StatelessWidget {
                   SizedBox(height: 4),
                   Row(
                     children: [
-                       Icon(Icons.call, size: 16),
-                       SizedBox(width: 4),
+                      Icon(Icons.call, size: 16),
+                      SizedBox(width: 4),
                       Text(
                         customer['phone']!,
                         style:  TextStyle(fontSize: 13),
@@ -113,7 +115,7 @@ class CustomerListPage extends StatelessWidget {
                   IconButton(
                     icon:  Icon(Icons.edit, color: Colors.green),
                     onPressed: () {
-                      Get.to(()=>AddcustomerPage(),arguments:[
+                      Get.to(()=>AddDriverPage(),arguments:[
                         customer['name'] ,
                         customer['email'] ,
                         customer['image'] ,
@@ -124,30 +126,30 @@ class CustomerListPage extends StatelessWidget {
                   IconButton(
                     icon:  Icon(Icons.delete, color: Colors.red),
                     onPressed: () {
-                        showDialog(
-                          context: context, 
+                      showDialog(
+                          context: context,
                           builder: (BuildContext context)
                           {
                             return AlertDialog(
-                                title: Text("Delete"),
-                                content:  Text("Are you Sure delete",style: TextStyle(fontSize: 16),),
-                                actions: [
+                              title: Text("Delete"),
+                              content:  Text("Are you Sure delete",style: TextStyle(fontSize: 16),),
+                              actions: [
 
-                                      TextButton(
+                                TextButton(
 
-                                        onPressed: (){
-                                          Get.back();
-                                        }, child:Text("Cancel",style: TextStyle(fontSize: 18),)
-                                        ),
-                                      TextButton(
-                                        onPressed: (){}, child:Text("ok",style: TextStyle(fontSize: 18),)
-                                        )
+                                    onPressed: (){
+                                      Get.back();
+                                    }, child:Text("Cancel",style: TextStyle(fontSize: 18),)
+                                ),
+                                TextButton(
+                                    onPressed: (){}, child:Text("ok",style: TextStyle(fontSize: 18),)
+                                )
 
-                                ],
-               
-                          );
+                              ],
+
+                            );
                           }
-                        );
+                      );
                     },
                   ),
 
@@ -160,7 +162,7 @@ class CustomerListPage extends StatelessWidget {
 
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          Get.to(AddcustomerPage());
+          Get.to(AddDriverPage());
         },
         child: Icon(Icons.add,color: Colors.white,),
         backgroundColor: Colors.lightBlue,

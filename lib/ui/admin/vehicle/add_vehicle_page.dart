@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
-// ignore: must_be_immutable
-class AddcustomerPage extends StatelessWidget {
-  AddcustomerPage({super.key});
 
-  var args=Get.arguments;
+class AddVehiclePage extends StatelessWidget {
+  AddVehiclePage({super.key});
+
+  var args = Get.arguments;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Customer Details', style: TextStyle(color: Colors.white)),
+        title: const Text('Vehicle Details', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blue,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -21,6 +22,7 @@ class AddcustomerPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
             Center(
               child: Container(
                 decoration: BoxDecoration(
@@ -30,13 +32,14 @@ class AddcustomerPage extends StatelessWidget {
                     color: Colors.lightBlue,
                     width: 2.5,
                   ),
-                ),padding: EdgeInsets.all(2),
+                ),
+                padding: const EdgeInsets.all(2),
                 child: Stack(
                   children: [
-                     CircleAvatar(
+                    CircleAvatar(
                       radius: 50,
                       backgroundColor: Colors.white,
-                      backgroundImage: AssetImage(args?[2] ?? 'assets/images/default_person.png',),
+                      backgroundImage: AssetImage(args?[1] ?? 'assets/images/default_car.png'),
                     ),
                     Positioned(
                       bottom: 0,
@@ -57,51 +60,43 @@ class AddcustomerPage extends StatelessWidget {
                 ),
               ),
             ),
+
             const SizedBox(height: 10),
-             Center(
+            Center(
               child: Text(
-                args?[0] ?? 'Customer Details',
-                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+                args?[0] ?? 'Vehicle Name',
+                style: const TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
               ),
             ),
-            const SizedBox(height: 20),
 
-            labels("Name"),
+            const SizedBox(height: 20),
+            labels("Vehicle Name"),
             TextFieldWidget(
-              hint: args?[0] ?? 'Name',
+              hint: args?[0] ?? 'e.g. Swift',
               textInputType: TextInputType.name,
             ),
 
-            labels("Email"),
+            labels("Car Number"),
             TextFieldWidget(
-              hint: args?[1] ?? 'ex: jon.smith@gmail.com',
-              textInputType: TextInputType.emailAddress,
+              hint: args?[2] ?? 'e.g. GJ01 AB 1234',
+              textInputType: TextInputType.text,
             ),
 
-
-
-            labels("Password"),
+            labels("Vehicle Type"),
             TextFieldWidget(
-              hint:
-                  "password",
-              obscureText: true,
+              hint: "e.g. Sedan, SUV, Hatchback",
+              textInputType: TextInputType.text,
             ),
 
-            labels("Mobile"),
+            labels("Model Year"),
             TextFieldWidget(
-              hint: args?[3] ?? '91+ 9698521475',
-              textInputType: TextInputType.phone,
-            ),
-
-            labels("Age"),
-            TextFieldWidget(
-              hint: "Age must be 18+",
+              hint: "e.g. 2022",
               textInputType: TextInputType.number,
             ),
 
-            labels("Address"),
+            labels("Color"),
             TextFieldWidget(
-              hint: "Address",
+              hint: "e.g. White",
               textInputType: TextInputType.text,
             ),
 

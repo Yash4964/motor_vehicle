@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:motor_vehicle/ui/admin/bokking/add_booking_page.dart';
 import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
 import 'package:motor_vehicle/ui/admin/package/add_package_page.dart';
 import 'package:motor_vehicle/ui/admin/vehicle/add_vehicle_page.dart';
 import 'package:motor_vehicle/ui/admin/vehicle/view_vehicle_details.dart';
 
-class BookingListPage extends StatelessWidget {
-  BookingListPage({super.key});
+class PackageListPage extends StatelessWidget {
+  PackageListPage({super.key});
 
   final List<Map<String, dynamic>> vehicles = [
     {
-      'name': 'Ashish',
+      'name': 'Swift',
       'car_no': 'GJ05AB1234',
       'package' : 'Package 1 ',
       'days': 15,
@@ -40,7 +39,7 @@ class BookingListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Booking List', style: TextStyle(color: Colors.white)),
+        title: Text('Package List', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.blue,
         iconTheme: IconThemeData(color: Colors.white),
       ),
@@ -133,7 +132,7 @@ class BookingListPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(AddBookingPage());
+          Get.to(AddPackagePage());
         },
         child: Icon(Icons.add, color: Colors.white),
         backgroundColor: Colors.lightBlue,

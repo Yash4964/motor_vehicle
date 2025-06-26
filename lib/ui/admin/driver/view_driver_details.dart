@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 // ignore: must_be_immutable
-class CustomerProfilePage extends StatelessWidget {
-   CustomerProfilePage({super.key});
-   var arg = Get.arguments;
+class ViewDriverDetailsPage extends StatelessWidget {
+  ViewDriverDetailsPage({super.key});
+  var arg = Get.arguments;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
 
       backgroundColor: Colors.white,
-    appBar: AppBar(
+      appBar: AppBar(
 
-    title:  Text('Customer Details',style: TextStyle(color: Colors.white),),
-    backgroundColor: Colors.blue,
-    iconTheme: IconThemeData(color: Colors.white),
-    ),
+        title:  Text('Driver Details',style: TextStyle(color: Colors.white),),
+        backgroundColor: Colors.blue,
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
       body: SingleChildScrollView(
 
         child: Column(
