@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motor_vehicle/ui/admin/attendance/attendance_list_page.dart';
 import 'package:motor_vehicle/ui/admin/customer/customerlist_page.dart';
 import 'package:motor_vehicle/ui/admin/driver/driver_list_page.dart';
 import 'package:motor_vehicle/ui/admin/package/package_list_page.dart';
+import 'package:motor_vehicle/ui/admin/payment/payment_dashboard.dart';
 import 'package:motor_vehicle/ui/admin/vehicle/vehicle_list_page.dart';
 import 'package:motor_vehicle/widgets/container_table.dart';
 
@@ -105,15 +107,32 @@ class Dashboard_page extends StatelessWidget {
                     bg_color: Color.fromARGB(255, 218, 67, 40),
                   ),
                 ),
-                Container_table(
-                  tital: "Attendance",
-                  u_icon: Icons.add_task,
-                  bg_color: Color.fromARGB(255, 131, 26, 216),
+                InkWell(
+                  onTap: (){
+                    Get.to(AttendanceListPage());
+                  },
+                  child: Container_table(
+                    tital: "Attendance",
+                    u_icon: Icons.add_task,
+                    bg_color: Color.fromARGB(255, 131, 26, 216),
+                  ),
                 ),
-                Container_table(
-                  tital: "Payment",
-                  u_icon: Icons.payment,
-                  bg_color: Colors.teal,
+                InkWell(
+                  onTap: (){
+                    Get.to(PaymentDashboard());
+                  },
+                  child: Container_table(
+                    tital: "Payment",
+                    u_icon: Icons.payment,
+                    bg_color: Colors.teal,
+                  ),
+                ),
+                InkWell(
+                  child: Container_table(
+                    tital: "Report",
+                    u_icon: Icons.report_gmailerrorred,
+                    bg_color: Colors.purpleAccent,
+                  ),
                 ),
 
               ],

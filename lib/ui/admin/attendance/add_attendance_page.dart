@@ -3,27 +3,37 @@ import 'package:get/get.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
 class DropController extends GetxController {
-  var selected = 'swift'.obs;
-  var carname = ['swift', 'baleno', 'brezza'];
 
   var timeselected = '6:30 AM'.obs;
   var timelist = ['6:30 AM', '7:00 AM', '7:30 AM'];
-
 }
 
 class Customercontoller extends GetxController {
-  var cusselected = 'Rajubhai'.obs;
-  var customerlist = ['Rajubhai', 'Maheshbhai'];
+  var cusselected = 'Dixa Patel'.obs;
+  var customerlist = [
+    'Dixa Patel',
+    'Priya Sharma',
+    'Amit Patel',
+    'Reena Mehta',
+    'Karan Singh',
+    'Divya Trivedi',
+    'Ravi Desai',
+    'Nikita Goyal',
+    'Suresh Kumar',
+    'Rajesh Joshi',
 
-  var packselected = 'Package 1'.obs;
-  var packagelist = ['Package 1', 'Package 2', 'Package 3'];
+  ];
+
 
   var datepick = '12/08/2025'.obs;
 
+
+
 }
 
-class AddBookingPage extends StatelessWidget {
-  AddBookingPage({super.key});
+// ignore: must_be_immutable
+class AddAttendancePages extends StatelessWidget {
+  AddAttendancePages({super.key});
 
   final DropController d = Get.put(DropController());
   final Customercontoller c = Get.put(Customercontoller());
@@ -35,7 +45,7 @@ class AddBookingPage extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          'Booking Details',
+          'Attendance Details',
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Colors.blue,
@@ -46,10 +56,47 @@ class AddBookingPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Center(
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  border: Border.all(
+                    color: Colors.lightBlue,
+                    width: 2.5,
+                  ),
+                ),padding: EdgeInsets.all(2),
+                child: Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.white,
+                      backgroundImage: AssetImage(args?[0] ?? 'assets/images/default_person.png',),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: InkWell(
+                        onTap: () {},
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: const BoxDecoration(
+                            color: Colors.lightBlue,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.add, color: Colors.white, size: 22),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
             SizedBox(height: 20),
-            labels("Select Customer"),
+            labels("Select Booking name"),
             Obx(
-              () => Container(
+                  () => Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: Color.fromARGB(255, 226, 230, 236),
@@ -69,64 +116,6 @@ class AddBookingPage extends StatelessWidget {
                 ),
               ),
             ),
-
-            labels("Booking Name"),
-
-            TextFieldWidget(
-              hint: args?['booking_name'] ?? 'Enter Booking Name',
-              textInputType: TextInputType.name,
-            ),
-
-            labels("Select Vehicle"),
-            Obx(
-              () => Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  //filled: true,
-                  color: Color.fromARGB(255, 226, 230, 236),
-                ),
-                padding: EdgeInsets.only(left: 5),
-                width: double.infinity,
-                child: DropdownButton(
-                  isExpanded: true,
-                  value: d.selected.value,
-                  items: [
-                    for (var i in d.carname)
-                      DropdownMenuItem(
-                        child: Text(i, style: TextStyle(color: Colors.black87)),
-                        value: i,
-                      ),
-                  ],
-                  onChanged: (newValue) {
-                    d.selected.value = newValue!;
-                  },
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            labels("Select Package"),
-            Obx(
-              () => Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color.fromARGB(255, 226, 230, 236),
-                ),
-                padding: EdgeInsets.only(left: 5),
-                width: double.infinity,
-                child: DropdownButton(
-                  isExpanded: true,
-                  value: c.packselected.value,
-                  items: [
-                    for (var p in c.packagelist)
-                      DropdownMenuItem(child: Text(p), value: p),
-                  ],
-                  onChanged: (packval) {
-                    c.packselected.value = packval!;
-                  },
-                ),
-              ),
-            ),
-
             labels("Joining Date"),
             InkWell(
               onTap: () {
@@ -135,7 +124,7 @@ class AddBookingPage extends StatelessWidget {
               child: AbsorbPointer(
                 absorbing: true,
                 child: Obx(
-                  () => Container(
+                      () => Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
                       color: Color.fromARGB(255, 226, 230, 236),
@@ -156,15 +145,15 @@ class AddBookingPage extends StatelessWidget {
                 children: [
                   Obx(
                         () => Expanded(
-                          child: Container(
-                                                decoration: BoxDecoration(
+                      child: Container(
+                        decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
                           //filled: true,
                           color: Color.fromARGB(255, 226, 230, 236),
-                                                ),
-                                                padding: EdgeInsets.only(left: 5),
+                        ),
+                        padding: EdgeInsets.only(left: 5),
 
-                                                child: DropdownButton(
+                        child: DropdownButton(
                           isExpanded: true,
                           value: d.timeselected.value,
                           items: [
@@ -177,9 +166,9 @@ class AddBookingPage extends StatelessWidget {
                           onChanged: (timevalue) {
                             d.timeselected.value = timevalue!;
                           },
-                                                ),
-                                              ),
                         ),
+                      ),
+                    ),
                   ),
                   Expanded(
                     child: Container(
@@ -238,7 +227,7 @@ class AddBookingPage extends StatelessWidget {
     );
     if(pickedDate != null) {
       c.datepick.value =
-        "${pickedDate?.day ?? 0}/${pickedDate?.month ?? 0}/${pickedDate?.year ?? 0}";
+      "${pickedDate.day ?? 0}/${pickedDate.month ?? 0}/${pickedDate.year ?? 0}";
     }
   }
 }

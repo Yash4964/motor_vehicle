@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/utils.dart';
 import 'package:motor_vehicle/ui/customer/home/home_page.dart';
 import 'package:motor_vehicle/ui/registration_page.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
 class LoginPage extends StatelessWidget {
@@ -61,7 +62,7 @@ class LoginPage extends StatelessWidget {
                       Get.to((CustomerHomePage()));
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor:  Color.fromARGB(255, 65, 33, 243),
+                      backgroundColor: Appcolor.primary,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(7),
                       ),
