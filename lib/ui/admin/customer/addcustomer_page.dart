@@ -57,14 +57,14 @@ class AddcustomerPage extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 10),
+             SizedBox(height: 10),
              Center(
               child: Text(
                 args?[0] ?? 'Customer Details',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
               ),
             ),
-            const SizedBox(height: 20),
+             SizedBox(height: 20),
 
             labels("Name"),
             TextFieldWidget(

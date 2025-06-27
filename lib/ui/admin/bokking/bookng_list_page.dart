@@ -1,38 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/admin/bokking/add_booking_page.dart';
-import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
-import 'package:motor_vehicle/ui/admin/package/add_package_page.dart';
-import 'package:motor_vehicle/ui/admin/vehicle/add_vehicle_page.dart';
-import 'package:motor_vehicle/ui/admin/vehicle/view_vehicle_details.dart';
 
 class BookingListPage extends StatelessWidget {
   BookingListPage({super.key});
 
-  final List<Map<String, dynamic>> vehicles = [
+  final List<Map<String, dynamic>> bookings = [
     {
-      'name': 'Ashish',
-      'car_no': 'GJ05AB1234',
-      'package' : 'Package 1 ',
-      'days': 15,
-      'kilometers': 5,
-      'price': 2500,
+      'customer_name': 'Ashish',
+      'booking_name': 'Booking 001',
+      'vehicle_name': 'Swift',
+      'package_name': 'Package 1',
+      'joining_date': '2025-06-26',
+      'joining_time': '6:30 AM',
     },
     {
-      'name': 'Baleno',
-      'car_no': 'MH12 XY 4567',
-      'package' : 'Package 2 ',
-      'days': 10,
-      'kilometers': 3,
-      'price': 2000,
-    },
-    {
-      'name': 'Brezza',
-      'car_no': 'DL09 CD 7890',
-      'package' : 'Package 3 ',
-      'days': 7,
-      'kilometers': 2,
-      'price': 1800,
+      'customer_name': 'Rajesh',
+      'booking_name': 'Booking 002',
+      'vehicle_name': 'Baleno',
+      'package_name': 'Package 2',
+      'joining_date': '2025-06-27',
+      'joining_time': '7:30 AM',
     },
   ];
 
@@ -45,35 +33,28 @@ class BookingListPage extends StatelessWidget {
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: ListView.builder(
-        itemCount: vehicles.length,
+        itemCount: bookings.length,
         itemBuilder: (BuildContext context, int index) {
-          final vehicle = vehicles[index];
+          final booking = bookings[index];
           return Card(
             margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             elevation: 2,
             child: ListTile(
               contentPadding: EdgeInsets.all(12),
-              title: InkWell(
-                onTap: () {
-
-                },
-                child: Text(
-                  vehicle['name'],
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
-                ),
+              title: Text(
+                booking['booking_name'],
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
-
               subtitle: Padding(
                 padding: const EdgeInsets.only(top: 5),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Package: ${vehicle['package']}", style: TextStyle(fontSize: 15, color: Colors.grey[700]),),
-                    Text("Days: ${vehicle['days']}  |  KM: ${vehicle['kilometers']}", style: TextStyle(fontSize: 15, color: Colors.grey[700]),),
-                    Text("Price: ₹${vehicle['price']}", style: TextStyle(fontSize: 15, color: Colors.grey[700]),),
+                    Text("Package: ${booking['package_name']}", style: TextStyle(fontSize: 15, color: Colors.grey[700])),
+                    Text("Joining Date: ${booking['joining_date']}", style: TextStyle(fontSize: 15, color: Colors.grey[700])),
+                    Text("Joining Time: ${booking['joining_time']}", style: TextStyle(fontSize: 15, color: Colors.grey[700])),
                   ],
                 ),
-
               ),
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
@@ -81,16 +62,7 @@ class BookingListPage extends StatelessWidget {
                   IconButton(
                     icon: Icon(Icons.edit, color: Colors.green),
                     onPressed: () {
-                      Get.to(
-                            () => AddPackagePage(),
-                        arguments: [
-                          vehicle['name'],
-                          vehicle['package'],
-                          vehicle['days'],
-                          vehicle['kilometers'],
-                          vehicle['price'],
-                        ],
-                      );
+                      Get.to(() => AddBookingPage(), arguments: booking);
                     },
                   ),
                   IconButton(
@@ -102,7 +74,7 @@ class BookingListPage extends StatelessWidget {
                           return AlertDialog(
                             title: Text("Delete"),
                             content: Text(
-                              "Are you sure you want to delete this vehicle?",
+                              "Are you sure you want to delete this booking?",
                               style: TextStyle(fontSize: 16),
                             ),
                             actions: [
@@ -114,7 +86,7 @@ class BookingListPage extends StatelessWidget {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  // Add delete logic here if needed
+
                                   Get.back();
                                 },
                                 child: Text("OK", style: TextStyle(fontSize: 18)),

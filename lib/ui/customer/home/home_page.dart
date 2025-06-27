@@ -75,7 +75,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
                       child: Text(
                         'Motor Driving School',
                         style: TextStyle(
-                          color: Color.fromARGB(255, 49, 83, 146),
+                          color: Colors.blue,
                           fontSize: 21,
                           fontWeight: FontWeight.bold,
                         ),
@@ -94,7 +94,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
 
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
-        selectedItemColor: Colors.blueAccent,
+        selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.grey,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
