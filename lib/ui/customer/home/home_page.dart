@@ -1,25 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/customer/home/aboutus_page.dart';
+import 'package:motor_vehicle/ui/customer/home/cus_booking_list_page.dart';
 import 'package:motor_vehicle/ui/customer/home/booking_page.dart';
 import 'package:motor_vehicle/ui/customer/home/profile_page.dart';
+import 'package:motor_vehicle/ui/customer/home/vehicle.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class CustomerHomePage extends StatefulWidget {
+  const CustomerHomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<CustomerHomePage> createState() => _CustomerHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _CustomerHomePageState extends State<CustomerHomePage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    Center(child: Text(" Home ", style: TextStyle(fontSize: 24))),
+    BookingListPage(),
     Aboutus(),
-    Center(child: Text(" Vehicle ", style: TextStyle(fontSize: 24))),
-    //Center(child: Text(" Booking Page", style: TextStyle(fontSize: 24))),
-    BookingPage(),
+    VehiclePage(),
     ProfilePage(),
   ];
 
@@ -35,10 +35,10 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: Colors.white,
 
       appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(80),
+        preferredSize: Size.fromHeight(80),
         child: Container(
           height: 250,
-          decoration: const BoxDecoration(
+          decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(24),
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
               child: Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: EdgeInsets.all(8.0),
                     child: Container(
                       child: Image.asset(
                         'assets/images/logo.png',
@@ -100,16 +100,16 @@ class _HomePageState extends State<HomePage> {
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: "Booking",
+          ),
           BottomNavigationBarItem(icon: Icon(Icons.info), label: "About"),
           BottomNavigationBarItem(
             icon: Icon(Icons.directions_car),
             label: "Vehicle",
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: "Booking",
-          ),
+
           BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
         ],
       ),
