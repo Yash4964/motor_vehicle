@@ -15,13 +15,13 @@ class LoginPage extends StatelessWidget {
       backgroundColor: Colors.white,
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+          padding:EdgeInsets.symmetric(horizontal: 24),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20,),
+                SizedBox(height: 20),
                 Center(
                   child: Container(
                     child: Image.asset(
@@ -38,16 +38,16 @@ class LoginPage extends StatelessWidget {
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                 ),
-                const SizedBox(height: 40),
+               SizedBox(height: 40),
                 Text("Email", style: TextStyle(fontSize: 18)),
-                const SizedBox(height: 8),
+               SizedBox(height: 8),
                 TextFieldWidget(
                   hint: "ex: jon.smith@gmail.com",
                   textInputType: TextInputType.emailAddress,
                 ),
                 SizedBox(height: 24),
                 Text("Password", style: TextStyle(fontSize: 18)),
-                const SizedBox(height: 8),
+               SizedBox(height: 8),
                 TextFieldWidget(
                   hint: "**********",
                   textInputType: TextInputType.number,
@@ -58,10 +58,10 @@ class LoginPage extends StatelessWidget {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () {
-                      Get.to((HomePage()));
+                      Get.to((CustomerHomePage()));
                     },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(255, 65, 33, 243),
+                      backgroundColor:  Color.fromARGB(255, 65, 33, 243),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(7),
                       ),
