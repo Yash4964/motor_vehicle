@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
 
@@ -14,7 +15,7 @@ class AddVehiclePage extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Vehicle Details', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.blue,
+        backgroundColor:Appcolor.primary,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
@@ -110,7 +111,7 @@ class AddVehiclePage extends StatelessWidget {
                 height: 45,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: Colors.blueAccent,
+                  color:Appcolor.primary,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: const Text(

@@ -6,6 +6,7 @@ import 'package:motor_vehicle/ui/admin/driver/driver_list_page.dart';
 import 'package:motor_vehicle/ui/admin/package/package_list_page.dart';
 import 'package:motor_vehicle/ui/admin/payment/payment_dashboard.dart';
 import 'package:motor_vehicle/ui/admin/vehicle/vehicle_list_page.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/widgets/container_table.dart';
 
 import '../bokking/bookng_list_page.dart';
@@ -21,7 +22,7 @@ class Dashboard_page extends StatelessWidget {
           Container(
             padding: EdgeInsets.only(top:26),
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Appcolor.primary,
               // borderRadius: BorderRadius.only(
               //     topLeft: Radius.circular(30),topRight: Radius.circular(30)
               // ),
@@ -33,7 +34,7 @@ class Dashboard_page extends StatelessWidget {
           ),
           Container(
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Appcolor.primary,
               borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(30),bottomRight: Radius.circular(30)
               ),
@@ -63,7 +64,7 @@ class Dashboard_page extends StatelessWidget {
                   child: Container_table(
                     tital: "Customer",
                     u_icon: Icons.people,
-                    bg_color: Colors.lightBlue,
+                    bg_color: Appcolor.primary,
                   ),
                 ),
                 InkWell(

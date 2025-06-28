@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/admin/bokking/add_booking_page.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class BookingListPage extends StatelessWidget {
   BookingListPage({super.key});
@@ -29,7 +30,7 @@ class BookingListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Booking List', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.blue,
+        backgroundColor:Appcolor.primary,
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: ListView.builder(
@@ -108,7 +109,7 @@ class BookingListPage extends StatelessWidget {
           Get.to(AddBookingPage());
         },
         child: Icon(Icons.add, color: Colors.white),
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Appcolor.primary,
       ),
     );
   }

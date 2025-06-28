@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/admin/customer/addcustomer_page.dart';
 import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class CustomerListPage extends StatelessWidget {
   CustomerListPage({super.key});
@@ -32,7 +33,7 @@ class CustomerListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title:  Text('Customer List',style: TextStyle(color: Colors.white),),
-        backgroundColor: Colors.blue,
+        backgroundColor: Appcolor.primary,
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: ListView.builder(
@@ -163,7 +164,7 @@ class CustomerListPage extends StatelessWidget {
           Get.to(AddcustomerPage());
         },
         child: Icon(Icons.add,color: Colors.white,),
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Appcolor.primary,
       ),
     );
   }

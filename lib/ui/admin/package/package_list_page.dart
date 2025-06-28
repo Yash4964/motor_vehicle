@@ -4,6 +4,7 @@ import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
 import 'package:motor_vehicle/ui/admin/package/add_package_page.dart';
 import 'package:motor_vehicle/ui/admin/vehicle/add_vehicle_page.dart';
 import 'package:motor_vehicle/ui/admin/vehicle/view_vehicle_details.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class PackageListPage extends StatelessWidget {
   PackageListPage({super.key});
@@ -40,7 +41,7 @@ class PackageListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Package List', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.blue,
+        backgroundColor:Appcolor.primary,
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: ListView.builder(
@@ -135,7 +136,7 @@ class PackageListPage extends StatelessWidget {
           Get.to(AddPackagePage());
         },
         child: Icon(Icons.add, color: Colors.white),
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Appcolor.primary,
       ),
     );
   }

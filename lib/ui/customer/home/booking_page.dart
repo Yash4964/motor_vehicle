@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class BookingPage extends StatelessWidget {
   BookingPage({super.key});
@@ -9,7 +10,10 @@ class BookingPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xFFF1F4F8),
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        foregroundColor:Colors.white,
+        title: Text(" Your Booking details"),
+
+        backgroundColor: Appcolor.primary,
         elevation: 1,
 
         centerTitle: true,
@@ -18,11 +22,11 @@ class BookingPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(padding: EdgeInsets.only(left: 20, bottom: 10, top: 30)),
-            Text(
-              "Your Booking Details",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
+            // Padding(padding: EdgeInsets.only(left: 20, bottom: 10, top: 30)),
+            // Text(
+            //   "Your Booking Details",
+            //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            // ),
 
             Padding(
               padding: EdgeInsets.only(top: 20.0),

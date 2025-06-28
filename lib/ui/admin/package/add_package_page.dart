@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
 class DropController extends GetxController
@@ -19,7 +20,7 @@ class AddPackagePage extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Package Details', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.blue,
+        backgroundColor: Appcolor.primary,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
@@ -101,7 +102,7 @@ class AddPackagePage extends StatelessWidget {
                 height: 45,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: Colors.blueAccent,
+                  color:Appcolor.primary,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: const Text(

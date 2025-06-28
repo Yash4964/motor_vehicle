@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/admin/attendance/add_attendance_page.dart';
 import 'package:motor_vehicle/ui/admin/customer/addcustomer_page.dart';
 import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class AttendanceListPage extends StatelessWidget {
   AttendanceListPage({super.key});
@@ -77,7 +78,7 @@ class AttendanceListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Attendance List', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.blue,
+        backgroundColor:Appcolor.primary,
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: ListView.builder(
@@ -181,7 +182,7 @@ class AttendanceListPage extends StatelessWidget {
           Get.to(AddAttendancePages());
         },
         child: Icon(Icons.add, color: Colors.white),
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Appcolor.primary,
       ),
     );
   }

@@ -5,6 +5,7 @@ import 'package:motor_vehicle/ui/admin/driver/add_driver_page.dart';
 import 'package:motor_vehicle/ui/admin/driver/view_driver_details.dart';
 import 'package:motor_vehicle/ui/admin/vehicle/add_vehicle_page.dart';
 import 'package:motor_vehicle/ui/admin/vehicle/view_vehicle_details.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class VehicleListPage extends StatelessWidget {
   VehicleListPage({super.key});
@@ -33,7 +34,7 @@ class VehicleListPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title:  Text('Vehicle List',style: TextStyle(color: Colors.white),),
-        backgroundColor: Colors.blue,
+        backgroundColor: Appcolor.primary,
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: ListView.builder(
@@ -153,7 +154,7 @@ class VehicleListPage extends StatelessWidget {
           Get.to(AddVehiclePage());
         },
         child: Icon(Icons.add,color: Colors.white,),
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Appcolor.primary,
       ),
     );
   }
