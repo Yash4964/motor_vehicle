@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/customer/home/home_page.dart';
 import 'package:motor_vehicle/ui/login_page.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
 class RegistrationPage extends StatelessWidget {
@@ -91,12 +92,7 @@ class RegistrationPage extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {},
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(
-                            255,
-                            65,
-                            33,
-                            243,
-                          ),
+                          backgroundColor: Appcolor.primary,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(7),
                           ),

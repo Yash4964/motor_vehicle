@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/admin/payment/all_payment_details.dart';
 import 'package:motor_vehicle/ui/admin/payment/pending_payment_list.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class PaymentDashboard extends StatelessWidget {
    PaymentDashboard({super.key});
@@ -15,7 +16,7 @@ class PaymentDashboard extends StatelessWidget {
           foregroundColor: Colors.white,
           title:  Text("Payment Dashboard",style:TextStyle(fontWeight: FontWeight.bold),),
           centerTitle: true,
-          backgroundColor: Colors.blue,
+          backgroundColor: Appcolor.primary,
           bottom: TabBar(
             labelColor: Colors.white,
             unselectedLabelColor: Colors.white70,

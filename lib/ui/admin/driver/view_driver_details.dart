@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 // ignore: must_be_immutable
 class ViewDriverDetailsPage extends StatelessWidget {
   ViewDriverDetailsPage({super.key});
@@ -12,7 +13,7 @@ class ViewDriverDetailsPage extends StatelessWidget {
       appBar: AppBar(
 
         title:  Text('Driver Details',style: TextStyle(color: Colors.white),),
-        backgroundColor: Colors.blue,
+        backgroundColor: Appcolor.primary,
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
