@@ -5,6 +5,7 @@ import 'package:motor_vehicle/ui/admin/customer/customerlist_page.dart';
 import 'package:motor_vehicle/ui/admin/driver/driver_list_page.dart';
 import 'package:motor_vehicle/ui/admin/package/package_list_page.dart';
 import 'package:motor_vehicle/ui/admin/payment/payment_dashboard.dart';
+import 'package:motor_vehicle/ui/admin/report/report_page.dart';
 import 'package:motor_vehicle/ui/admin/vehicle/vehicle_list_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/widgets/container_table.dart';
@@ -129,6 +130,9 @@ class Dashboard_page extends StatelessWidget {
                   ),
                 ),
                 InkWell(
+                   onTap: (){
+                    Get.to(ReportPage());
+                  },
                   child: Container_table(
                     tital: "Report",
                     u_icon: Icons.report_gmailerrorred,

@@ -9,6 +9,7 @@ class BookingListPage extends StatelessWidget {
   final List<Map<String, dynamic>> customers = [
     {
       'image': 'assets/images/person.jpg',
+      'name':'swift',
       'cname': 'john Doe',
       'packagename': 'package 1',
       'days': 10,
@@ -19,6 +20,7 @@ class BookingListPage extends StatelessWidget {
     },
     {
       'image': 'assets/images/person.jpg',
+      'name':'swift',
       'cname': 'krisha',
       'packagename': 'package 2',
       'days': 15,
@@ -29,6 +31,7 @@ class BookingListPage extends StatelessWidget {
     },
     {
       'image': 'assets/images/person.jpg',
+      'name':'swift',
       'cname': 'charu',
       'packagename': 'package 3',
       'days': 20,
@@ -58,6 +61,7 @@ class BookingListPage extends StatelessWidget {
                 leading: InkWell(
                   onTap: () {
                     Get.to(()=>BookingPage(),arguments: [
+                      c['name'],
                       c['cname'],
                       c['packagename'],
                       c['days'],

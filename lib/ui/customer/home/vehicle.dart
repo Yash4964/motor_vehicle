@@ -30,15 +30,15 @@ class VehiclePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF1F4F8),
+      backgroundColor:  Color(0xFFF1F4F8),
       body: ListView.builder(
-        padding: const EdgeInsets.all(12),
+        padding: EdgeInsets.all(12),
         itemCount: customers.length,
         itemBuilder: (BuildContext context, int index) {
           final c = customers[index];
 
           return Padding(
-            padding: const EdgeInsets.only(bottom: 16),
+            padding: EdgeInsets.only(bottom: 16),
             child: InkWell(
               onTap: () {
                 Get.to(
@@ -55,9 +55,8 @@ class VehiclePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // Image
                     ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
+                      borderRadius: BorderRadius.vertical(
                         top: Radius.circular(16),
                       ),
                       child: Image.asset(
@@ -66,12 +65,11 @@ class VehiclePage extends StatelessWidget {
                         fit: BoxFit.cover,
                       ),
                     ),
-                    // Name
                     Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: EdgeInsets.all(16.0),
                       child: Text(
                         c['name'],
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 22,
                           fontWeight: FontWeight.bold,
                         ),
