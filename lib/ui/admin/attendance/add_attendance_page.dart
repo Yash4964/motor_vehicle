@@ -117,6 +117,7 @@ class AddAttendancePages extends StatelessWidget {
                 ),
               ),
             ),
+            
             labels("Joining Date"),
             InkWell(
               onTap: () {
@@ -140,6 +141,7 @@ class AddAttendancePages extends StatelessWidget {
                 ),
               ),
             ),
+           
             labels("Select Time"),
             Container(
               child: Row(

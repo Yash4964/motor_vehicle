@@ -12,6 +12,8 @@ class PaymentDashboard extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
+
+
         appBar: AppBar(
           foregroundColor: Colors.white,
           title:  Text("Payment Dashboard",style:TextStyle(fontWeight: FontWeight.bold),),
@@ -30,6 +32,8 @@ class PaymentDashboard extends StatelessWidget {
             ],
           ),
         ),
+        
+        
         body: Column(
           children: [
             Container(
