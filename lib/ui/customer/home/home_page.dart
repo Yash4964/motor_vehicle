@@ -47,7 +47,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
             boxShadow: [
               BoxShadow(
                 color: Colors.black12,
-                blurRadius: 8,
+                blurRadius: 7,
                 offset: Offset(0, 4),
               ),
             ],
