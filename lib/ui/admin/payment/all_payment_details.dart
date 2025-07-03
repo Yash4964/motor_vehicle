@@ -99,6 +99,7 @@ class AllPaymentDetails extends StatelessWidget {
             ),
           );
         },
+      
       ),
 
     );

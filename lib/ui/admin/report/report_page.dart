@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/admin/payment/all_payment_details.dart';
 import 'package:motor_vehicle/ui/admin/payment/pending_payment_list.dart';
-import 'package:motor_vehicle/ui/admin/report/day_wise_page.dart';
-import 'package:motor_vehicle/ui/admin/report/month_wise_page.dart';
+import 'package:motor_vehicle/ui/admin/report/days_page.dart';
+import 'package:motor_vehicle/ui/admin/report/months_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class ReportPage extends StatelessWidget {
@@ -49,8 +49,9 @@ class ReportPage extends StatelessWidget {
             Expanded(
               child: TabBarView(
                 children: [
-                  DayWisePage(),
-                  MonthWisePage(),
+                  DaysPage(),
+                  
+                  MonthsPage(),
                 ],
               ),
             )
