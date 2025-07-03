@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/admin/customer/addcustomer_page.dart';
 import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
 import 'package:motor_vehicle/ui/admin/payment/update_payment_page.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class PandingCustomerList extends StatelessWidget {
   PandingCustomerList({super.key});
@@ -109,29 +110,20 @@ class PandingCustomerList extends StatelessWidget {
                   ),
                 ],
               ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
 
-                children: [
-                  IconButton(
-                    icon:  Icon(Icons.edit, color: Colors.green),
-                    onPressed: () {
-                      Get.to(()=>UpdatePayment(),arguments:[
-                        customer['name'] ,
-                        customer['image'],
-                      ],);
-                    },
-                  ),
-                  
-
-                ],
-              ),
             ),
           );
         },
       ),
 
-
+      floatingActionButton: FloatingActionButton(
+        onPressed: (){
+          Get.to(UpdatePayment());
+        },
+        child: Icon(Icons.add,color: Colors.white,),
+        backgroundColor: Appcolor.primary,
+      ),
     );
+
   }
 }

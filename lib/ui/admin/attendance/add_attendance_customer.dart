@@ -31,8 +31,8 @@ class Customercontoller extends GetxController {
 }
 
 
-class AddAttendancePages extends StatelessWidget {
-  AddAttendancePages({super.key});
+class AddAttendanceCustomer extends StatelessWidget {
+  AddAttendanceCustomer({super.key});
 
   final DropController d = Get.put(DropController());
   final Customercontoller c = Get.put(Customercontoller());
@@ -44,7 +44,7 @@ class AddAttendancePages extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text(
-          'Attendance Details',
+          'Add Attendance ',
           style: TextStyle(color: Colors.white),
         ),
         backgroundColor: Appcolor.primary,
@@ -93,7 +93,7 @@ class AddAttendancePages extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             SizedBox(height: 20),
-            labels("Select Booking name"),
+            labels("Select Driver name"),
             Obx(
                   () => Container(
                 decoration: BoxDecoration(
@@ -115,7 +115,7 @@ class AddAttendancePages extends StatelessWidget {
                 ),
               ),
             ),
-            
+
             labels("Date"),
             InkWell(
               onTap: () {
@@ -139,7 +139,7 @@ class AddAttendancePages extends StatelessWidget {
                 ),
               ),
             ),
-           
+
             labels("Select Time"),
             Container(
               child: Row(

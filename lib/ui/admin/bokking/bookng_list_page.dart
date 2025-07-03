@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/admin/bokking/add_booking_page.dart';
+import 'package:motor_vehicle/ui/customer/home/booking_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class BookingListPage extends StatelessWidget {
   BookingListPage({super.key});
 
-  final List<Map<String, dynamic>> bookings = [
+  final List<Map<String, dynamic>> c = [
     {
       'customer_name': 'Ashish',
       'booking_name': 'Booking 001',
       'vehicle_name': 'Swift',
       'package_name': 'Package 1',
+      'days' : 15,
+      'km':5,
       'joining_date': '2025-06-26',
+      'price':1500,
+      'booking_date':'2025-06-25',
       'joining_time': '6:30 AM',
     },
     {
@@ -20,8 +25,12 @@ class BookingListPage extends StatelessWidget {
       'booking_name': 'Booking 002',
       'vehicle_name': 'Baleno',
       'package_name': 'Package 2',
-      'joining_date': '2025-06-27',
-      'joining_time': '7:30 AM',
+      'days' : 15,
+      'km':5,
+      'joining_date': '2025-06-26',
+      'price':1500,
+      'booking_date':'2025-06-25',
+      'joining_time': '6:30 AM',
     },
   ];
 
@@ -34,17 +43,32 @@ class BookingListPage extends StatelessWidget {
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: ListView.builder(
-        itemCount: bookings.length,
+        itemCount: c.length,
         itemBuilder: (BuildContext context, int index) {
-          final booking = bookings[index];
+          final booking = c[index];
           return Card(
             margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             elevation: 2,
             child: ListTile(
               contentPadding: EdgeInsets.all(12),
-              title: Text(
-                booking['booking_name'],
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+              title: InkWell(
+                onTap: (){
+                  Get.to(()=> BookingPage(),
+                  arguments: [
+                    booking['vehicle_name'],
+                    booking['customer_name'],
+                    booking['package_name'],
+                    booking['days'],
+                    booking['km'],
+                    booking['price'],
+                    booking['joining_date'],
+                    booking['booking_date'],
+                  ]);
+                },
+                child: Text(
+                  booking['booking_name'],
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                ),
               ),
               subtitle: Padding(
                 padding: const EdgeInsets.only(top: 5),
@@ -100,7 +124,10 @@ class BookingListPage extends StatelessWidget {
                   ),
                 ],
               ),
+
             ),
+
+
           );
         },
       ),
