@@ -239,7 +239,7 @@ class AddBookingPage extends StatelessWidget {
     );
     if(pickedDate != null) {
       c.datepick.value =
-        "${pickedDate?.day ?? 0}/${pickedDate?.month ?? 0}/${pickedDate?.year ?? 0}";
+        "${pickedDate.day ?? 0}/${pickedDate.month ?? 0}/${pickedDate.year ?? 0}";
     }
   }
 }

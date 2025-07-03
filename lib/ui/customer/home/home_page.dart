@@ -5,9 +5,10 @@ import 'package:motor_vehicle/ui/customer/home/cus_booking_list_page.dart';
 import 'package:motor_vehicle/ui/customer/home/booking_page.dart';
 import 'package:motor_vehicle/ui/customer/home/profile_page.dart';
 import 'package:motor_vehicle/ui/customer/home/vehicle.dart';
+import 'package:motor_vehicle/ui/customer/home/license_page.dart';
 
 class CustomerHomePage extends StatefulWidget {
-  const CustomerHomePage({super.key});
+  CustomerHomePage({super.key});
 
   @override
   State<CustomerHomePage> createState() => _CustomerHomePageState();
@@ -19,6 +20,7 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   final List<Widget> _pages = [
     BookingListPage(),
     Aboutus(),
+    LicensePages(),
     VehiclePage(),
     ProfilePage(),
   ];
@@ -32,8 +34,6 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
-
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(80),
         child: Container(
@@ -41,8 +41,8 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.only(
-              bottomLeft: Radius.circular(24),
-              bottomRight: Radius.circular(24),
+              bottomLeft: Radius.circular(23),
+              bottomRight: Radius.circular(23),
             ),
             boxShadow: [
               BoxShadow(
@@ -54,22 +54,19 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
           ),
           child: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              padding: EdgeInsets.symmetric(horizontal: 8),
               child: Row(
                 children: [
                   Padding(
                     padding: EdgeInsets.all(8.0),
-                    child: Container(
-                      child: Image.asset(
-                        'assets/images/logo.png',
-                        width: 60,
-                        height: 60,
-                      ),
+                    child: Image.asset(
+                      'assets/images/logo.png',
+                      width: 60,
+                      height: 60,
                     ),
                   ),
-
-                  const SizedBox(width: 8),
-                  const Expanded(
+                  SizedBox(width: 8),
+                  Expanded(
                     child: Padding(
                       padding: EdgeInsets.only(top: 5.0, left: 25.0),
                       child: Text(
@@ -99,18 +96,27 @@ class _CustomerHomePageState extends State<CustomerHomePage> {
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
         type: BottomNavigationBarType.fixed,
-        items: const [
+        items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.shopping_cart),
             label: "Booking",
           ),
-          BottomNavigationBarItem(icon: Icon(Icons.info), label: "About"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.info),
+            label: "About",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_police_outlined),
+            label: "Licenses",
+          ),
           BottomNavigationBarItem(
             icon: Icon(Icons.directions_car),
             label: "Vehicle",
           ),
-
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: "Profile",
+          ),
         ],
       ),
     );

@@ -4,22 +4,26 @@ import 'package:get/get.dart';
 import 'package:motor_vehicle/main.dart';
 
 class SplashPage extends StatefulWidget {
-  SplashPage({super.key}) {
-    Timer( Duration(seconds: 1), () {
-      Get.off(Homepage());
-    });
-  }
+   SplashPage({Key? key}) : super(key: key); // Constructor properly defined
 
   @override
-  State<SplashPage> createState() => _SplashPageState();
+  State<SplashPage> createState() => _SplashPageState(); // Link to state
 }
 
 class _SplashPageState extends State<SplashPage> {
   @override
+  void initState() {
+    super.initState();
+    Timer( Duration(seconds: 1), () {
+      Get.off(() => Homepage()); // Ensure Homepage exists
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-          child: Image.asset("assets/images/logo.png", width: 200,height: 200,),
+        child: Image.asset("assets/images/logo.png", width: 200, height: 200),
       ),
     );
   }

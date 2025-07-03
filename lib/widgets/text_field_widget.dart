@@ -21,7 +21,7 @@ class TextFieldWidget extends StatelessWidget {
     return TextFormField(
       initialValue: initialValue ?? "",
       controller: controller,
-      obscureText: true,
+      //obscureText: true,
       keyboardType: textInputType ?? TextInputType.text,
       decoration: InputDecoration(
         hintText: hint ?? "",
