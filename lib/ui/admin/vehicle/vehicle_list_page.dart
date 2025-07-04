@@ -32,6 +32,7 @@ class VehicleListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Appcolor.background,
       appBar: AppBar(
         title:  Text('Vehicle List',style: TextStyle(color: Colors.white),),
         backgroundColor: Appcolor.primary,
@@ -42,6 +43,7 @@ class VehicleListPage extends StatelessWidget {
         itemBuilder: (BuildContext context ,int index) {
           final customer = customers[index];
           return Card(
+            color: Appcolor.container,
             margin:  EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             elevation: 2,
             child: ListTile(

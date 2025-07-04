@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class DaysPage extends StatefulWidget {
   const DaysPage({super.key});
@@ -65,13 +66,12 @@ class _DaysPageState extends State<DaysPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF1F4F8),
+      backgroundColor: Appcolor.background,
 
       body: Column(
         children: <Widget>[
           SizedBox(height: 16),
 
-          // 📅 Date Picker TextField
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: TextField(
@@ -88,14 +88,13 @@ class _DaysPageState extends State<DaysPage> {
           ),
 
           SizedBox(height: 10),
-
-          // 🧾 Customer List
           Expanded(
             child: ListView.builder(
               itemCount: customers.length,
               itemBuilder: (BuildContext context, int index) {
                 final customer = customers[index];
                 return Card(
+                  color: Appcolor.container,
                   margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   elevation: 2,
                   child: ListTile(

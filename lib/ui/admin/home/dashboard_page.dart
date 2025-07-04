@@ -19,6 +19,7 @@ class Dashboard_page extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Appcolor.background,
       body: Column(
         children: [
           Container(
@@ -54,6 +55,7 @@ class Dashboard_page extends StatelessWidget {
           Expanded(
             child: GridView.count(
               shrinkWrap: true,
+              
               crossAxisSpacing: 20,
               mainAxisSpacing: 20,
               padding: EdgeInsets.all(30),

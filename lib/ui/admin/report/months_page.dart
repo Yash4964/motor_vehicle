@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class MonthsPage extends StatelessWidget {
   MonthsPage({super.key});
@@ -34,7 +35,7 @@ class MonthsPage extends StatelessWidget {
       text: "${selectedDate.month}/${selectedDate.year}",
     );
     return Scaffold(
-      backgroundColor: Color(0xFFF1F4F8),
+      backgroundColor: Appcolor.background,
 
       body: StatefulBuilder(
         builder: (context, setState) {
@@ -108,7 +109,7 @@ class MonthsPage extends StatelessWidget {
                         ),
                         SizedBox(width: 6),
                         Text(
-                          '₹12,000', // You can use a variable here
+                          '₹12,000', 
                           style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,color: Colors.redAccent),
                         ),
                       ],
@@ -124,6 +125,7 @@ class MonthsPage extends StatelessWidget {
                   itemBuilder: (BuildContext context, int index) {
                     final customer = customers[index];
                     return Card(
+                      color: Appcolor.container,
                       margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       elevation: 2,
                       child: ListTile(

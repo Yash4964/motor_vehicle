@@ -35,25 +35,26 @@ class PandingCustomerList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
+      backgroundColor: Appcolor.background,
       body: ListView.builder(
         itemCount: customers.length,
-        itemBuilder: (BuildContext context ,int index) {
+        itemBuilder: (BuildContext context, int index) {
           final customer = customers[index];
           return Card(
-            margin:  EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            color: Appcolor.container,
+            margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             elevation: 2,
             child: ListTile(
-              contentPadding:  EdgeInsets.all(12),
+              contentPadding: EdgeInsets.all(12),
               leading: InkWell(
-                onTap: (){
+                onTap: () {
                   Get.to(
-                        () => CustomerProfilePage(),
-                    arguments:[
-                      customer['name'] ,
-                      customer['email'] ,
-                      customer['image'] ,
-                      customer['phone'] ,
+                    () => CustomerProfilePage(),
+                    arguments: [
+                      customer['name'],
+                      customer['email'],
+                      customer['image'],
+                      customer['phone'],
                     ],
                   );
                 },
@@ -63,12 +64,12 @@ class PandingCustomerList extends StatelessWidget {
                 ),
               ),
               title: InkWell(
-                onTap: (){
+                onTap: () {
                   Get.to(CustomerProfilePage());
                 },
                 child: Text(
                   customer['name']!,
-                  style:  TextStyle(fontWeight: FontWeight.bold),
+                  style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
               subtitle: Column(
@@ -84,11 +85,11 @@ class PandingCustomerList extends StatelessWidget {
                       ),
                       SizedBox(width: 4),
                       Padding(
-                        padding: const EdgeInsets.only(top:0.0),
+                        padding: const EdgeInsets.only(top: 0.0),
                         child: Expanded(
                           child: Text(
                             customer['EMI']!,
-                            style:  TextStyle(fontSize: 15),
+                            style: TextStyle(fontSize: 15),
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             softWrap: false,
@@ -102,28 +103,23 @@ class PandingCustomerList extends StatelessWidget {
                     children: [
                       Icon(Icons.call, size: 16),
                       SizedBox(width: 4),
-                      Text(
-                        customer['phone']!,
-                        style:  TextStyle(fontSize: 13),
-                      ),
+                      Text(customer['phone']!, style: TextStyle(fontSize: 13)),
                     ],
                   ),
                 ],
               ),
-
             ),
           );
         },
       ),
 
       floatingActionButton: FloatingActionButton(
-        onPressed: (){
+        onPressed: () {
           Get.to(UpdatePayment());
         },
-        child: Icon(Icons.add,color: Colors.white,),
+        child: Icon(Icons.add, color: Colors.white),
         backgroundColor: Appcolor.primary,
       ),
     );
-
   }
 }
