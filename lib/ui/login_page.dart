@@ -128,7 +128,7 @@ class LoginPage extends StatelessWidget {
                   Center(
                     child: ElevatedButton(onPressed: (){
                       Get.to(Homepage());
-                    }, child: Text('Panels')),
+                    }, child: Text('Pannels')),
                   )
                 ],
               ),
