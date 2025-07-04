@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:motor_vehicle/ui/admin/customer/addcustomer_page.dart';
 import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
-import 'package:motor_vehicle/ui/admin/payment/update_payment_page.dart';
 
 class DaysPage extends StatefulWidget {
   const DaysPage({super.key});
@@ -13,6 +11,7 @@ class DaysPage extends StatefulWidget {
 
 class _DaysPageState extends State<DaysPage> {
   DateTime? _selectedDate;
+  final TextEditingController _dateController = TextEditingController();
 
   final List<Map<String, String>> customers = [
     {
@@ -39,34 +38,58 @@ class _DaysPageState extends State<DaysPage> {
   ];
 
   @override
+  void initState() {
+    super.initState();
+    _selectedDate = DateTime.now();
+    _dateController.text =
+        "${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}";
+  }
+
+  Future<void> _pickDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate ?? DateTime.now(),
+      firstDate: DateTime(1950),
+      lastDate: DateTime(2100),
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        _selectedDate = pickedDate;
+        _dateController.text =
+            "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFFF1F4F8),
+
       body: Column(
         children: <Widget>[
           SizedBox(height: 16),
-          ElevatedButton(
-            onPressed: () {
-              showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime(1950),
-                lastDate: DateTime(2100),
-              ).then((date) {
-                if (date != null) {
-                  setState(() {
-                    _selectedDate = date;
-                  });
-                }
-              });
-            },
-            child: const Text('Pick a date'),
+
+          // 📅 Date Picker TextField
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: TextField(
+              controller: _dateController,
+              readOnly: true,
+              onTap: () => _pickDate(context),
+              decoration: InputDecoration(
+                labelText: 'Select Date',
+                hintText: 'Tap to pick a date',
+                border: OutlineInputBorder(),
+                suffixIcon: Icon(Icons.calendar_today),
+              ),
+            ),
           ),
-          Text(
-            _selectedDate == null
-                ? 'No date selected'
-                : 'Selected Date: ${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}',
-          ),
+
           SizedBox(height: 10),
+
+          // 🧾 Customer List
           Expanded(
             child: ListView.builder(
               itemCount: customers.length,
@@ -106,7 +129,7 @@ class _DaysPageState extends State<DaysPage> {
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 6),
+                        SizedBox(height: 6),
                         Row(
                           children: [
                             Text('Pending EMI: '),

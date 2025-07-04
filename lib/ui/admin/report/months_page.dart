@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:month_picker_dialog/month_picker_dialog.dart'; // <== Add this in pubspec.yaml
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
 
 class MonthsPage extends StatelessWidget {
@@ -29,50 +29,105 @@ class MonthsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DateTime? selectedDate;
-
+    DateTime selectedDate = DateTime.now();
+    final TextEditingController monthController = TextEditingController(
+      text: "${selectedDate.month}/${selectedDate.year}",
+    );
     return Scaffold(
+      backgroundColor: Color(0xFFF1F4F8),
+
       body: StatefulBuilder(
         builder: (context, setState) {
           return Column(
             children: <Widget>[
-              const SizedBox(height: 16),
-              ElevatedButton(
-                onPressed: () {
-                  showMonthPicker(
-                    context: context,
-                    initialDate: selectedDate ?? DateTime.now(),
-                    firstDate: DateTime(2020),
-                    lastDate: DateTime(2025),
-                  ).then((date) {
-                    if (date != null) {
+              SizedBox(height: 16),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                child: TextField(
+                  controller: monthController,
+                  onTap: () async {
+                    final picked = await showMonthPicker(
+                      context: context,
+                      initialDate: selectedDate,
+                      firstDate: DateTime(2020),
+                      lastDate: DateTime(2026),
+                    );
+                    if (picked != null) {
                       setState(() {
-                        selectedDate = date;
+                        selectedDate = picked;
+                        monthController.text = "${picked.month}/${picked.year}";
                       });
                     }
-                  });
-                },
-                child: const Text('Pick a month'),
+                  },
+                  decoration: InputDecoration(
+                    labelText: 'Select Month',
+                    border: OutlineInputBorder(),
+                    suffixIcon: Icon(Icons.calendar_month),
+                  ),
+                ),
               ),
-              Text(
-                selectedDate == null
-                    ? 'No date selected'
-                    : 'Selected Month: ${selectedDate!.month}/${selectedDate!.year}',
+              SizedBox(height: 10),
+              Container(
+                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 4,
+                      offset: Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Total Customers:',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        SizedBox(width: 6),
+                        Text(
+                          '3', 
+                          style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.redAccent),
+                        ),
+                      ],
+                    ),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Total Payment:',
+                          style: TextStyle(fontSize: 16),
+                        ),
+                        SizedBox(width: 6),
+                        Text(
+                          '₹12,000', // You can use a variable here
+                          style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,color: Colors.redAccent),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 10),
+
+              SizedBox(height: 10),
               Expanded(
                 child: ListView.builder(
                   itemCount: customers.length,
                   itemBuilder: (BuildContext context, int index) {
                     final customer = customers[index];
                     return Card(
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
+                      margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                       elevation: 2,
                       child: ListTile(
-                        contentPadding: const EdgeInsets.all(12),
+                        contentPadding: EdgeInsets.all(12),
                         leading: InkWell(
                           onTap: () {
                             Get.to(
@@ -92,33 +147,33 @@ class MonthsPage extends StatelessWidget {
                         ),
                         title: Text(
                           customer['name']!,
-                          style: const TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                         subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 6),
+                            SizedBox(height: 6),
                             Row(
                               children: [
-                                const Icon(Icons.email, size: 16),
-                                const SizedBox(width: 4),
+                                Icon(Icons.email, size: 16),
+                                SizedBox(width: 4),
                                 Expanded(
                                   child: Text(
                                     customer['email']!,
-                                    style: const TextStyle(fontSize: 13),
+                                    style: TextStyle(fontSize: 13),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 4),
+                            SizedBox(height: 4),
                             Row(
                               children: [
-                                const Icon(Icons.call, size: 16),
-                                const SizedBox(width: 4),
+                                Icon(Icons.call, size: 16),
+                                SizedBox(width: 4),
                                 Text(
                                   customer['phone']!,
-                                  style: const TextStyle(fontSize: 13),
+                                  style: TextStyle(fontSize: 13),
                                 ),
                               ],
                             ),

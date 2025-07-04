@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/customer/home/vehicle_list_page.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class VehiclePage extends StatelessWidget {
   final List<Map<String, dynamic>> customers = [
@@ -30,7 +31,7 @@ class VehiclePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:  Color(0xFFF1F4F8),
+      backgroundColor:Appcolor.background,
       body: ListView.builder(
         padding: EdgeInsets.all(12),
         itemCount: customers.length,
@@ -47,7 +48,7 @@ class VehiclePage extends StatelessWidget {
                 );
               },
               child: Card(
-                color: Colors.white,
+                color: Appcolor.container,
                 elevation: 4,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),

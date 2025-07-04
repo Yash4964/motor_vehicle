@@ -98,7 +98,7 @@ class AddAttendancePages extends StatelessWidget {
                   () => Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: Color.fromARGB(255, 226, 230, 236),
+                  color:Color(0xFFF3F4F6),
                 ),
                 padding: EdgeInsets.only(left: 5),
                 width: double.infinity,
@@ -127,7 +127,7 @@ class AddAttendancePages extends StatelessWidget {
                       () => Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: Color.fromARGB(255, 226, 230, 236),
+                      color: Color(0xFFF3F4F6),
                     ),
                     padding: EdgeInsets.only(left: 5),
                     width: double.infinity,
@@ -149,8 +149,7 @@ class AddAttendancePages extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          //filled: true,
-                          color: Color.fromARGB(255, 226, 230, 236),
+                          color: Color(0xFFF3F4F6),
                         ),
                         padding: EdgeInsets.only(left: 5),
 
