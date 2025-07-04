@@ -9,7 +9,6 @@ class DropController extends GetxController {
 
   var timeselected = '6:30 AM'.obs;
   var timelist = ['6:30 AM', '7:00 AM', '7:30 AM'];
-
 }
 
 class Customercontoller extends GetxController {
@@ -20,7 +19,6 @@ class Customercontoller extends GetxController {
   var packagelist = ['Package 1', 'Package 2', 'Package 3'];
 
   var datepick = '12/08/2025'.obs;
-
 }
 
 class AddBookingPage extends StatelessWidget {
@@ -39,7 +37,7 @@ class AddBookingPage extends StatelessWidget {
           'Booking Details',
           style: TextStyle(color: Colors.white),
         ),
-        backgroundColor:Appcolor.primary,
+        backgroundColor: Appcolor.primary,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
@@ -53,7 +51,7 @@ class AddBookingPage extends StatelessWidget {
               () => Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: Color.fromARGB(255, 226, 230, 236),
+                  color: Color(0xFFF3F4F6),
                 ),
                 padding: EdgeInsets.only(left: 5),
                 width: double.infinity,
@@ -83,8 +81,7 @@ class AddBookingPage extends StatelessWidget {
               () => Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  //filled: true,
-                  color: Color.fromARGB(255, 226, 230, 236),
+                  color: Color(0xFFF3F4F6),
                 ),
                 padding: EdgeInsets.only(left: 5),
                 width: double.infinity,
@@ -110,7 +107,7 @@ class AddBookingPage extends StatelessWidget {
               () => Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: Color.fromARGB(255, 226, 230, 236),
+                  color: Color(0xFFF3F4F6),
                 ),
                 padding: EdgeInsets.only(left: 5),
                 width: double.infinity,
@@ -139,7 +136,7 @@ class AddBookingPage extends StatelessWidget {
                   () => Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: Color.fromARGB(255, 226, 230, 236),
+                      color:Color(0xFFF3F4F6),
                     ),
                     padding: EdgeInsets.only(left: 5),
                     width: double.infinity,
@@ -156,31 +153,33 @@ class AddBookingPage extends StatelessWidget {
               child: Row(
                 children: [
                   Obx(
-                        () => Expanded(
-                          child: Container(
-                                                decoration: BoxDecoration(
+                    () => Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          //filled: true,
-                          color: Color.fromARGB(255, 226, 230, 236),
-                                                ),
-                                                padding: EdgeInsets.only(left: 5),
+                          color: Color(0xFFF3F4F6),
+                        ),
+                        padding: EdgeInsets.only(left: 5),
 
-                                                child: DropdownButton(
+                        child: DropdownButton(
                           isExpanded: true,
                           value: d.timeselected.value,
                           items: [
                             for (var t in d.timelist)
                               DropdownMenuItem(
-                                child: Text(t, style: TextStyle(color: Colors.black87)),
+                                child: Text(
+                                  t,
+                                  style: TextStyle(color: Colors.black87),
+                                ),
                                 value: t,
                               ),
                           ],
                           onChanged: (timevalue) {
                             d.timeselected.value = timevalue!;
                           },
-                                                ),
-                                              ),
                         ),
+                      ),
+                    ),
                   ),
                   Expanded(
                     child: Container(
@@ -191,7 +190,7 @@ class AddBookingPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -237,9 +236,9 @@ class AddBookingPage extends StatelessWidget {
       firstDate: DateTime(2025),
       lastDate: DateTime(2030),
     );
-    if(pickedDate != null) {
+    if (pickedDate != null) {
       c.datepick.value =
-        "${pickedDate.day ?? 0}/${pickedDate.month ?? 0}/${pickedDate.year ?? 0}";
+          "${pickedDate.day ?? 0}/${pickedDate.month ?? 0}/${pickedDate.year ?? 0}";
     }
   }
 }

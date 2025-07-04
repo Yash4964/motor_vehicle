@@ -11,18 +11,17 @@ class BookingPage extends StatefulWidget {
   BookingPage({super.key});
 
   @override
-
   State<BookingPage> createState() => _BookingPageState();
 }
 
-class _BookingPageState extends State<BookingPage> with TickerProviderStateMixin {
+class _BookingPageState extends State<BookingPage>
+    with TickerProviderStateMixin {
   var args = Get.arguments;
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF1F4F8),
+      backgroundColor: Appcolor.background,
       appBar: AppBar(
         foregroundColor: Colors.white,
         title: Text("Your Booking Details"),
@@ -34,37 +33,76 @@ class _BookingPageState extends State<BookingPage> with TickerProviderStateMixin
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(height: 12),
+            SizedBox(height: 16),
             Center(
               child: Card(
-                elevation: 3,
+                elevation: 2,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
-                margin: EdgeInsets.symmetric(horizontal: 16),
+                margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 color: Colors.white,
                 child: Padding(
                   padding: EdgeInsets.all(16),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(
-                        width: 100,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(12),
-                          child: Image.asset(
-                            "assets/images/swift.jpg",
-                            width: double.infinity,
-                            height: 50,
-                            fit: BoxFit.cover,
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(12),
+                            child: Image.asset(
+                              "assets/images/swift.jpg",
+                              width: 110,
+                              height: 80,
+                              fit: BoxFit.cover,
+                            ),
                           ),
-                        ),
+
+                          SizedBox(height: 6),
+                          Text(
+                            "Total Fees: ₹${args[5]}",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.green,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            "Pending: ₹500",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.red,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(width: 14),
+
+                      SizedBox(width: 16),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            SizedBox(height: 2),
+                            Text(
+                              "Customer name: ${args[1]}",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black54,
+                              ),
+                            ),
+                            SizedBox(height: 6),
+                            Text(
+                              "Package name: ${args[2]}",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black54,
+                              ),
+                            ),
+                            SizedBox(height: 6),
                             Text(
                               "Days: ${args[3]}  |  KM: ${args[4]}",
                               style: TextStyle(
@@ -72,22 +110,21 @@ class _BookingPageState extends State<BookingPage> with TickerProviderStateMixin
                                 color: Colors.black54,
                               ),
                             ),
-                            SizedBox(height: 4),
+
+                            SizedBox(height: 6),
                             Text(
-                              "Price: ₹${args[5]}",
+                              "Booking Date: ${args[6]}",
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.green,
-                                fontWeight: FontWeight.w600,
+                                color: Colors.black54,
                               ),
                             ),
-                            SizedBox(height: 4),
+                            SizedBox(height: 6),
                             Text(
-                              "Pending: ₹500",
+                              "Join Date: ${args[7]}",
                               style: TextStyle(
                                 fontSize: 14,
-                                color: Colors.red,
-                                fontWeight: FontWeight.w600,
+                                color: Colors.black54,
                               ),
                             ),
                           ],
@@ -98,6 +135,8 @@ class _BookingPageState extends State<BookingPage> with TickerProviderStateMixin
                 ),
               ),
             ),
+            SizedBox(height: 20),
+            Divider(color: Colors.grey, thickness: 1),
             DefaultTabController(
               length: 2,
               child: Column(
@@ -113,10 +152,7 @@ class _BookingPageState extends State<BookingPage> with TickerProviderStateMixin
                   SizedBox(
                     height: 600,
                     child: TabBarView(
-                      children: [
-                        View_Attendance(),
-                        EmiPayment(),
-                      ],
+                      children: [View_Attendance(), EmiPayment()],
                     ),
                   ),
                 ],
@@ -173,7 +209,7 @@ class _BookingPageState extends State<BookingPage> with TickerProviderStateMixin
                             ),
                           ),
                         ],
-                      )
+                      ),
                     ],
                   ),
                   radius: 10,

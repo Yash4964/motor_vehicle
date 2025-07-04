@@ -7,11 +7,11 @@ class VehicleInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF1F4F8),
+      backgroundColor:Appcolor.background, 
       appBar: AppBar(
         backgroundColor: Appcolor.primary,
         elevation: 1,
-        title:  Text(
+        title: Text(
           "Car Information",
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
@@ -31,7 +31,7 @@ class VehicleInformation extends StatelessWidget {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(10),
                       child: Image.asset(
-                       args[0],
+                        args[0],
                         width: 155,
                         height: 110,
                         fit: BoxFit.cover,
@@ -46,7 +46,7 @@ class VehicleInformation extends StatelessWidget {
                         SizedBox(height: 12),
                         Row(
                           children: [
-                           Text(
+                            Text(
                               "Name: ",
                               style: TextStyle(
                                 fontSize: 15,
@@ -64,7 +64,7 @@ class VehicleInformation extends StatelessWidget {
                           ],
                         ),
                         SizedBox(height: 8),
-                     
+
                         Row(
                           children: [
                             Text(
@@ -75,7 +75,7 @@ class VehicleInformation extends StatelessWidget {
                               ),
                             ),
                             Text(
-                               args[2],
+                              args[2],
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
@@ -113,7 +113,7 @@ class VehicleInformation extends StatelessWidget {
                               ),
                             ),
                             Text(
-                               args[4],
+                              args[4],
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
@@ -129,9 +129,9 @@ class VehicleInformation extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: 10),
+
             Padding(
-              padding:EdgeInsets.symmetric(vertical: 16),
+              padding: EdgeInsets.symmetric(vertical: 8),
               child: Text(
                 "Car Packages",
                 style: TextStyle(
@@ -141,9 +141,14 @@ class VehicleInformation extends StatelessWidget {
                 ),
               ),
             ),
-
+            Divider(
+              color: Colors.black,
+              thickness: 1,
+              indent: 20,
+              endIndent: 20,
+            ),
             Padding(
-              padding:EdgeInsets.only(top: 5),
+              padding: EdgeInsets.only(top: 10),
               child: Card(
                 elevation: 2,
                 shape: RoundedRectangleBorder(
@@ -152,15 +157,15 @@ class VehicleInformation extends StatelessWidget {
 
                 color: Colors.white,
                 child: SizedBox(
-                  width: 330,
-                  height: 310,
+                  width: 325,
+                  height: 250,
                   child: Padding(
-                    padding: EdgeInsets.all(20.0),
+                    padding: EdgeInsets.all(10.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
-                          padding:EdgeInsets.only(top: 2.0, bottom: 10),
+                          padding: EdgeInsets.only(top: 2.0, bottom: 10),
                           child: Center(
                             child: Text(
                               "Package 1",
@@ -175,162 +180,7 @@ class VehicleInformation extends StatelessWidget {
                           height: 50,
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color:  Color(0xFFF3F4F6),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          padding:EdgeInsets.symmetric(horizontal: 16),
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            children:[
-                              Text(
-                                "Day : ",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                "15",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        SizedBox(height: 12),
-
-                        Container(
-                          height: 50,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color:  Color(0xFFF3F4F6),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          padding:EdgeInsets.symmetric(horizontal: 16),
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            children: [
-                              Text(
-                                "Kilometer : ",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                "5 / Per Day",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        SizedBox(height: 12),
-
-                        Container(
-                          height: 50,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color:  Color(0xFFF3F4F6),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                          padding: EdgeInsets.symmetric(horizontal: 16),
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            children:[
-                              Text(
-                                "Price : ",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black87,
-                                ),
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                "150",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-
-                        SizedBox(height: 12),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 40,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Appcolor.primary,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child:Text(
-                              "Join Now",
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
-            Padding(
-              padding:EdgeInsets.only(top: 5),
-              child: Card(
-                elevation: 5,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-
-                color: Colors.white,
-                child: SizedBox(
-                  width: 330,
-                  height: 310,
-                  child: Padding(
-                    padding: EdgeInsets.all(20.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(top: 2.0, bottom: 13),
-                          child: Center(
-                            child: Text(
-                              "Package 2",
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: 50,
-                          width: double.infinity,
-                          decoration: BoxDecoration(
-                            color:  Color(0xFFF3F4F6),
+                            color: Color(0xFFF3F4F6),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           padding: EdgeInsets.symmetric(horizontal: 16),
@@ -357,7 +207,7 @@ class VehicleInformation extends StatelessWidget {
                           ),
                         ),
 
-                       SizedBox(height: 12),
+                        SizedBox(height: 12),
 
                         Container(
                           height: 50,
@@ -390,13 +240,147 @@ class VehicleInformation extends StatelessWidget {
                           ),
                         ),
 
-                       SizedBox(height: 12),
+                        SizedBox(height: 12),
 
                         Container(
                           height: 50,
                           width: double.infinity,
                           decoration: BoxDecoration(
-                            color:  Color(0xFFF3F4F6),
+                            color: Color(0xFFF3F4F6),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Text(
+                                "Price : ",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                "150",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        SizedBox(height: 12),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(top: 5),
+              child: Card(
+                elevation: 2,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+
+                color: Colors.white,
+                child: SizedBox(
+                  width: 325,
+                  height: 250,
+                  child: Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(top: 2.0, bottom: 13),
+                          child: Center(
+                            child: Text(
+                              "Package 2",
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: 50,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFF3F4F6),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Text(
+                                "Day : ",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                "15",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        SizedBox(height: 12),
+
+                        Container(
+                          height: 50,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFF3F4F6),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Text(
+                                "Kilometer : ",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.black87,
+                                ),
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                "5 / Per Day",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        SizedBox(height: 12),
+
+                        Container(
+                          height: 50,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Color(0xFFF3F4F6),
                             borderRadius: BorderRadius.circular(10),
                           ),
                           padding: EdgeInsets.symmetric(horizontal: 16),
@@ -422,29 +406,6 @@ class VehicleInformation extends StatelessWidget {
                             ],
                           ),
                         ),
-
-                        const SizedBox(height: 12),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 40,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Appcolor.primary,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: const Text(
-                              "Join Now",
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -455,17 +416,17 @@ class VehicleInformation extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 5),
               child: Card(
-                elevation: 5,
+                elevation: 2,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
 
                 color: Colors.white,
                 child: SizedBox(
-                  width: 330,
-                  height: 310,
+                  width: 325,
+                  height: 250,
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -577,35 +538,13 @@ class VehicleInformation extends StatelessWidget {
                             ],
                           ),
                         ),
-
-                        const SizedBox(height: 12),
-                        SizedBox(
-                          width: double.infinity,
-                          height: 40,
-                          child: ElevatedButton(
-                            onPressed: () {},
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor:Appcolor.primary,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            child: const Text(
-                              "Join Now",
-                              style: TextStyle(
-                                fontSize: 17,
-                                fontWeight: FontWeight.w600,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),
                 ),
               ),
             ),
+            SizedBox(height: 12),
           ],
         ),
       ),

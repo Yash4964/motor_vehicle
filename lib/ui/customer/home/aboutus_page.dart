@@ -1,54 +1,48 @@
 import 'package:flutter/material.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
+import 'package:widget_zoom/widget_zoom.dart';
 
 class Aboutus extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF1F4F8),
+      backgroundColor: Appcolor.background,
       body: SingleChildScrollView(
         child: Column(
           children: [
             SizedBox(height: 16),
-
             Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                'Shop Details',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: WidgetZoom(
+                      heroAnimationTag: 'tag',
+                      zoomWidget: Image.asset(
+                        'assets/images/shop.jpg',
+                        height: 200,
+                        width: 150,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 20),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(8),
+                    child: WidgetZoom(
+                       heroAnimationTag: 'tag',
+                      zoomWidget: Image.asset(
+                        'assets/images/shop1.jpg',
+                        height: 200,
+                        width: 150,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  
+                ],
               ),
-            ),
-
-            SizedBox(height: 24),
-
-            Column(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    'assets/images/shop.jpg',
-                    height: 250,
-                    width: 330,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                SizedBox(height: 5),
-              ],
-            ),
-
-            SizedBox(height: 24),
-            Column(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Image.asset(
-                    'assets/images/shop1.jpg',
-                    height: 250,
-                    width: 330,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                SizedBox(height: 5),
-              ],
             ),
 
             SizedBox(height: 24),
@@ -57,7 +51,7 @@ class Aboutus extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color:Appcolor.container,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
@@ -89,13 +83,11 @@ class Aboutus extends StatelessWidget {
                       children: [
                         Text("Time :"),
                         SizedBox(width: 10),
-
                         Text("Mon-Sat"),
                         SizedBox(width: 10),
                         Text("(7:00 AM - 7:00 PM)"),
                       ],
                     ),
-
                     SizedBox(height: 10),
                     Row(
                       children: [
@@ -112,7 +104,6 @@ class Aboutus extends StatelessWidget {
                         Text("Bhavani park"),
                       ],
                     ),
-                    SizedBox(height: 10),
                   ],
                 ),
               ),
@@ -126,9 +117,7 @@ class Aboutus extends StatelessWidget {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
             ),
-
             SizedBox(height: 12),
-
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Column(

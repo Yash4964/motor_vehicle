@@ -5,19 +5,25 @@ import 'package:motor_vehicle/ui/login_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-
 class ProfilePage extends StatelessWidget {
-  final Uri  _url = Uri.parse('https://www.youtube.com/watch?v=JYLEyMvj6sE&list=RDf23e6nfVQiI&index=4');
+  final Uri _url = Uri.parse(
+    'https://www.youtube.com/watch?v=JYLEyMvj6sE&list=RDf23e6nfVQiI&index=4',
+  );
   //final Uri  _url = Uri.parse('tel:123456789');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:  Color(0xFFF1F4F8),
+      backgroundColor: Appcolor.background,
       body: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(top:20.0,left: 25,right: 25,bottom: 10),
+              padding: EdgeInsets.only(
+                top: 20.0,
+                left: 25,
+                right: 25,
+                bottom: 10,
+              ),
               child: Container(
                 height: 130,
                 width: 640,
@@ -27,8 +33,8 @@ class ProfilePage extends StatelessWidget {
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black12,
-                blurRadius: 8,
-                offset: Offset(0, 4),
+                      blurRadius: 8,
+                      offset: Offset(0, 2),
                     ),
                   ],
                 ),
@@ -41,7 +47,7 @@ class ProfilePage extends StatelessWidget {
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color:  Color.fromARGB(255, 139, 136, 136),
+                            color: Color.fromARGB(255, 139, 136, 136),
                             width: 2,
                           ),
                         ),
@@ -107,7 +113,6 @@ class ProfilePage extends StatelessWidget {
             ),
             SizedBox(height: 10),
             Container(
-
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -117,7 +122,7 @@ class ProfilePage extends StatelessWidget {
                       "phone",
                       style: TextStyle(
                         fontSize: 15,
-                        color:  Color.fromARGB(255, 129, 129, 129),
+                        color: Color.fromARGB(255, 129, 129, 129),
                       ),
                     ),
                   ),
@@ -146,7 +151,7 @@ class ProfilePage extends StatelessWidget {
                       "License No",
                       style: TextStyle(
                         fontSize: 15,
-                        color:  Color.fromARGB(255, 129, 129, 129),
+                        color: Color.fromARGB(255, 129, 129, 129),
                       ),
                     ),
                   ),
@@ -173,7 +178,7 @@ class ProfilePage extends StatelessWidget {
                       "Course",
                       style: TextStyle(
                         fontSize: 15,
-                        color:  Color.fromARGB(255, 129, 129, 129),
+                        color: Color.fromARGB(255, 129, 129, 129),
                       ),
                     ),
                   ),
@@ -196,54 +201,60 @@ class ProfilePage extends StatelessWidget {
                   ),
                 ],
               ),
-            
             ),
             SizedBox(height: 20),
             Column(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(left:20.0,right: 20),
+                  padding: EdgeInsets.only(left: 20.0, right: 20),
                   child: Container(
-                        height: 40,
-                        width: 320,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            Get.offAll(LoginPage());
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor:Appcolor.primary,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(7),
-                            ),
-                          ),
-                          child: Text(
-                            "Log Out",
-                            style: TextStyle(fontSize: 16, color: Colors.white,fontWeight: FontWeight.bold),
-                          ),
+                    height: 40,
+                    width: 320,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.offAll(LoginPage());
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Appcolor.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(7),
                         ),
                       ),
+                      child: Text(
+                        "Log Out",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left:20.0,right: 20,top: 20),
+                  padding: EdgeInsets.only(left: 20.0, right: 20, top: 20),
                   child: Container(
                     height: 40,
                     width: 320,
                     child: ElevatedButton(
                       onPressed: _launchUrl,
                       style: ElevatedButton.styleFrom(
-                        backgroundColor:Colors.lightGreen,
+                        backgroundColor: Colors.lightGreen,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(7),
                         ),
                       ),
                       child: Text(
                         "Terms & Conditions",
-                        style: TextStyle(fontSize: 16, color: Colors.white,fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
                 ),
-
               ],
             ),
           ],
@@ -252,11 +263,9 @@ class ProfilePage extends StatelessWidget {
     );
   }
 
-  Future<void> _launchUrl() async
-  {
-    if(!await launchUrl(_url))
-      {
-        throw Exception('Could not Launch $_url');
-      }
+  Future<void> _launchUrl() async {
+    if (!await launchUrl(_url)) {
+      throw Exception('Could not Launch $_url');
+    }
   }
 }

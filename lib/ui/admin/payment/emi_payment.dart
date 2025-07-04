@@ -30,11 +30,13 @@ class EmiPayment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Appcolor.background,
       body: ListView.builder(
         itemCount: customers.length,
         itemBuilder: (BuildContext context, int index) {
           final customer = customers[index];
           return Card(
+            color: Appcolor.container,
             margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             elevation: 2,
             child: ListTile(

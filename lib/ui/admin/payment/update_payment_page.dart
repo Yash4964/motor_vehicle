@@ -46,7 +46,7 @@ class UpdatePayment extends StatelessWidget {
                   () => Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: Color.fromARGB(255, 226, 230, 236),
+                  color: Color(0xFFF3F4F6),
                 ),
                 padding: EdgeInsets.only(left: 5),
                 width: double.infinity,
@@ -68,7 +68,7 @@ class UpdatePayment extends StatelessWidget {
                   () => Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
-                  color: Color.fromARGB(255, 226, 230, 236),
+                  color:Color(0xFFF3F4F6),
                 ),
                 padding: EdgeInsets.only(left: 5),
                 width: double.infinity,
@@ -101,7 +101,7 @@ class UpdatePayment extends StatelessWidget {
                       () => Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(5),
-                      color: Color.fromARGB(255, 226, 230, 236),
+                      color:Color(0xFFF3F4F6),
                     ),
                     padding: EdgeInsets.only(left: 5),
                     width: double.infinity,
@@ -130,7 +130,7 @@ class UpdatePayment extends StatelessWidget {
                   "Submit",
                   style: TextStyle(
                     fontSize: 18,
-                    color: Colors.white,
+                    color: Color(0xFFF3F4F6),
                     fontWeight: FontWeight.w500,
                   ),
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class LicensePages extends StatelessWidget {
   const LicensePages({super.key});
@@ -6,7 +7,7 @@ class LicensePages extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF1F4F8),
+      backgroundColor: Appcolor.background,
       body: ListView(
         padding: EdgeInsets.all(16),
         children: [
@@ -48,6 +49,7 @@ class LicensePages extends StatelessWidget {
     required IconData icon,
   }) {
     return Card(
+      color: Appcolor.container,
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Padding(
