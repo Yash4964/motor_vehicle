@@ -7,27 +7,27 @@ class TextFieldWidget extends StatelessWidget {
   final bool obscureText;
   final TextEditingController? controller;
 
-  const TextFieldWidget({
-    super.key,
+   TextFieldWidget({
+    Key? key,
     this.initialValue,
     this.hint,
     this.textInputType,
     this.obscureText = false,
     this.controller,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      initialValue: initialValue ?? "",
       controller: controller,
-      //obscureText: true,
+      initialValue: controller == null ? initialValue ?? "" : null,
+      obscureText: obscureText,
       keyboardType: textInputType ?? TextInputType.text,
       decoration: InputDecoration(
         hintText: hint ?? "",
         hintStyle: TextStyle(fontSize: 15),
         filled: true,
-        fillColor:const Color.fromARGB(255, 226, 230, 236),
+        fillColor:  Color.fromARGB(255, 226, 230, 236),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide.none,

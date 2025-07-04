@@ -1,36 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/utils.dart';
+import 'package:motor_vehicle/ui/login_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
-import 'package:motor_vehicle/widgets/text_field_widget.dart';
+import 'package:url_launcher/url_launcher.dart';
+
 
 class ProfilePage extends StatelessWidget {
-
+  final Uri  _url = Uri.parse('https://www.youtube.com/watch?v=JYLEyMvj6sE&list=RDf23e6nfVQiI&index=4');
+  //final Uri  _url = Uri.parse('tel:123456789');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:  Color(0xFFF1F4F8),
-      // appBar: AppBar(
-      //   backgroundColor: Colors.white,
-      //   elevation: 1,
-      //   title: const Text(
-      //     "My Profile",
-      //     style: TextStyle(
-      //       color: Colors.blueAccent,
-      //       fontWeight: FontWeight.bold,
-      //     ),
-      //   ),
-      //   centerTitle: true,
-      //   iconTheme: const IconThemeData(color: Colors.blueAccent),
-      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(top:40.0,left: 25,right: 25,bottom: 30),
+              padding: EdgeInsets.only(top:20.0,left: 25,right: 25,bottom: 10),
               child: Container(
-                height: 170,
-                width: 600,
+                height: 130,
+                width: 640,
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
@@ -63,7 +53,7 @@ class ProfilePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(width: 20),
+                    SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -209,17 +199,16 @@ class ProfilePage extends StatelessWidget {
             
             ),
             SizedBox(height: 20),
-            Row(
+            Column(
               children: [
                 Padding(
                   padding: EdgeInsets.only(left:20.0,right: 20),
                   child: Container(
                         height: 40,
-                      
                         width: 320,
                         child: ElevatedButton(
                           onPressed: () {
-                            
+                            Get.offAll(LoginPage());
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:Appcolor.primary,
@@ -229,17 +218,45 @@ class ProfilePage extends StatelessWidget {
                           ),
                           child: Text(
                             "Log Out",
-                            style: TextStyle(fontSize: 16, color: Colors.white),
+                            style: TextStyle(fontSize: 16, color: Colors.white,fontWeight: FontWeight.bold),
                           ),
-                          
                         ),
                       ),
                 ),
+                Padding(
+                  padding: EdgeInsets.only(left:20.0,right: 20,top: 20),
+                  child: Container(
+                    height: 40,
+                    width: 320,
+                    child: ElevatedButton(
+                      onPressed: _launchUrl,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor:Colors.lightGreen,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(7),
+                        ),
+                      ),
+                      child: Text(
+                        "Terms & Conditions",
+                        style: TextStyle(fontSize: 16, color: Colors.white,fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ),
+                ),
+
               ],
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> _launchUrl() async
+  {
+    if(!await launchUrl(_url))
+      {
+        throw Exception('Could not Launch $_url');
+      }
   }
 }

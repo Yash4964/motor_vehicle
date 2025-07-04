@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/main.dart';
+import 'package:motor_vehicle/ui/login_page.dart';
 
 class SplashPage extends StatefulWidget {
    SplashPage({Key? key}) : super(key: key); // Constructor properly defined
@@ -14,8 +15,8 @@ class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
-    Timer( Duration(seconds: 1), () {
-      Get.off(() => Homepage()); // Ensure Homepage exists
+    Timer( Duration(seconds: 2), () {
+      Get.off(() => LoginPage()); // Ensure Homepage exists
     });
   }
 
