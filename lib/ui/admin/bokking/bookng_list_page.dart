@@ -63,6 +63,7 @@ class BookingListPage extends StatelessWidget {
                     booking['price'],
                     booking['joining_date'],
                     booking['booking_date'],
+                    'admin',
                   ]);
                 },
                 child: Text(

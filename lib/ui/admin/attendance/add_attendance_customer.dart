@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
-import 'package:motor_vehicle/widgets/text_field_widget.dart';
+
 
 class DropController extends GetxController {
 
@@ -31,6 +31,7 @@ class Customercontoller extends GetxController {
 }
 
 
+// ignore: must_be_immutable
 class AddAttendanceCustomer extends StatelessWidget {
   AddAttendanceCustomer({super.key});
 

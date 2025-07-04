@@ -11,23 +11,25 @@ class BookingPage extends StatefulWidget {
   BookingPage({super.key});
 
   @override
+
   State<BookingPage> createState() => _BookingPageState();
 }
 
 class _BookingPageState extends State<BookingPage> with TickerProviderStateMixin {
   var args = Get.arguments;
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF1F4F8),
+      backgroundColor: Color(0xFFF1F4F8),
       appBar: AppBar(
         foregroundColor: Colors.white,
-        title: const Text("Your Booking Details"),
+        title: Text("Your Booking Details"),
         backgroundColor: Appcolor.primary,
         elevation: 1,
         centerTitle: true,
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -39,10 +41,10 @@ class _BookingPageState extends State<BookingPage> with TickerProviderStateMixin
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
-                margin: const EdgeInsets.symmetric(horizontal: 16),
+                margin: EdgeInsets.symmetric(horizontal: 16),
                 color: Colors.white,
                 child: Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -58,32 +60,31 @@ class _BookingPageState extends State<BookingPage> with TickerProviderStateMixin
                           ),
                         ),
                       ),
-
-                      const SizedBox(width: 14),
+                      SizedBox(width: 14),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               "Days: ${args[3]}  |  KM: ${args[4]}",
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.black54,
                               ),
                             ),
-                         SizedBox(height: 4),
-                        Text(
-                          "Price: ₹${args[5]}",
-                          style: const TextStyle(
-                            fontSize: 14,
-                            color: Colors.green,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                            SizedBox(height: 4),
+                            Text(
+                              "Price: ₹${args[5]}",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.green,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
                             SizedBox(height: 4),
                             Text(
                               "Pending: ₹500",
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.red,
                                 fontWeight: FontWeight.w600,
@@ -97,12 +98,11 @@ class _BookingPageState extends State<BookingPage> with TickerProviderStateMixin
                 ),
               ),
             ),
-
             DefaultTabController(
               length: 2,
               child: Column(
                 children: [
-                  const TabBar(
+                  TabBar(
                     labelColor: Colors.black,
                     indicatorColor: Colors.blue,
                     tabs: [
@@ -125,79 +125,85 @@ class _BookingPageState extends State<BookingPage> with TickerProviderStateMixin
           ],
         ),
       ),
-      floatingActionButton: SpeedDial(
-        animatedIcon: AnimatedIcons.menu_close,
-        spacing: 12,
-        useRotationAnimation: true,
-        foregroundColor: Colors.white,
-        backgroundColor: Appcolor.primary,
-        children: [
-          SpeedDialChild(
-            backgroundColor: Colors.green,
-            child: const Icon(Icons.payment_outlined, color: Colors.white),
-            label: 'Payment',
-            onTap: () {
-              Get.defaultDialog(
-                title: "Enter Amount",
-                content: Column(
-                  children: [
-                    const SizedBox(height: 10),
-                    TextFieldWidget(
-                      hint: "Amount",
-                      textInputType: TextInputType.phone,
-                    ),
-                    const SizedBox(height: 20),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () => Get.back(),
-                          child: const Text("Back"),
-                        ),
-                        const SizedBox(width: 20),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.green,
+      floatingActionButton: Padding(
+        padding: EdgeInsets.all(8.0),
+        child: SpeedDial(
+          animatedIcon: AnimatedIcons.add_event,
+          spacing: 15,
+          shape: CircleBorder(),
+          useRotationAnimation: true,
+          foregroundColor: Colors.white,
+          backgroundColor: Appcolor.primary,
+          children: [
+            SpeedDialChild(
+              shape: CircleBorder(),
+              backgroundColor: Colors.green,
+              child: Icon(Icons.payment_outlined, color: Colors.white),
+              label: 'Payment',
+              onTap: () {
+                Get.defaultDialog(
+                  title: "Enter Amount",
+                  content: Column(
+                    children: [
+                      SizedBox(height: 10),
+                      TextFieldWidget(
+                        hint: "Amount",
+                        textInputType: TextInputType.phone,
+                      ),
+                      SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () => Get.back(),
+                            child: Text("Back"),
                           ),
-                          onPressed: () => Get.back(),
-                          child: const Text(
-                            "+ ADD",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
+                          SizedBox(width: 20),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.green,
+                            ),
+                            onPressed: () => Get.back(),
+                            child: Text(
+                              "+ ADD",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                radius: 10,
-              );
-            },
-          ),
-          SpeedDialChild(
-            backgroundColor: Colors.purple,
-            child: const Icon(Icons.add_task, color: Colors.white),
-            label: 'Attendance',
-            onTap: () {
-              Get.to(AddAttendanceCustomer());
-            },
-          ),
-        ],
+                        ],
+                      )
+                    ],
+                  ),
+                  radius: 10,
+                );
+              },
+            ),
+            SpeedDialChild(
+              shape: CircleBorder(),
+              backgroundColor: Colors.purple,
+              child: Icon(Icons.add_task, color: Colors.white),
+              label: 'Attendance',
+              onTap: () {
+                Get.to(AddAttendanceCustomer());
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
 
   Widget buildRow(String label, String value) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.only(bottom: 8),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             "$label: ",
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 14,
               color: Colors.grey,
               fontWeight: FontWeight.w500,
@@ -206,7 +212,7 @@ class _BookingPageState extends State<BookingPage> with TickerProviderStateMixin
           Expanded(
             child: Text(
               value,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 color: Colors.black,
