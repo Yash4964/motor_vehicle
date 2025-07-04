@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/admin/home/dashboard_page.dart';
+import 'package:motor_vehicle/ui/customer/home/home_page.dart';
 import 'package:motor_vehicle/ui/login_page.dart';
 import 'package:motor_vehicle/ui/splash_page.dart';
 
@@ -58,7 +59,7 @@ class Homepage extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: (){
-                        Get.to(LoginPage());
+                        Get.to(CustomerHomePage());
                       },
                       child: CircleAvatar(
                         radius: 40,

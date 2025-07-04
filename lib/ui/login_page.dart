@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/utils.dart';
+import 'package:motor_vehicle/main.dart';
 import 'package:motor_vehicle/ui/admin/home/dashboard_page.dart';
 import 'package:motor_vehicle/ui/customer/home/home_page.dart';
 import 'package:motor_vehicle/ui/registration_page.dart';
@@ -73,51 +74,35 @@ class LoginPage extends StatelessWidget {
                       onPressed: () {
                         String email = emailController.text.trim();
                         String password = passwordController.text.trim();
-                        if(email==Cusemail)
-                          {
-                            if(email.isEmpty || password.isEmpty)
-                            {
-                              Get.snackbar( "Missing Fields", "Please enter both email and password",colorText: Colors.white,
-                                backgroundColor: Colors.lightGreen,
-                              );
-                            }
-                            else if(email==Cusemail && password==Cuspass)
-                            {
-                              Get.off(CustomerHomePage(), arguments: 'customer');
-                            }
-                            else
-                            {
-                              Get.snackbar(
-                                "Login Failed",
-                                "Invalid email or password",
-                                colorText: Colors.white,
-                                backgroundColor: Colors.lightGreen,
-                              );
-                            }
-                          }
-                        else if (email==Adminemail)
+
+                        if (email.isEmpty || password.isEmpty) {
+                          Get.snackbar(
+                            "Missing Fields",
+                            "Please enter both email and password",
+                            colorText: Colors.white,
+                            backgroundColor: Colors.lightGreen,
+                          );
+                          return;
+                        }
+
+                        if (email == Cusemail && password == Cuspass)
                         {
-                          if(email.isEmpty || password.isEmpty)
-                          {
-                            Get.snackbar( "Missing Fields", "Please enter both email and password",colorText: Colors.white,
-                              backgroundColor: Colors.lightGreen,
-                            );
-                          }
-                          else if(email==Adminemail && password==Adminpass)
-                          {
-                            Get.off(Dashboard_page(), arguments: 'admin');
-                          }
-                          else
-                          {
-                            Get.snackbar(
-                              "Login Failed",
-                              "Invalid email or password",
-                              colorText: Colors.white,
-                              backgroundColor: Colors.lightGreen,
-                            );
-                          }
+                          Get.off(CustomerHomePage(), arguments: 'customer');
+                        }
+                        else if (email == Adminemail && password == Adminpass)
+                        {
+                          Get.off(Dashboard_page(), arguments: 'admin');
+                        }
+                        else {
+                          Get.snackbar(
+                            "Login Failed",
+                            "Invalid email or password",
+                            colorText: Colors.white,
+                            backgroundColor: Colors.lightGreen,
+                          );
                         }
                       },
+
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Appcolor.primary,
                         shape: RoundedRectangleBorder(
@@ -140,6 +125,11 @@ class LoginPage extends StatelessWidget {
                       child: Text("Don't have an account ? SIGN UP"),
                     ),
                   ),
+                  Center(
+                    child: ElevatedButton(onPressed: (){
+                      Get.to(Homepage());
+                    }, child: Text('Pannals')),
+                  )
                 ],
               ),
             ),
