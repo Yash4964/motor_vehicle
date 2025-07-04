@@ -37,6 +37,7 @@ class BookingListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Appcolor.background,
       appBar: AppBar(
         title: Text('Booking List', style: TextStyle(color: Colors.white)),
         backgroundColor:Appcolor.primary,
@@ -47,6 +48,7 @@ class BookingListPage extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           final booking = c[index];
           return Card(
+            color: Appcolor.container,
             margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             elevation: 2,
             child: ListTile(

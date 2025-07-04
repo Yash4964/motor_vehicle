@@ -79,8 +79,8 @@ class BookingListPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(8),
                         child: Image.asset(
                           c['image'] ?? '',
-                          width: 100,
-                          height: 120,
+                          width: 90,
+                          height: 100,
                           fit: BoxFit.cover,
                         ),
                       ),

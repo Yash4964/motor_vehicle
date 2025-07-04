@@ -69,16 +69,15 @@ class AttendanceListPage extends StatelessWidget {
       'phone': '9911223344',
       'image': 'assets/images/person10.jpg',
     },
-
   ];
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Appcolor.background,
       appBar: AppBar(
         title: Text('Attendance List', style: TextStyle(color: Colors.white)),
-        backgroundColor:Appcolor.primary,
+        backgroundColor: Appcolor.primary,
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: ListView.builder(
@@ -86,6 +85,7 @@ class AttendanceListPage extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) {
           final customer = customers[index];
           return Card(
+            color: Appcolor.container,
             margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             elevation: 2,
             child: ListTile(
@@ -93,7 +93,7 @@ class AttendanceListPage extends StatelessWidget {
               leading: InkWell(
                 onTap: () {
                   Get.to(
-                        () => CustomerProfilePage(),
+                    () => CustomerProfilePage(),
                     arguments: [
                       customer['name'],
                       customer['email'],
@@ -110,7 +110,7 @@ class AttendanceListPage extends StatelessWidget {
               title: InkWell(
                 onTap: () {
                   Get.to(
-                        () => CustomerProfilePage(),
+                    () => CustomerProfilePage(),
                     arguments: [
                       customer['name'],
                       customer['email'],
@@ -124,7 +124,6 @@ class AttendanceListPage extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
-              // Removed subtitle so only name is shown
               trailing: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -132,10 +131,8 @@ class AttendanceListPage extends StatelessWidget {
                     icon: Icon(Icons.edit, color: Colors.green),
                     onPressed: () {
                       Get.to(
-                            () => AddAttendancePages(),
-                            arguments: [
-                              customer['image'],
-                            ]
+                        () => AddAttendancePages(),
+                        arguments: [customer['image']],
                       );
                     },
                   ),
@@ -156,14 +153,19 @@ class AttendanceListPage extends StatelessWidget {
                                 onPressed: () {
                                   Get.back();
                                 },
-                                child: Text("Cancel", style: TextStyle(fontSize: 18)),
+                                child: Text(
+                                  "Cancel",
+                                  style: TextStyle(fontSize: 18),
+                                ),
                               ),
                               TextButton(
                                 onPressed: () {
-                                  // Add delete logic if needed
                                   Get.back();
                                 },
-                                child: Text("OK", style: TextStyle(fontSize: 18)),
+                                child: Text(
+                                  "OK",
+                                  style: TextStyle(fontSize: 18),
+                                ),
                               ),
                             ],
                           );

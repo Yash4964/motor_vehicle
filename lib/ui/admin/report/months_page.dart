@@ -60,7 +60,7 @@ class MonthsPage extends StatelessWidget {
     );
 
     return Scaffold(
-      backgroundColor: Color(0xFFF1F4F8),
+      backgroundColor: Appcolor.background,
       body: StatefulBuilder(
         builder: (context, setState) {
           return Column(

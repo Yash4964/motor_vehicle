@@ -88,7 +88,7 @@ class _DaysPageState extends State<DaysPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF1F4F8),
+      backgroundColor: Appcolor.background,
 
       body: Column(
         children: <Widget>[

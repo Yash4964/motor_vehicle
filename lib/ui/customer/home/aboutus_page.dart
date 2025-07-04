@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:widget_zoom/widget_zoom.dart';
 
 class Aboutus extends StatelessWidget {
+  final Uri _tel1 = Uri.parse('tel:7567113224');
+  final Uri _tel2 = Uri.parse('tel:7874123070');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,13 +16,13 @@ class Aboutus extends StatelessWidget {
           children: [
             SizedBox(height: 16),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
+              padding: EdgeInsets.symmetric(horizontal: 20),
               child: Row(
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: WidgetZoom(
-                      heroAnimationTag: 'tag',
+                      heroAnimationTag: 'tag1',
                       zoomWidget: Image.asset(
                         'assets/images/shop.jpg',
                         height: 200,
@@ -31,7 +35,7 @@ class Aboutus extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(8),
                     child: WidgetZoom(
-                       heroAnimationTag: 'tag',
+                      heroAnimationTag: 'tag2',
                       zoomWidget: Image.asset(
                         'assets/images/shop1.jpg',
                         height: 200,
@@ -40,18 +44,16 @@ class Aboutus extends StatelessWidget {
                       ),
                     ),
                   ),
-                  
                 ],
               ),
             ),
-
             SizedBox(height: 24),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Container(
                 padding: EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color:Appcolor.container,
+                  color: Appcolor.container,
                   borderRadius: BorderRadius.circular(16),
                   boxShadow: [
                     BoxShadow(
@@ -62,53 +64,68 @@ class Aboutus extends StatelessWidget {
                   ],
                 ),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Contact-us',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
+                    Center(
+                      child: Text(
+                        'Contact Us',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    Divider(
+                      thickness: 2,
+                    ),
+                    SizedBox(height: 16),
                     Row(
                       children: [
-                        Text("Name :"),
-                        SizedBox(width: 10),
-                        Text("Bhavin Prajapati"),
+                        Icon(Icons.person, size: 20),
+                        SizedBox(width: 8),
+                        Expanded(child: Text("Harshadsinh Zala")),
+                        InkWell(
+                        onTap: _call1,
+                        child: Icon(Icons.phone, size: 25,color: Colors.green,)),
+                        SizedBox(width: 8),
+                        Text("7567113224"),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 18),
                     Row(
                       children: [
-                        Text("Time :"),
-                        SizedBox(width: 10),
+                        Icon(Icons.person, size: 20),
+                        SizedBox(width: 8),
+                        Expanded(child: Text("Vipulsinh Zala")),
+                        InkWell(
+                            onTap: _call2,
+                            child: Icon(Icons.phone, size: 25,color: Colors.green,)),
+                        SizedBox(width: 8),
+                        Text("7874123070"),
+                      ],
+                    ),
+                    SizedBox(height: 16),
+                    Row(
+                      children: [
+                        Icon(Icons.access_time, size: 20),
+                        SizedBox(width: 8),
                         Text("Mon-Sat"),
                         SizedBox(width: 10),
                         Text("(7:00 AM - 7:00 PM)"),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 12),
                     Row(
                       children: [
-                        Icon(Icons.phone),
-                        SizedBox(width: 20),
-                        Text("9038475936"),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Icon(Icons.home),
-                        SizedBox(width: 20),
-                        Text("Bhavani park"),
+                        Icon(Icons.home, size: 20),
+                        SizedBox(width: 8),
+                        Text("Bhavani Park"),
                       ],
                     ),
                   ],
                 ),
               ),
             ),
-
             SizedBox(height: 24),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
@@ -140,8 +157,9 @@ class Aboutus extends StatelessWidget {
                 ],
               ),
             ),
-
             SizedBox(height: 24),
+
+            // Info Card 1
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Container(
@@ -178,8 +196,9 @@ class Aboutus extends StatelessWidget {
                 ),
               ),
             ),
-
             SizedBox(height: 20),
+
+            // Info Card 2
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Container(
@@ -216,8 +235,9 @@ class Aboutus extends StatelessWidget {
                 ),
               ),
             ),
-
             SizedBox(height: 20),
+
+            // Info Card 3
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Container(
@@ -254,11 +274,25 @@ class Aboutus extends StatelessWidget {
                 ),
               ),
             ),
-
             SizedBox(height: 20),
           ],
         ),
       ),
     );
+  }
+  Future<void> _call1() async
+  {
+    if(!await launchUrl(_tel1))
+      {
+        throw Exception('invalid');
+      }
+  }
+
+  Future<void> _call2() async
+  {
+    if(!await launchUrl(_tel2))
+    {
+      throw Exception('invalid');
+    }
   }
 }

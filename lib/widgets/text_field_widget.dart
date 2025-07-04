@@ -27,7 +27,7 @@ class TextFieldWidget extends StatelessWidget {
         hintText: hint ?? "",
         hintStyle: TextStyle(fontSize: 15),
         filled: true,
-        fillColor:  Color.fromARGB(255, 226, 230, 236),
+        fillColor:  Color(0xFFF3F4F6),
 
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),

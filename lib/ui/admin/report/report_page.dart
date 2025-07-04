@@ -14,7 +14,7 @@ class ReportPage extends StatelessWidget {
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-
+backgroundColor: Appcolor.background,
 
         appBar: AppBar(
           foregroundColor: Colors.white,
