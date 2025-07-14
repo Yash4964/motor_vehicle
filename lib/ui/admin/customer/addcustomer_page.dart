@@ -1,5 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motor_vehicle/controller/camera_contoller.dart';
+import 'package:motor_vehicle/controller_api/customer_api_controller.dart';
+import 'package:motor_vehicle/ui/admin/customer/customerlist_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
 // ignore: must_be_immutable
@@ -7,8 +12,16 @@ class AddcustomerPage extends StatelessWidget {
   AddcustomerPage({super.key});
 
   var args=Get.arguments;
+
+
+  CameraContoller c = Get.put(CameraContoller());
+  CustomerApiController cusapi = Get.put(CustomerApiController());
   @override
   Widget build(BuildContext context) {
+    if(args?['isEdit']??false){
+      cusapi.setData(Get.arguments);
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -31,36 +44,47 @@ class AddcustomerPage extends StatelessWidget {
                     width: 2.5,
                   ),
                 ),padding: EdgeInsets.all(2),
-                child: Stack(
-                  children: [
-                     CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.white,
-                      backgroundImage: AssetImage(args?[2] ?? 'assets/images/default_person.png',),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: const BoxDecoration(
-                            color: Colors.lightBlue,
-                            shape: BoxShape.circle,
+                child: Obx(()=>
+                   Stack(
+                    children: [
+                       CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.white,
+                        backgroundImage:
+                        c.returnimage.value != null ? FileImage(File(c.returnimage.value!.path))
+                            : AssetImage('assets/images/default_person.png') as ImageProvider,
+
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: InkWell(
+                          onTap: () {},
+                          child: InkWell(
+                            onTap: ()
+                            {
+                              c.camera();
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration:  BoxDecoration(
+                                color: Colors.lightBlue,
+                                shape: BoxShape.circle,
+                              ),
+                              child:  Icon(Icons.add, color: Colors.white, size: 22),
+                            ),
                           ),
-                          child: const Icon(Icons.add, color: Colors.white, size: 22),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
              SizedBox(height: 10),
              Center(
               child: Text(
-                args?[0] ?? 'Customer Details',
+                 'Customer Details',
                 style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
               ),
             ),
@@ -68,13 +92,15 @@ class AddcustomerPage extends StatelessWidget {
 
             labels("Name"),
             TextFieldWidget(
-              hint: args?[0] ?? 'Name',
+              controller: cusapi.cname,
+              hint: 'Name',
               textInputType: TextInputType.name,
             ),
 
             labels("Email"),
             TextFieldWidget(
-              hint: args?[1] ?? 'ex: jon.smith@gmail.com',
+              controller: cusapi.email,
+              hint:  'ex: jon.smith@gmail.com',
               textInputType: TextInputType.emailAddress,
             ),
 
@@ -82,48 +108,90 @@ class AddcustomerPage extends StatelessWidget {
 
             labels("Password"),
             TextFieldWidget(
-              hint:
-                  "password",
+              controller:cusapi.pass,
+              hint: "password",
               obscureText: true,
             ),
 
             labels("Mobile"),
             TextFieldWidget(
-              hint: args?[3] ?? '91+ 9698521475',
+              controller: cusapi.mobile,
+              hint:"91+ 9698521475",
               textInputType: TextInputType.phone,
             ),
 
             labels("Age"),
             TextFieldWidget(
+              controller: cusapi.age,
               hint: "Age must be 18+",
               textInputType: TextInputType.number,
             ),
 
             labels("Address"),
             TextFieldWidget(
+              controller: cusapi.address,
               hint: "Address",
               textInputType: TextInputType.text,
             ),
 
+            labels("Pincode"),
+            TextFieldWidget(
+              controller: cusapi.pincode,
+              hint:"Pincode",
+              obscureText: false,
+              textInputType: TextInputType.number,
+            ),
             const SizedBox(height: 20),
             InkWell(
               onTap: () {
 
               },
-              child: Container(
-                width: double.infinity,
-                height: 45,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Colors.blueAccent,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: const Text(
-                  "Submit",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
+              child: InkWell(
+                onTap: ()
+                {
+                  if((args?['isEdit'] ?? false) == false) {
+                    cusapi.postcustomerapi(
+                      cusapi.cname.text,
+                      cusapi.email.text,
+                      cusapi.pass.text,
+                      cusapi.mobile.text,
+                      cusapi.age.text,
+                      cusapi.address.text,
+                      cusapi.pincode.text,
+                    );
+                    Get.back();
+                  }
+                  else
+                    {
+                      cusapi.updatecustomerapi(
+                        args['id'],
+                        cusapi.cname.text,
+                        cusapi.email.text,
+                        cusapi.pass.text,
+                        cusapi.mobile.text,
+                        cusapi.age.text,
+                        cusapi.address.text,
+                        cusapi.pincode.text,
+
+                      );
+                      Get.back();
+                    }
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 45,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.blueAccent,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child:  Text(
+                      "Submit",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
                 ),
               ),

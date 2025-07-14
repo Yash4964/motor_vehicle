@@ -8,8 +8,11 @@ import 'package:motor_vehicle/ui/admin/payment/payment_dashboard.dart';
 import 'package:motor_vehicle/ui/admin/report/report_page.dart';
 
 import 'package:motor_vehicle/ui/admin/vehicle/vehicle_list_page.dart';
+import 'package:motor_vehicle/ui/customer/home/vehicle.dart';
+import 'package:motor_vehicle/ui/login_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/widgets/container_table.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../bokking/bookng_list_page.dart';
 
@@ -31,7 +34,7 @@ class Dashboard_page extends StatelessWidget {
               // ),
             ),
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.only(top:18,bottom: 8),
               child: Center(child: Text("Dashboard",style: TextStyle(color: Colors.white,fontSize: 24,fontWeight: FontWeight.bold),)),
             ),
           ),
@@ -142,9 +145,47 @@ class Dashboard_page extends StatelessWidget {
                     bg_color: Colors.purpleAccent,
                   ),
                 ),
+                InkWell(
+                  onTap: () async {
+                    final SharedPreferences prefs = await SharedPreferences.getInstance();
+                    await prefs.setBool('isLogin', false);
+                    Get.defaultDialog(
+                      title: 'Logout',
+                      titleStyle: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                      middleText: 'Are you sure you want to logout?',
+                      middleTextStyle: TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                      ),
+                      textCancel: 'Cancel',
+
+                      textConfirm: 'Logout',
+                      confirmTextColor: Colors.red,
+                      cancelTextColor: Colors.green,
+                      buttonColor: Colors.white60,
+                      backgroundColor: Colors.white,
+                      radius: 15,
+                      onConfirm: () {
+                        Get.back(); // Close dialog
+                        Get.offAll(() => LoginPage()); // Navigate to LoginPage
+                      },
+                    );
+
+                  },
+                  child: Container_table(
+                    tital: 'Logout',
+                    u_icon: Icons.logout_outlined,
+                    bg_color: Colors.redAccent,
+                  ),
+                )
               ],
               ),
           ),
+
         ],
       ),
     );

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/utils.dart';
 import 'package:motor_vehicle/ui/login_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -10,8 +11,9 @@ class ProfilePage extends StatelessWidget {
     'https://www.youtube.com/watch?v=JYLEyMvj6sE&list=RDf23e6nfVQiI&index=4',
   );
   //final Uri  _url = Uri.parse('tel:123456789');
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
     return Scaffold(
       backgroundColor: Appcolor.background,
       body: SingleChildScrollView(
@@ -210,8 +212,11 @@ class ProfilePage extends StatelessWidget {
                   child: Container(
                     height: 40,
                     width: 320,
+
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
+                        final SharedPreferences prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool('isLogin', false);
                         Get.offAll(LoginPage());
                       },
                       style: ElevatedButton.styleFrom(
@@ -220,6 +225,7 @@ class ProfilePage extends StatelessWidget {
                           borderRadius: BorderRadius.circular(7),
                         ),
                       ),
+
                       child: Text(
                         "Log Out",
                         style: TextStyle(

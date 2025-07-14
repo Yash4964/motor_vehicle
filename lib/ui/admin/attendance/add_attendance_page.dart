@@ -3,10 +3,10 @@ import 'package:get/get.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
+import '../../../controller_api/attendance_api_controller.dart';
+
 class DropController extends GetxController {
 
-  var timeselected = '6:30 AM'.obs;
-  var timelist = ['6:30 AM', '7:00 AM', '7:30 AM'];
 }
 
 class Customercontoller extends GetxController {
@@ -26,6 +26,9 @@ class Customercontoller extends GetxController {
   ];
 
 
+  var timeselected = '6:30 AM'.obs;
+  var timelist = ['6:30 AM', '7:00 AM', '7:30 AM'];
+
   var datepick = '12/08/2025'.obs;
 
 }
@@ -37,9 +40,14 @@ class AddAttendancePages extends StatelessWidget {
   final DropController d = Get.put(DropController());
   final Customercontoller c = Get.put(Customercontoller());
   var args = Get.arguments;
+  final attendenceConrollerApi a = Get.put(attendenceConrollerApi());
 
   @override
   Widget build(BuildContext context) {
+    if(args?['isEdit']??false)
+    {
+      a.setData(Get.arguments);
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -70,7 +78,7 @@ class AddAttendancePages extends StatelessWidget {
                     CircleAvatar(
                       radius: 50,
                       backgroundColor: Colors.white,
-                      backgroundImage: AssetImage(args?[0] ?? 'assets/images/default_person.png',),
+                      backgroundImage: AssetImage('assets/images/default_person.png',),
                     ),
                     Positioned(
                       bottom: 0,
@@ -155,16 +163,16 @@ class AddAttendancePages extends StatelessWidget {
 
                         child: DropdownButton(
                           isExpanded: true,
-                          value: d.timeselected.value,
+                          value: c.timeselected.value,
                           items: [
-                            for (var t in d.timelist)
+                            for (var t in c.timelist)
                               DropdownMenuItem(
                                 child: Text(t, style: TextStyle(color: Colors.black87)),
                                 value: t,
                               ),
                           ],
                           onChanged: (timevalue) {
-                            d.timeselected.value = timevalue!  ;
+                            c.timeselected.value = timevalue!  ;
                           },
                         ),
                       ),
@@ -175,7 +183,7 @@ class AddAttendancePages extends StatelessWidget {
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 35),
                         child: Center(
-                          child: Obx(() => Text(d.timeselected.value)),
+                          child: Obx(() => Text(c.timeselected.value)),
                         ),
                       ),
                     ),
@@ -185,7 +193,22 @@ class AddAttendancePages extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.back();
+                String bid = c.cusselected.value;
+                String date =c.datepick.value;
+                String time =c.timeselected.value;
+                if((args?["isEdit"] ?? false) == false)
+                {
+                  a.postapi(bid, date, time);
+                }
+                else
+                {
+                  a.editapi(args['id'],bid, date, time);
+                }
+
+
+              },
               child: Container(
                 width: double.infinity,
                 height: 45,
