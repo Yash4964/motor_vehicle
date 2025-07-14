@@ -12,6 +12,9 @@ dependencies:
   flutter_speed_dial: ^5.1.0
   get: ^4.6.1
   url_launcher: ^6.3.1
+  shared_preferences: ^2.5.3
+  http: ^0.13.5
+  image_picker: ^0.8.6
 
 dev_dependencies:
   flutter_test:

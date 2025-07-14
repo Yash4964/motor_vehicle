@@ -1,28 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:motor_vehicle/widgets/appcolor_page.dart';
-import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
-class DropController extends GetxController {
-  var selected = 'swift'.obs;
-  var carname = ['swift', 'baleno', 'brezza'];
-}
+import '../../../controller_api/package_api_controller.dart';
+import '../../../widgets/text_field_widget.dart';
+
 
 class AddPackagePage extends StatelessWidget {
   AddPackagePage({super.key});
-  final DropController d = Get.put(DropController());
-  var args = Get.arguments;
 
+  final PackageConrollerApi d = Get.put(PackageConrollerApi());
+
+  var args = Get.arguments;
   @override
   Widget build(BuildContext context) {
+    if(args?['isEdit']??false)
+    {
+      d.setData(Get.arguments);
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          'Package Details',
-          style: TextStyle(color: Colors.white),
-        ),
-        backgroundColor: Appcolor.primary,
+        title: const Text('Package Details', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.blue,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
@@ -30,78 +29,111 @@ class AddPackagePage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 20),
             Center(
-              child: Text(
-                args?[1] ?? 'Package',
-                style: const TextStyle(
-                  fontSize: 25,
-                  fontWeight: FontWeight.w500,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  
+                  color: Colors.white,
+                  border: Border.all(color: Colors.lightBlue, width: 2.5),
+                ),
+                padding: const EdgeInsets.all(2),
+                child: Stack(
+                  children: [
+                    const CircleAvatar(
+                      radius: 50,
+                      backgroundColor: Colors.white,
+                      backgroundImage: AssetImage('assets/images/default_person.png'),
+                    ),
+                    Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: InkWell(
+                        onTap: () {
+
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(6),
+                          decoration: const BoxDecoration(
+                            color: Colors.lightBlue,
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.add, color: Colors.white, size: 22),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
+            const SizedBox(height: 10),
+            const Center(
+              child: Text(
+                'Package Details',
+                style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
+              ),
+            ),
+            const SizedBox(height: 20),
 
-            SizedBox(height: 20),
-            labels("Package Name"),
-
+            labels("Name"),
             TextFieldWidget(
-              hint: args?[1] ?? 'Package 1',
+              controller: d.name,
+              hint: 'Name',
               textInputType: TextInputType.name,
             ),
 
-            labels("Select Vehicle"),
-            Obx(
-              () => Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color(0xFFF3F4F6),
-                ),
-                padding: EdgeInsets.only(left: 5),
-                width: double.infinity,
-                child: DropdownButton(
-                  hint: Text("Select Vehicle"),
-                  value: d.selected.value,
-                  items: [
-                    for (var i in d.carname)
-                      DropdownMenuItem(
-                        child: Text(i, style: TextStyle(color: Colors.black87)),
-                        value: i,
-                      ),
-                  ],
-                  onChanged: (newValue) {
-                    d.selected.value = newValue!;
-                  },
-                ),
-              ),
-            ),
-
-            labels("Number of Days"),
+            labels("Vehicle id"),
             TextFieldWidget(
-              hint: "${args?[2] ?? '15'}",
+              controller: d.vehicleid,
+              hint: 'GJ01243',
               textInputType: TextInputType.number,
             ),
 
-            labels("Number of KiloMeters"),
+            labels("Days"),
             TextFieldWidget(
-              hint: "${args?[3] ?? '5'}",
+              controller: d.days,
+              hint: "numbers of days",
+              textInputType: TextInputType.number
+              ,
+            ),
+
+            labels("Km"),
+            TextFieldWidget(
+              controller: d.km,
+              hint: 'kliometer',
               textInputType: TextInputType.number,
             ),
 
             labels("Price"),
             TextFieldWidget(
-              hint: "${args?[4] ?? '2500'}",
+              controller: d.price,
+              hint: "enter description",
               textInputType: TextInputType.number,
             ),
 
+
+
             const SizedBox(height: 20),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.back();
+                if((args?["isEdit"] ?? false) == false)
+                {
+                  d.postapi(d.name.text, d.vehicleid.text, d.days.text, d.km.text, d.price.text);
+
+                }
+                else
+                {
+                  d.editapi(args['id'],d.name.text, d.vehicleid.text, d.days.text, d.km.text, d.price.text);
+
+                }
+              },
               child: Container(
                 width: double.infinity,
                 height: 45,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
-                  color: Appcolor.primary,
+                  color: Colors.blueAccent,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: const Text(

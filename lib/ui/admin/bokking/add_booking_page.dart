@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
 class DropController extends GetxController {
-  var selected = 'swift'.obs;
-  var carname = ['swift', 'baleno', 'brezza'];
 
   var timeselected = '6:30 AM'.obs;
   var timelist = ['6:30 AM', '7:00 AM', '7:30 AM'];
@@ -26,10 +25,16 @@ class AddBookingPage extends StatelessWidget {
 
   final DropController d = Get.put(DropController());
   final Customercontoller c = Get.put(Customercontoller());
+
+  BookingApiController b =Get.put(BookingApiController());
   var args = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
+    if(args?['isEdit']??false)
+    {
+      b.setData(Get.arguments);
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -72,36 +77,11 @@ class AddBookingPage extends StatelessWidget {
             labels("Booking Name"),
 
             TextFieldWidget(
-              hint: args?['booking_name'] ?? 'Enter Booking Name',
+              controller: b.lernerName,
+              hint: 'Enter Booking Name',
               textInputType: TextInputType.name,
             ),
 
-            labels("Select Vehicle"),
-            Obx(
-              () => Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: Color(0xFFF3F4F6),
-                ),
-                padding: EdgeInsets.only(left: 5),
-                width: double.infinity,
-                child: DropdownButton(
-                  isExpanded: true,
-                  value: d.selected.value,
-                  items: [
-                    for (var i in d.carname)
-                      DropdownMenuItem(
-                        child: Text(i, style: TextStyle(color: Colors.black87)),
-                        value: i,
-                      ),
-                  ],
-                  onChanged: (newValue) {
-                    d.selected.value = newValue!;
-                  },
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
             labels("Select Package"),
             Obx(
               () => Container(
@@ -196,7 +176,24 @@ class AddBookingPage extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             InkWell(
-              onTap: () {},
+              onTap: () {
+                Get.back();
+                String name = b.lernerName.text;
+                String customer = c.cusselected.value;
+                String package = c.packselected.value;
+                String joinDate = c.datepick.value;
+                String time = d.timeselected.value;
+                String bookingDate = DateTime.now().toString().split(' ')[0];
+                if((args?["isEdit"] ?? false) == false)
+                {
+                  b.addBooking(name, customer, package, joinDate, time, bookingDate);
+                }
+                else
+                {
+                  b.updateBooking(args['id'], name, customer, package, joinDate, time, bookingDate);
+
+                }
+              },
               child: Container(
                 width: double.infinity,
                 height: 45,

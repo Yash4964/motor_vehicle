@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
+import 'package:motor_vehicle/controller/booking_controller.dart';
 import 'package:motor_vehicle/ui/admin/attendance/add_attendance_customer.dart';
 import 'package:motor_vehicle/ui/admin/attendance/view_attendance_cus.dart';
 import 'package:motor_vehicle/ui/admin/payment/emi_payment.dart';
@@ -17,6 +19,7 @@ class BookingPage extends StatefulWidget {
 class _BookingPageState extends State<BookingPage>
     with TickerProviderStateMixin {
   var args = Get.arguments;
+  BookingController bookingController = Get.put(BookingController());
 
   @override
   Widget build(BuildContext context) {
@@ -161,7 +164,7 @@ class _BookingPageState extends State<BookingPage>
           ],
         ),
       ),
-      floatingActionButton: Padding(
+      floatingActionButton: bookingController.isCustomer ? Container() : Padding(
         padding: EdgeInsets.all(8.0),
         child: SpeedDial(
           animatedIcon: AnimatedIcons.add_event,

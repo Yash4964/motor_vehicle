@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/utils.dart';
 import 'package:motor_vehicle/main.dart';
-import 'package:motor_vehicle/ui/admin/home/dashboard_page.dart';
+import 'package:motor_vehicle/ui/admin/home/admin_dashboard_page.dart';
 import 'package:motor_vehicle/ui/customer/home/home_page.dart';
 import 'package:motor_vehicle/ui/registration_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences_android/shared_preferences_android.dart';
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
@@ -71,7 +72,7 @@ class LoginPage extends StatelessWidget {
                     height: 40,
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         String email = emailController.text.trim();
                         String password = passwordController.text.trim();
 
@@ -85,12 +86,17 @@ class LoginPage extends StatelessWidget {
                           return;
                         }
 
+                        final SharedPreferences prefs = await SharedPreferences.getInstance();
+                        await prefs.setBool('isLogin', true);
                         if (email == Cusemail && password == Cuspass)
                         {
+                          await prefs.setBool('customer', true);
+
                           Get.off(CustomerHomePage(), arguments: 'customer');
                         }
                         else if (email == Adminemail && password == Adminpass)
                         {
+                          await prefs.setBool('customer', false);
                           Get.off(Dashboard_page(), arguments: 'admin');
                         }
                         else {

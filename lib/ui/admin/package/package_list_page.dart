@@ -1,41 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
 import 'package:motor_vehicle/ui/admin/package/add_package_page.dart';
-import 'package:motor_vehicle/ui/admin/vehicle/add_vehicle_page.dart';
-import 'package:motor_vehicle/ui/admin/vehicle/view_vehicle_details.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
+
+import '../../../controller_api/package_api_controller.dart';
 
 class PackageListPage extends StatelessWidget {
   PackageListPage({super.key});
+  PackageConrollerApi p = Get.put(PackageConrollerApi());
 
-  final List<Map<String, dynamic>> vehicles = [
-    {
-      'name': 'Swift',
-      'car_no': 'GJ05AB1234',
-      'package' : 'Package 1 ',
-      'days': 15,
-      'kilometers': 5,
-      'price': 2500,
-    },
-    {
-      'name': 'Baleno',
-      'car_no': 'MH12 XY 4567',
-      'package' : 'Package 2 ',
-      'days': 10,
-      'kilometers': 3,
-      'price': 2000,
-    },
-    {
-      'name': 'Brezza',
-      'car_no': 'DL09 CD 7890',
-      'package' : 'Package 3 ',
-      'days': 7,
-      'kilometers': 2,
-      'price': 1800,
-    },
-  ];
-
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,96 +19,101 @@ class PackageListPage extends StatelessWidget {
         backgroundColor:Appcolor.primary,
         iconTheme: IconThemeData(color: Colors.white),
       ),
-      body: ListView.builder(
-        itemCount: vehicles.length,
-        itemBuilder: (BuildContext context, int index) {
-          final vehicle = vehicles[index];
-          return Card(
-            color: Appcolor.container,
-            margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            elevation: 2,
-            child: ListTile(
-              contentPadding: EdgeInsets.all(12),
-              title: InkWell(
-                onTap: () {
+      body: Obx(()=>
+         ListView.builder(
+          itemCount: p.tolist.length,
+          itemBuilder: (BuildContext context, int index) {
+            final package = p.tolist[index];
+            return Card(
+              color: Appcolor.container,
+              margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              elevation: 2,
+              child: ListTile(
+                contentPadding: EdgeInsets.all(12),
+                title: InkWell(
+                  onTap: () {
 
-                },
-                child: Text(
-                  vehicle['name'],
-                  style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
+                  },
+                  child: Text(
+                    package.name,
+                    style: TextStyle(fontWeight: FontWeight.bold,fontSize: 18),
+                  ),
                 ),
-              ),
 
-              subtitle: Padding(
-                padding: const EdgeInsets.only(top: 5),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                subtitle: Padding(
+                  padding: const EdgeInsets.only(top: 5),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("Package: ${package.name}", style: TextStyle(fontSize: 15, color: Colors.grey[700]),),
+                      Text("Days: ${package.days}  |  KM: ${package.km}", style: TextStyle(fontSize: 15, color: Colors.grey[700]),),
+                      Text("Price: ₹${package.price}", style: TextStyle(fontSize: 15, color: Colors.grey[700]),),
+                    ],
+                  ),
+
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text("Package: ${vehicle['package']}", style: TextStyle(fontSize: 15, color: Colors.grey[700]),),
-                    Text("Days: ${vehicle['days']}  |  KM: ${vehicle['kilometers']}", style: TextStyle(fontSize: 15, color: Colors.grey[700]),),
-                    Text("Price: ₹${vehicle['price']}", style: TextStyle(fontSize: 15, color: Colors.grey[700]),),
+                    IconButton(
+                      icon: Icon(Icons.edit, color: Colors.green),
+                      onPressed: () {
+                        Get.to(
+                              () => AddPackagePage(),
+                          arguments: {
+                            "isEdit":true,
+                            "name":package.name,
+                            "vehicleid":package.vehicleid,
+                            "days":package.days.toString(),
+                            "km":package.km.toString(),
+                            "price":package.price.toString(),
+                            "id":package.id,
+                          },
+                        );
+                      },
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.delete, color: Colors.red),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text("Delete"),
+                              content: Text(
+                                "Are you sure you want to delete this package?",
+                                style: TextStyle(fontSize: 16),
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Get.back();
+                                  },
+                                  child: Text("Cancel", style: TextStyle(fontSize: 18)),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    p.delapi(package.id);
+                                    Get.back();
+                                  },
+                                  child: Text("OK", style: TextStyle(fontSize: 18)),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ],
                 ),
-
               ),
-              trailing: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  IconButton(
-                    icon: Icon(Icons.edit, color: Colors.green),
-                    onPressed: () {
-                      Get.to(
-                            () => AddPackagePage(),
-                        arguments: [
-                          vehicle['name'],
-                          vehicle['package'],
-                          vehicle['days'],
-                          vehicle['kilometers'],
-                          vehicle['price'],
-                        ],
-                      );
-                    },
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.delete, color: Colors.red),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return AlertDialog(
-                            title: Text("Delete"),
-                            content: Text(
-                              "Are you sure you want to delete this vehicle?",
-                              style: TextStyle(fontSize: 16),
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                child: Text("Cancel", style: TextStyle(fontSize: 18)),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  // Add delete logic here if needed
-                                  Get.back();
-                                },
-                                child: Text("OK", style: TextStyle(fontSize: 18)),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+          p.clr();
           Get.to(AddPackagePage());
         },
         child: Icon(Icons.add, color: Colors.white),
