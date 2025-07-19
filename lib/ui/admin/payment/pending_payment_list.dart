@@ -72,6 +72,7 @@ class PandingCustomerList extends StatelessWidget {
                         children: [
                     IconButton(
                     icon: Icon(Icons.edit, color: Colors.green),
+
                     onPressed: () {
                       Get.to(
                             () => AddPaymentPage(),
@@ -97,7 +98,6 @@ class PandingCustomerList extends StatelessWidget {
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          paymentController.clr();
            Get.to(AddPaymentPage());
         },
         child: Icon(Icons.add, color: Colors.white),

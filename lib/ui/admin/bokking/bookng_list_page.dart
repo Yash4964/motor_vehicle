@@ -38,8 +38,8 @@ class BookingListPage extends StatelessWidget {
                           title: InkWell(
                             onTap: () {},
                             child: Text(
-                              booking.lernerName,
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                              "Lerner Name : ${booking.lernerName}",
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                             ),
                           ),
                           subtitle: Column(
@@ -59,6 +59,7 @@ class BookingListPage extends StatelessWidget {
                               IconButton(
                                 icon: Icon(Icons.edit, color: Colors.green),
                                 onPressed: () {
+                                  b.clr();
                                   Get.to(() => AddBookingPage(), arguments: {
                                     "isEdit": true,
                                     "customer_id": booking.customerId,

@@ -12,7 +12,7 @@ class BookingApiController extends GetxController {
   final TextEditingController joinigDate = TextEditingController();
   final TextEditingController timeSlot = TextEditingController();
   final TextEditingController bookingDate = TextEditingController();
-
+  RxBool loader = false.obs;
   RxList<BookingModel> bookingList = <BookingModel>[].obs;
   Rx<CustomerModel>? selectbooking ;
   Rx<PackageModel>? selectpackage ;
@@ -25,6 +25,7 @@ class BookingApiController extends GetxController {
 
 
   Future<void> fetchBookings() async {
+    loader.value = true;
     final response = await http.get(
       Uri.parse('https://68735d60c75558e27353fea7.mockapi.io/motor/booking'),
     );
@@ -32,6 +33,7 @@ class BookingApiController extends GetxController {
       List data = jsonDecode(response.body);
       bookingList.value = data.map((e) => BookingModel.fromJson(e)).toList();
     }
+    loader.value = false;
   }
 
 
@@ -47,7 +49,6 @@ class BookingApiController extends GetxController {
     }
   }
 
-  /// Update an existing booking
   Future<void> updateBooking(String id) async {
     final response = await http.put(
       Uri.parse('https://68735d60c75558e27353fea7.mockapi.io/motor/booking/$id'),
@@ -60,7 +61,7 @@ class BookingApiController extends GetxController {
     }
   }
 
-  /// Delete a booking
+
   Future<void> deleteBooking(String id) async {
     final response = await http.delete(
       Uri.parse('https://68735d60c75558e27353fea7.mockapi.io/motor/booking/$id'),
@@ -72,7 +73,6 @@ class BookingApiController extends GetxController {
     }
   }
 
-  /// Set controller values from arguments (for update screen)
   void setData(arguments) {
     lernerName.text = arguments['lerner_name'];
     joinigDate.text = arguments['joinig_date'];
@@ -85,11 +85,11 @@ class BookingApiController extends GetxController {
     return
         {
           "customer_id": selectbooking?.value.id ?? "",
-          "lerner_name": lernerName,
+          "lerner_name": lernerName.text,
           "package_id": selectpackage?.value.id ?? "",
-          "joinig_date": joinigDate,
-          "time_slot": timeSlot,
-          "booking_date": bookingDate,
+          "joinig_date": joinigDate.text,
+          "time_slot": timeSlot.text,
+          "booking_date": bookingDate.text,
         };
   }
   void clr() {
@@ -97,5 +97,7 @@ class BookingApiController extends GetxController {
     joinigDate.clear();
     timeSlot.clear();
     bookingDate.clear();
+    selectbooking = null;
+    selectpackage = null;
   }
 }
