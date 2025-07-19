@@ -7,33 +7,19 @@ import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
 import '../../../model/booking_model.dart';
 
-
-class CustomerController extends GetxController
-{
-
-  var datevalue = '12/08/2025'.obs;
-  @override
-  void onInit() {
-    super.onInit();
-    final today = DateTime.now();
-    datevalue.value = "${today.day}/${today.month}/${today.year}";
-  }
-}
-
 class AddPaymentPage extends StatelessWidget {
   AddPaymentPage({super.key});
-
-  final CustomerController c = Get.put(CustomerController());
 
   BookingApiController bookingcontroller = Get.put(BookingApiController());
   PaymentController paymentController = Get.put(PaymentController());
 
   final _formkey = GlobalKey<FormState>();
   var args = Get.arguments;
+
   @override
   Widget build(BuildContext context) {
-    if(args?['isEdit']??false && paymentController.selectedbook == null)
-    {
+    paymentController.clr();
+    if (args?['isEdit'] ?? false) {
       paymentController.setData(Get.arguments);
     }
     return Scaffold(
@@ -55,39 +41,60 @@ class AddPaymentPage extends StatelessWidget {
             children: [
               labels("Select Booking Name"),
               const SizedBox(height: 10),
-              Obx(
-                      () {
-                    if(bookingcontroller.bookingList.isEmpty)
-                    {
-                      return Center(child: CircularProgressIndicator(),);
+              Obx(() {
+                if (bookingcontroller.loader.value) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (bookingcontroller.bookingList.isEmpty) {
+                  return const Center(child: Text("No Data Found"));
+                }
+
+                if (paymentController.selectedbook == null) {
+                  if (args?['isEdit'] == true) {
+                    final bookingId = args["bookingid"] ?? "";
+                    final matchedBooking = bookingcontroller.bookingList
+                        .firstWhereOrNull((book) => book.id == bookingId);
+
+                    if (matchedBooking != null) {
+                      paymentController.selectedbook = Rx<BookingModel>(
+                        matchedBooking,
+                      );
                     }
-                    paymentController.selectedbook ??= Rx<BookingModel>(bookingcontroller.bookingList[0]);
-
-                    return  Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(5),
-                        color:Color(0xFFF3F4F6),
-                      ),
-                      padding: EdgeInsets.only(left: 5),
-                      width: double.infinity,
-                      child: DropdownButton(
-                        isExpanded: true,
-                        value: paymentController.selectedbook?.value,
-                        items: bookingcontroller.bookingList.map
-                          (
-                                (book) => DropdownMenuItem(
-                              value: book,
-                              child:Text(book.lernerName),
-                            )
-                        ).toList(),
-                        onChanged: (val) {
-                          paymentController.selectedbook?.value = val as BookingModel;
-                        },
-                      ),
+                  } else {
+                    paymentController.selectedbook = Rx<BookingModel>(
+                      bookingcontroller.bookingList[0],
                     );
-
                   }
-              ),
+                }
+
+                return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Color(0xFFF3F4F6),
+                  ),
+                  padding: EdgeInsets.only(left: 5),
+                  width: double.infinity,
+                  child: DropdownButton<BookingModel>(
+                    isExpanded: true,
+                    value: paymentController.selectedbook?.value,
+                    items: bookingcontroller.bookingList
+                        .map(
+                          (book) => DropdownMenuItem<BookingModel>(
+                            value: book,
+                            child: Text(book.lernerName),
+                          ),
+                        )
+                        .toList(),
+                    onChanged: (val) {
+                      if (val != null) {
+                        paymentController.selectedbook?.value =
+                            val as BookingModel;
+                      }
+                    },
+                  ),
+                );
+              }),
+
               labels("Amount"),
               TextFieldWidget(
                 controller: paymentController.amount,
@@ -95,29 +102,27 @@ class AddPaymentPage extends StatelessWidget {
                 textInputType: TextInputType.number,
               ),
               labels("Joining Date"),
-              InkWell(
+              GestureDetector(
                 onTap: () {
                   _selected(context);
                 },
                 child: AbsorbPointer(
-                  absorbing: true,
                   child: Obx(
-                        () => Container(
+                    () => Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
-                        color:Color(0xFFF3F4F6),
+                        color: Color(0xFFF3F4F6),
                       ),
                       padding: EdgeInsets.only(left: 5),
                       width: double.infinity,
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
-                        child: Text(c.datevalue.value),
+                        child: Text(paymentController.datevalue.value),
                       ),
                     ),
                   ),
                 ),
               ),
-
               const SizedBox(height: 20),
               InkWell(
                 onTap: () {
@@ -127,8 +132,6 @@ class AddPaymentPage extends StatelessWidget {
                   } else {
                     paymentController.editapi(args["id"]);
                   }
-
-
                 },
                 child: Container(
                   width: double.infinity,
@@ -148,7 +151,7 @@ class AddPaymentPage extends StatelessWidget {
                   ),
                 ),
               ),
-               SizedBox(height: 20),
+              SizedBox(height: 20),
             ],
           ),
         ),
@@ -158,8 +161,8 @@ class AddPaymentPage extends StatelessWidget {
 
   Widget labels(String txt) {
     return Padding(
-      padding:  EdgeInsets.only(top: 12, bottom: 6, left: 5),
-      child: Text(txt, style:  TextStyle(fontSize: 16)),
+      padding: EdgeInsets.only(top: 12, bottom: 6, left: 5),
+      child: Text(txt, style: TextStyle(fontSize: 16)),
     );
   }
 
@@ -167,13 +170,12 @@ class AddPaymentPage extends StatelessWidget {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
-      lastDate: DateTime(2025),
+      firstDate: DateTime(2025),
+      lastDate: DateTime(2030),
     );
     if (pickedDate != null) {
-      c.datevalue.value =
-      "${pickedDate.day ?? 0}/${pickedDate.month ?? 0}/${pickedDate.year ?? 0}";
+      paymentController.datevalue.value =
+          "${pickedDate.day ?? 0}/${pickedDate.month ?? 0}/${pickedDate.year ?? 0}";
     }
   }
-
 }
