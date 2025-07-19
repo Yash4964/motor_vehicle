@@ -19,63 +19,72 @@ class BookingListPage extends StatelessWidget {
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Obx(
-            () => ListView.builder(
-          itemCount: b.bookingList.length,
-          itemBuilder: (context, index) {
-            final booking = b.bookingList[index];
-            return Card(
-              color: Appcolor.container,
-              margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              child: ListTile(
-                contentPadding: EdgeInsets.all(12),
-                title: InkWell(
-                  onTap: () {},
-                  child: Text(
-                    booking.lernerName,
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                ),
-                subtitle: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(height: 1,),
-                    Text("Customer Name: ${booking.customerId}"),
-                    Text("Package: ${booking.packageId}"),
-                    Text("Booking Date: ${booking.bookingDate}"),
-                    Text("Joining Date: ${booking.joinigDate}"),
-                    Text("Joining Time: ${booking.timeSlot}"),
-                  ],
-                ),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      icon: Icon(Icons.edit, color: Colors.green),
-                      onPressed: () {
-                        Get.to(() => AddBookingPage(), arguments: {
-                          "isEdit": true,
-                          "customer_id": booking.customerId,
-                          "lerner_name": booking.lernerName,
-                          "package_id": booking.packageId,
-                          "joinig_date": booking.joinigDate,
-                          "time_slot": booking.timeSlot,
-                          "booking_date": booking.bookingDate,
-                          "id": booking.id,
-                        });
-                      },
-                    ),
-                    IconButton(
-                      icon: Icon(Icons.delete, color: Colors.red),
-                      onPressed: () {
-                        b.deleteBooking(booking.id);
-                      },
-                    ),
-                  ],
-                ),
-              ),
-            );
-          },
-        ),
+            ()  {
+              if(b.bookingList.isEmpty)
+                {
+                  return  Center(child: CircularProgressIndicator());
+                }
+              else
+                {
+                  return ListView.builder(
+                    itemCount: b.bookingList.length,
+                    itemBuilder: (context, index) {
+                      final booking = b.bookingList[index];
+                      return Card(
+                        color: Appcolor.container,
+                        margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                        child: ListTile(
+                          contentPadding: EdgeInsets.all(12),
+                          title: InkWell(
+                            onTap: () {},
+                            child: Text(
+                              booking.lernerName,
+                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 1,),
+                              Text("Customer Name: ${booking.customerId}"),
+                              Text("Package: ${booking.packageId}"),
+                              Text("Booking Date: ${booking.bookingDate}"),
+                              Text("Joining Date: ${booking.joinigDate}"),
+                              Text("Joining Time: ${booking.timeSlot}"),
+                            ],
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.edit, color: Colors.green),
+                                onPressed: () {
+                                  Get.to(() => AddBookingPage(), arguments: {
+                                    "isEdit": true,
+                                    "customer_id": booking.customerId,
+                                    "lerner_name": booking.lernerName,
+                                    "package_id": booking.packageId,
+                                    "joinig_date": booking.joinigDate,
+                                    "time_slot": booking.timeSlot,
+                                    "booking_date": booking.bookingDate,
+                                    "id": booking.id,
+                                  });
+                                },
+                              ),
+                              IconButton(
+                                icon: Icon(Icons.delete, color: Colors.red),
+                                onPressed: () {
+                                  b.deleteBooking(booking.id);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                }
+            }
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

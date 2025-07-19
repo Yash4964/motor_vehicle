@@ -5,4 +5,8 @@ enum InputTypeMode {
   phone,
   pincode,
   normal,
+  licenceno,
+  carno,
+  days,
+  km,
 }

@@ -1,22 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
+import 'package:motor_vehicle/controller_api/customer_api_controller.dart';
+import 'package:motor_vehicle/controller_api/package_api_controller.dart';
+import 'package:motor_vehicle/model/customer_model.dart';
+import 'package:motor_vehicle/model/package_model.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
-class DropController extends GetxController {
+import '../attendance/add_attendance_customer.dart';
 
+class DropController extends GetxController {
   var timeselected = '6:30 AM'.obs;
   var timelist = ['6:30 AM', '7:00 AM', '7:30 AM'];
-}
-
-class Customercontoller extends GetxController {
-  var cusselected = 'Rajubhai'.obs;
-  var customerlist = ['Rajubhai', 'Maheshbhai'];
-
-  var packselected = 'Package 1'.obs;
-  var packagelist = ['Package 1', 'Package 2', 'Package 3'];
-
   var datepick = '12/08/2025'.obs;
 }
 
@@ -25,57 +21,63 @@ class AddBookingPage extends StatelessWidget {
 
   final DropController d = Get.put(DropController());
   final Customercontoller c = Get.put(Customercontoller());
-
-  BookingApiController b =Get.put(BookingApiController());
-  var args = Get.arguments;
+  final BookingApiController b = Get.put(BookingApiController());
+  final CustomerApiController customerController = Get.put(CustomerApiController());
+  final PackageConrollerApi packageController = Get.put(PackageConrollerApi());
+  final args = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
-    if(args?['isEdit']??false)
-    {
-      b.setData(Get.arguments);
+    if (args?['isEdit'] ?? false) {
+      b.setData(args);
     }
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
-          'Booking Details',
-          style: TextStyle(color: Colors.white),
-        ),
+        title: Text('Booking Details', style: TextStyle(color: Colors.white)),
         backgroundColor: Appcolor.primary,
-        iconTheme: const IconThemeData(color: Colors.white),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+
             SizedBox(height: 20),
             labels("Select Customer"),
-            Obx(
-              () => Container(
+            Obx(() {
+              if (customerController.customerlist.isEmpty) {
+                return Center(child: CircularProgressIndicator());
+              }
+              b.selectbooking ??= Rx<CustomerModel>
+                (customerController.customerlist[0]);
+
+              return Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: Color(0xFFF3F4F6),
                 ),
                 padding: EdgeInsets.only(left: 5),
                 width: double.infinity,
-                child: DropdownButton(
+                child: DropdownButton<CustomerModel>(
                   isExpanded: true,
-                  value: c.cusselected.value,
-                  items: [
-                    for (var j in c.customerlist)
-                      DropdownMenuItem(child: Text(j), value: j),
-                  ],
+                  value: b.selectbooking?.value,
+                  items: customerController.customerlist.map((customer) {
+                    return DropdownMenuItem(
+                      value: customer,
+                      child: Text(customer.name ?? ""),
+                    );
+                  }).toList(),
                   onChanged: (val) {
-                    c.cusselected.value = val!;
+                    b.selectbooking?.value = val!;
                   },
                 ),
-              ),
-            ),
+              );
+            }),
 
             labels("Booking Name"),
-
             TextFieldWidget(
               controller: b.lernerName,
               hint: 'Enter Booking Name',
@@ -83,116 +85,83 @@ class AddBookingPage extends StatelessWidget {
             ),
 
             labels("Select Package"),
-            Obx(
-              () => Container(
+            Obx(() {
+              if(packageController.tolist.isEmpty)
+                {
+                  return Center(child: CircularProgressIndicator());
+                }
+              b.selectpackage ??= Rx<PackageModel>
+                (packageController.tolist[0]);
+
+              return Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
                   color: Color(0xFFF3F4F6),
                 ),
                 padding: EdgeInsets.only(left: 5),
                 width: double.infinity,
-                child: DropdownButton(
+                child: DropdownButton<PackageModel>(
                   isExpanded: true,
-                  value: c.packselected.value,
-                  items: [
-                    for (var p in c.packagelist)
-                      DropdownMenuItem(child: Text(p), value: p),
-                  ],
-                  onChanged: (packval) {
-                    c.packselected.value = packval!;
+                  value: b.selectpackage?.value,
+                  items: packageController.tolist.map((p) {
+                    return DropdownMenuItem(
+                      value: p,
+                      child: Text(p.name ?? ""),
+                    );
+                  }).toList(),
+                  onChanged: (val) {
+                    b.selectpackage?.value = val!;
                   },
                 ),
-              ),
-            ),
+              );
+            }),
 
             labels("Joining Date"),
             InkWell(
-              onTap: () {
-                _selecteddate(context);
-              },
+              onTap: () => _selecteddate(context),
               child: AbsorbPointer(
-                absorbing: true,
-                child: Obx(
-                  () => Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color:Color(0xFFF3F4F6),
-                    ),
-                    padding: EdgeInsets.only(left: 5),
-                    width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Text(c.datepick.value),
-                    ),
+                child: Obx(() => Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: Color(0xFFF3F4F6),
                   ),
-                ),
+                  padding: EdgeInsets.all(15),
+                  width: double.infinity,
+                  child: Text(c.datepick.value),
+                )),
               ),
             ),
-            labels("Select Time"),
-            Container(
-              child: Row(
-                children: [
-                  Obx(
-                    () => Expanded(
-                      child: Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(5),
-                          color: Color(0xFFF3F4F6),
-                        ),
-                        padding: EdgeInsets.only(left: 5),
 
-                        child: DropdownButton(
-                          isExpanded: true,
-                          value: d.timeselected.value,
-                          items: [
-                            for (var t in d.timelist)
-                              DropdownMenuItem(
-                                child: Text(
-                                  t,
-                                  style: TextStyle(color: Colors.black87),
-                                ),
-                                value: t,
-                              ),
-                          ],
-                          onChanged: (timevalue) {
-                            d.timeselected.value = timevalue!;
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: Container(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 35),
-                        child: Center(
-                          child: Obx(() => Text(d.timeselected.value)),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
+            labels("Select Time"),
+            Obx(() => Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(5),
+                color: Color(0xFFF3F4F6),
               ),
-            ),
-            const SizedBox(height: 20),
+              padding: EdgeInsets.only(left: 5),
+              width: double.infinity,
+              child: DropdownButton<String>(
+                isExpanded: true,
+                value: d.timeselected.value,
+                items: d.timelist.map((t) => DropdownMenuItem(value: t, child: Text(t))).toList(),
+                onChanged: (val) => d.timeselected.value = val!,
+              ),
+            )),
+
+            SizedBox(height: 20),
             InkWell(
               onTap: () {
-                Get.back();
-                String name = b.lernerName.text;
-                String customer = c.cusselected.value;
-                String package = c.packselected.value;
-                String joinDate = c.datepick.value;
-                String time = d.timeselected.value;
-                String bookingDate = DateTime.now().toString().split(' ')[0];
-                if((args?["isEdit"] ?? false) == false)
-                {
-                  b.addBooking(name, customer, package, joinDate, time, bookingDate);
-                }
-                else
-                {
-                  b.updateBooking(args['id'], name, customer, package, joinDate, time, bookingDate);
+                b.joinigDate.text = c.datepick.value;
+                b.timeSlot.text = d.timeselected.value;
+                b.bookingDate.text = DateTime.now().toString().split(' ')[0];
 
+                if ((args?['isEdit'] ?? false) == false) {
+                  b.addBooking();
+                } else {
+                  b.updateBooking(args['id']);
                 }
+
+                Get.back();
               },
               child: Container(
                 width: double.infinity,
@@ -202,29 +171,19 @@ class AddBookingPage extends StatelessWidget {
                   color: Appcolor.primary,
                   borderRadius: BorderRadius.circular(5),
                 ),
-                child: const Text(
-                  "Submit",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                child: Text("Submit", style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.w500)),
               ),
             ),
-            const SizedBox(height: 20),
           ],
         ),
       ),
     );
   }
 
-  Widget labels(String txt) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 12, bottom: 6, left: 5),
-      child: Text(txt, style: const TextStyle(fontSize: 16)),
-    );
-  }
+  Widget labels(String txt) => Padding(
+    padding: EdgeInsets.only(top: 12, bottom: 6, left: 5),
+    child: Text(txt, style: TextStyle(fontSize: 16)),
+  );
 
   void _selecteddate(BuildContext context) async {
     DateTime? pickedDate = await showDatePicker(
@@ -234,8 +193,7 @@ class AddBookingPage extends StatelessWidget {
       lastDate: DateTime(2030),
     );
     if (pickedDate != null) {
-      c.datepick.value =
-          "${pickedDate.day ?? 0}/${pickedDate.month ?? 0}/${pickedDate.year ?? 0}";
+      c.datepick.value = "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
     }
   }
 }

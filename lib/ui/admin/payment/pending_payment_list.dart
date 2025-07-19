@@ -1,121 +1,104 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motor_vehicle/controller_api/payment_controller.dart';
 import 'package:motor_vehicle/ui/admin/customer/addcustomer_page.dart';
 import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
-import 'package:motor_vehicle/ui/admin/payment/update_payment_page.dart';
+import 'package:motor_vehicle/ui/admin/payment/add_payment_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class PandingCustomerList extends StatelessWidget {
   PandingCustomerList({super.key});
 
-  final List<Map<String, String>> customers = [
-    {
-      'name': 'John Doe',
-      'EMI': '2',
-      'email': 'john.doe@example.com',
-      'phone': '9876543210',
-      'image': 'assets/images/person1.jpg',
-    },
-    {
-      'name': 'Priya Sharma',
-      'EMI': '2',
-      'email': 'priya.sharma3232@example.com',
-      'phone': '9123456780',
-      'image': 'assets/images/person2.jpg',
-    },
-    {
-      'name': 'Amit Patel',
-      'EMI': '2',
-      'email': 'abc.patel@example.com',
-      'phone': '9012345678',
-      'image': 'assets/images/person3.jpg',
-    },
-  ];
+  final PaymentController paymentController = Get.put(PaymentController());
+  final _formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Appcolor.background,
-      body: ListView.builder(
-        itemCount: customers.length,
-        itemBuilder: (BuildContext context, int index) {
-          final customer = customers[index];
-          return Card(
-            color: Appcolor.container,
-            margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            elevation: 2,
-            child: ListTile(
-              contentPadding: EdgeInsets.all(12),
-              leading: InkWell(
-                onTap: () {
-                  Get.to(
-                    () => CustomerProfilePage(),
-                    arguments: [
-                      customer['name'],
-                      customer['email'],
-                      customer['image'],
-                      customer['phone'],
-                    ],
-                  );
-                },
-                child: CircleAvatar(
-                  radius: 30,
-                  backgroundImage: AssetImage(customer['image']!),
-                ),
-              ),
-              title: InkWell(
-                onTap: () {
-                  Get.to(CustomerProfilePage());
-                },
-                child: Text(
-                  customer['name']!,
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
-              subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 6),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 2),
-                        child: Text('Pending EMI : '),
-                      ),
-                      SizedBox(width: 4),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 0.0),
-                        child: Expanded(
-                          child: Text(
-                            customer['EMI']!,
-                            style: TextStyle(fontSize: 15),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                            softWrap: false,
-                          ),
+      body: Obx(() {
+        if (paymentController.paymentList.isEmpty) {
+          return Center(child: CircularProgressIndicator());
+        } else {
+          return Form(
+            key: _formkey,
+            child: ListView.builder(
+              itemCount: paymentController.paymentList.length,
+              itemBuilder: (context, index) {
+                final payment = paymentController.paymentList[index];
+                return Card(
+                  color: Appcolor.container,
+                  margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  elevation: 2,
+                  child: ListTile(
+                    contentPadding: EdgeInsets.all(12),
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: AssetImage("assets/images/person3.jpg"),
+                    ),
+                    title: Text(
+                      payment.bookingid,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    subtitle: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 6),
+                        Row(
+                          children: [
+                            Text('Amount: ',
+                                style: TextStyle(fontWeight: FontWeight.bold)),
+                            Expanded(
+                              child: Text(
+                                payment.amount,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(fontSize: 15),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
+                        SizedBox(height: 4),
+                        Row(
+                          children: [
+                            Text("Date :",style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold)),
+                            SizedBox(width: 4),
+                            Text(payment.date, style: TextStyle(fontSize: 13)),
+                          ],
+                        ),
+                      ],
+                    ),
+                    trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                    IconButton(
+                    icon: Icon(Icons.edit, color: Colors.green),
+                    onPressed: () {
+                      Get.to(
+                            () => AddPaymentPage(),
+                        arguments: {
+                          "isEdit": true,
+                          "amount": payment.amount,
+                          "id": payment.id,
+                          "bookingid": payment.bookingid,
+                          "date": payment.date,
+                        },
+                      );
+                    }
+
+                    ),
+                  ],
+                    )
                   ),
-                  SizedBox(height: 4),
-                  Row(
-                    children: [
-                      Icon(Icons.call, size: 16),
-                      SizedBox(width: 4),
-                      Text(customer['phone']!, style: TextStyle(fontSize: 13)),
-                    ],
-                  ),
-                ],
-              ),
+                );
+              },
             ),
           );
-        },
-      ),
-
+        }
+      }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(UpdatePayment());
+          paymentController.clr();
+           Get.to(AddPaymentPage());
         },
         child: Icon(Icons.add, color: Colors.white),
         backgroundColor: Appcolor.primary,

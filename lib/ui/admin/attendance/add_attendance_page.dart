@@ -1,5 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motor_vehicle/controller/camera_contoller.dart';
+import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
+import 'package:motor_vehicle/controller_api/driver_api_controller.dart';
+import 'package:motor_vehicle/model/booking_model.dart';
+import 'package:motor_vehicle/model/driver_model.dart';
+import 'package:motor_vehicle/model/vehicle_model.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
@@ -9,23 +17,7 @@ class DropController extends GetxController {
 
 }
 
-class Customercontoller extends GetxController {
-  var cusselected = 'Dixa Patel'.obs;
-  var customerlist = [
-    'Dixa Patel',
-    'Priya Sharma',
-    'Amit Patel',
-    'Reena Mehta',
-    'Karan Singh',
-    'Divya Trivedi',
-    'Ravi Desai',
-    'Nikita Goyal',
-    'Suresh Kumar',
-    'Rajesh Joshi',
-
-  ];
-
-
+class DropdownController extends GetxController {
   var timeselected = '6:30 AM'.obs;
   var timelist = ['6:30 AM', '7:00 AM', '7:30 AM'];
 
@@ -38,15 +30,18 @@ class AddAttendancePages extends StatelessWidget {
   AddAttendancePages({super.key});
 
   final DropController d = Get.put(DropController());
-  final Customercontoller c = Get.put(Customercontoller());
+  final DropdownController c = Get.put(DropdownController());
   var args = Get.arguments;
   final attendenceConrollerApi a = Get.put(attendenceConrollerApi());
 
+  BookingApiController bookingcontroller = Get.put(BookingApiController());
+  DriverConrollerApi driverConrollerApi = Get.put(DriverConrollerApi());
+  CameraContoller cameraContoller = Get.put(CameraContoller());
   @override
   Widget build(BuildContext context) {
     if(args?['isEdit']??false)
     {
-      a.setData(Get.arguments);
+      //a.setData(Get.arguments);
     }
     return Scaffold(
       backgroundColor: Colors.white,
@@ -73,55 +68,107 @@ class AddAttendancePages extends StatelessWidget {
                     width: 2.5,
                   ),
                 ),padding: EdgeInsets.all(2),
-                child: Stack(
-                  children: [
-                    CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.white,
-                      backgroundImage: AssetImage('assets/images/default_person.png',),
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: InkWell(
-                        onTap: () {},
-                        child: Container(
-                          padding: const EdgeInsets.all(6),
-                          decoration: const BoxDecoration(
-                            color: Colors.lightBlue,
-                            shape: BoxShape.circle,
+                child: Obx(()=>
+                   Stack(
+                    children: [
+                      CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.white,
+                        backgroundImage: cameraContoller.returnimage.value != null ? FileImage(File(cameraContoller.returnimage.value!.path))
+                            : AssetImage('assets/images/default_person.png') as ImageProvider,
+                      ),
+                      Positioned(
+                        bottom: 0,
+                        right: 0,
+                        child: InkWell(
+                          onTap: () {
+                            cameraContoller.camera();
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(6),
+                            decoration: const BoxDecoration(
+                              color: Colors.lightBlue,
+                              shape: BoxShape.circle,
+                            ),
+                            child: const Icon(Icons.add, color: Colors.white, size: 22),
                           ),
-                          child: const Icon(Icons.add, color: Colors.white, size: 22),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
+            SizedBox(height: 10),
+            labels("Select Booking Name"),
             const SizedBox(height: 10),
-            SizedBox(height: 20),
-            labels("Select Booking name"),
             Obx(
-                  () => Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color:Color(0xFFF3F4F6),
-                ),
-                padding: EdgeInsets.only(left: 5),
-                width: double.infinity,
-                child: DropdownButton(
-                  isExpanded: true,
-                  value: c.cusselected.value,
-                  items: [
-                    for (var j in c.customerlist)
-                      DropdownMenuItem(child: Text(j), value: j),
-                  ],
-                  onChanged: (val) {
-                    c.cusselected.value = val!;
-                  },
-                ),
-              ),
+                  () {
+                    if(bookingcontroller.bookingList.isEmpty)
+                      {
+                        return Center(child: CircularProgressIndicator(),);
+                      }
+                      a.selectedbooking ??= Rx<BookingModel>
+                        (bookingcontroller.bookingList[0]);
+
+                        return  Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color:Color(0xFFF3F4F6),
+                          ),
+                          padding: EdgeInsets.only(left: 5),
+                          width: double.infinity,
+                            child: DropdownButton(
+                            isExpanded: true,
+                            value: a.selectedbooking?.value,
+                            items: bookingcontroller.bookingList.map
+                              (
+                                    (book) => DropdownMenuItem(
+                                      value: book,
+                                        child:Text(book.lernerName ?? ''),
+                                    )
+                            ).toList(),
+                            onChanged: (val) {
+                              a.selectedbooking?.value = val!;
+                            },
+                          ),
+                        );
+
+                  }
+            ),
+
+            SizedBox(height: 10),
+            labels("Select Driver Name"),
+            Obx(
+                  () {
+                    if(driverConrollerApi.driverlist.isEmpty)
+                      {
+                        return Center(child: CircularProgressIndicator());
+                      }
+                    a.selecteddriver ??= Rx<DriverModel>
+                      ( driverConrollerApi.driverlist[0]);
+                   return Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color:Color(0xFFF3F4F6),
+                      ),
+                      padding: EdgeInsets.only(left: 5),
+                      width: double.infinity,
+                      child: DropdownButton(
+                        isExpanded: true,
+                        value: a.selecteddriver?.value,
+                        items: driverConrollerApi.driverlist.map(
+                            (driver)=> DropdownMenuItem(
+                                value: driver,
+                                child: Text(driver.name ?? ''),
+                            )
+                        ).toList(),
+                        onChanged: (val) {
+                          a.selecteddriver?.value= val!;
+                        },
+                      ),
+                    );
+                  }
             ),
             
             labels("Date"),
@@ -195,16 +242,13 @@ class AddAttendancePages extends StatelessWidget {
             InkWell(
               onTap: () {
                 Get.back();
-                String bid = c.cusselected.value;
-                String date =c.datepick.value;
-                String time =c.timeselected.value;
                 if((args?["isEdit"] ?? false) == false)
                 {
-                  a.postapi(bid, date, time);
+                  a.postapi();
                 }
                 else
                 {
-                  a.editapi(args['id'],bid, date, time);
+                  a.editapi(args['id']);
                 }
 
 

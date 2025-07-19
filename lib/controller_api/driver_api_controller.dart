@@ -24,7 +24,6 @@ class DriverConrollerApi extends GetxController {
 
   }
   var driverlist = <DriverModel>[].obs;
-
   Future<void> getapi() async {
     final response = await http.get(
       Uri.parse(

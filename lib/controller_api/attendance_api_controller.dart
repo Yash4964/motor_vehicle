@@ -2,24 +2,32 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
+import 'package:motor_vehicle/controller_api/driver_api_controller.dart';
+import 'package:motor_vehicle/model/driver_model.dart';
+import 'package:motor_vehicle/ui/admin/attendance/add_attendance_customer.dart';
+import 'package:motor_vehicle/ui/admin/attendance/add_attendance_page.dart';
 
 import '../model/attendence_model.dart';
+import '../model/booking_model.dart';
 
 class attendenceConrollerApi extends GetxController {
 
-  final TextEditingController bookingid = TextEditingController();
-  final TextEditingController date = TextEditingController();
-  final TextEditingController time = TextEditingController();
+  DropdownController c = Get.put(DropdownController());
+  BookingApiController bookingApiController = Get.put(BookingApiController());
+  DriverConrollerApi driverConrollerApi = Get.put(DriverConrollerApi());
+  Rx<BookingModel>? selectedbooking ;
+  Rx<DriverModel>? selecteddriver;
+
+  var tolist = <AttendanceModel>[].obs;
 
   @override
   void onInit() {
     super.onInit();
-    clr();
+
     getapi();
 
   }
-
-  var tolist = <AttendanceModel>[].obs;
 
 
   Future<void> getapi() async {
@@ -36,7 +44,6 @@ class attendenceConrollerApi extends GetxController {
     }
   }
 
-
   Future<void> delapi(String id) async {
     final response = await http.delete(
       Uri.parse(
@@ -49,54 +56,47 @@ class attendenceConrollerApi extends GetxController {
     }
   }
   //
-  Future<void> postapi(String bookingid,String date,String time) async {
+  Future<void> postapi() async {
     final response = await http.post(
       Uri.parse('https://68735d60c75558e27353fea7.mockapi.io/motor/Attendence'),
       headers: {"Content-Type": "application/json"},
       body: jsonEncode(
-         {
-           "Bookingid": bookingid,
-           "Date": date,
-           "Time": time,
-         }
+           _getdata()
       ),
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       getapi();
+      clr();
       Get.snackbar("confrim", "thankyou");
     }
   }
 
-  Future<void> editapi(String id,String bookingid,String date,String time) async {
+  Future<void> editapi(String id) async {
     final response = await http.put(
       Uri.parse('https://68735d60c75558e27353fea7.mockapi.io/motor/Attendence/$id'),
       headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "Bookingid": bookingid,
-        "Date": date,
-        "Time": time,}),
+      body: jsonEncode(_getdata()),
     );
     if (response.statusCode == 200 || response.statusCode == 201) {
       getapi();
       Get.snackbar("confirm", "thankyou");
+      clr();
     }
   }
 
-  void setData(arguments) {
-    bookingid.text = arguments['bookingid'];
-    date.text=arguments['date'];
-    time.text = arguments['time'];
-
-
-
-
-
-  }
   void clr(){
-    bookingid.clear();
-    date.clear();
-    time.clear();
-
-
+    c.datepick.value = '12/08/2025';
+    c.timeselected.value = '6:30 AM';
    }
+
+  Map<String,dynamic> _getdata ()
+  {
+    return
+        {
+          "Bookingid": selectedbooking?.value.id ?? "",
+          "Date": c.datepick.value,
+          "Time": c.timeselected.value,
+          "Driverid": selecteddriver?.value.id ?? "",
+        };
+  }
 }
