@@ -4,7 +4,6 @@ import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
 import 'package:motor_vehicle/controller_api/payment_controller.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
-
 import '../../../model/booking_model.dart';
 
 class AddPaymentPage extends StatelessWidget {

@@ -11,6 +11,8 @@ class VehicleController extends GetxController {
   final TextEditingController modelno = TextEditingController();
   final TextEditingController color = TextEditingController();
   final TextEditingController description = TextEditingController();
+  RxBool loader = false.obs;
+  RxList<VehicleModel> vehicleList = <VehicleModel>[].obs;
 
   @override
   void onInit() {
@@ -19,9 +21,10 @@ class VehicleController extends GetxController {
     getapi();
   }
 
-  RxList<VehicleModel> vehicleList = <VehicleModel>[].obs;
 
   Future<void> getapi() async {
+    loader.value = false;
+
     final response = await http.get(
       Uri.parse('https://68724ae676a5723aacd438b0.mockapi.io/motor/vehicle'),
     );
@@ -32,6 +35,8 @@ class VehicleController extends GetxController {
           .toList();
       vehicleList.value = demo1;
     }
+    loader.value = false;
+
   }
 
   Future<void> delapi(String id) async {

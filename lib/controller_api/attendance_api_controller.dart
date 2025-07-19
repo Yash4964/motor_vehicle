@@ -24,6 +24,7 @@ class attendenceConrollerApi extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    clr();
 
     getapi();
 
@@ -98,5 +99,10 @@ class attendenceConrollerApi extends GetxController {
           "Time": c.timeselected.value,
           "Driverid": selecteddriver?.value.id ?? "",
         };
+  }
+  void setData(Map<String, dynamic> arguments) {
+    c.timeselected.value = arguments["Time"];
+    c.datepick.value =
+        arguments["date"] ?? c.datepick.value;
   }
 }

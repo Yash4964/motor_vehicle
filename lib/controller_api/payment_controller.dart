@@ -14,6 +14,7 @@ class PaymentController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    clr();
     getapi();
   }
 

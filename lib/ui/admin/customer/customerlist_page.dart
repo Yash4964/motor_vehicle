@@ -5,6 +5,7 @@ import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/controller_api/customer_api_controller.dart';
 
+
 class CustomerListPage extends StatelessWidget {
   CustomerListPage({super.key});
 
