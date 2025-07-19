@@ -115,6 +115,7 @@ class AddcustomerPage extends StatelessWidget {
                 controller:cusapi.pass,
                 hint: "password",
                 obscureText: true,
+                inputTypeMode: InputTypeMode.password,
               ),
 
               labels("Mobile"),
@@ -130,6 +131,7 @@ class AddcustomerPage extends StatelessWidget {
                 controller: cusapi.age,
                 hint: "Age must be 18+",
                 textInputType: TextInputType.number,
+                inputTypeMode: InputTypeMode.age,
               ),
 
               labels("Address"),

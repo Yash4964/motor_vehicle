@@ -22,145 +22,155 @@ class DriverListPage extends StatelessWidget {
         backgroundColor: Appcolor.primary,
         iconTheme: IconThemeData(color: Colors.white),
       ),
-      body: Obx(()=>
-         ListView.builder(
-          itemCount: d.driverlist.length,
-          itemBuilder: (BuildContext context ,int index) {
-            final driver = d.driverlist[index];
-            return Column(
-              children: [
-                 Card(
-                  color: Appcolor.container,
-                  margin:  EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  elevation: 2,
-                  child: ListTile(
-                    contentPadding:  EdgeInsets.all(12),
-                    leading: InkWell(
-                      onTap: (){
-                        // Get.to(
-                        //       () => ViewDriverDetailsPage(),
-                        //   arguments:[
-                        //     driver['name'] ,
-                        //     driver['email'] ,
-                        //     driver['image'] ,
-                        //     driver['phone'] ,
-                        //   ],
-                        // );
-                      },
-                      child: CircleAvatar(
-                        radius: 30,
-                        backgroundImage: AssetImage('assets/images/person3.jpg'),
-                      ),
-                    ),
-                    title: InkWell(
-                      onTap: (){
-                        Get.to(CustomerProfilePage());
-                      },
-                      child: Text(
-                        driver.name,
-                        style:  TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 6),
-                        Row(
+      body: Obx(()
+      {
+        if(d.driverlist.isEmpty)
+          {
+           return Center(child: CircularProgressIndicator());
+          }
+        else
+          {
+            return ListView.builder(
+              itemCount: d.driverlist.length,
+              itemBuilder: (BuildContext context ,int index) {
+                final driver = d.driverlist[index];
+                return Column(
+                  children: [
+                    Card(
+                      color: Appcolor.container,
+                      margin:  EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      elevation: 2,
+                      child: ListTile(
+                        contentPadding:  EdgeInsets.all(12),
+                        leading: InkWell(
+                          onTap: (){
+                            // Get.to(
+                            //       () => ViewDriverDetailsPage(),
+                            //   arguments:[
+                            //     driver['name'] ,
+                            //     driver['email'] ,
+                            //     driver['image'] ,
+                            //     driver['phone'] ,
+                            //   ],
+                            // );
+                          },
+                          child: CircleAvatar(
+                            radius: 30,
+                            backgroundImage: AssetImage('assets/images/person3.jpg'),
+                          ),
+                        ),
+                        title: InkWell(
+                          onTap: (){
+                            Get.to(CustomerProfilePage());
+                          },
+                          child: Text(
+                            driver.name,
+                            style:  TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        subtitle: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: 2),
-                              child: Icon(Icons.email, size: 16),
+                            SizedBox(height: 6),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(top: 2),
+                                  child: Icon(Icons.email, size: 16),
+                                ),
+                                SizedBox(width: 4),
+                                Expanded(
+                                  child: Text(
+                                    driver.email,
+                                    style:  TextStyle(fontSize: 13),
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                    softWrap: false,
+                                  ),
+                                ),
+                              ],
                             ),
-                            SizedBox(width: 4),
-                            Expanded(
-                              child: Text(
-                                driver.email,
-                                style:  TextStyle(fontSize: 13),
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                softWrap: false,
-                              ),
+                            SizedBox(height: 4),
+                            Row(
+                              children: [
+                                Icon(Icons.call, size: 16),
+                                SizedBox(width: 4),
+                                Text(
+                                  "${driver.mobileno}",
+                                  style:  TextStyle(fontSize: 13),
+                                ),
+                              ],
                             ),
                           ],
                         ),
-                        SizedBox(height: 4),
-                        Row(
+                        trailing: Row(
+                          mainAxisSize: MainAxisSize.min,
+
                           children: [
-                            Icon(Icons.call, size: 16),
-                            SizedBox(width: 4),
-                            Text(
-                              "${driver.mobileno}",
-                              style:  TextStyle(fontSize: 13),
+                            IconButton(
+                              icon:  Icon(Icons.edit, color: Colors.green),
+                              onPressed: () {
+                                Get.to(()=>AddDriverPage(),
+                                    arguments: {
+                                      "isEdit":true,
+                                      "name":driver.name,
+                                      "email":driver.email,
+                                      "password":driver.password,
+                                      "mobileno":driver.mobileno.toString(),
+                                      "age":driver.age.toString(),
+                                      "address":driver.address,
+                                      "licenceno":driver.licenceno,
+                                      "id":driver.id,
+                                    }
+                                );
+                              },
                             ),
+                            IconButton(
+                              icon:  Icon(Icons.delete, color: Colors.red),
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context)
+                                    {
+                                      return AlertDialog(
+                                        title: Text("Delete"),
+                                        content:  Text("Are you Sure delete",style: TextStyle(fontSize: 16),),
+                                        actions: [
+                                          TextButton(
+                                              onPressed: (){
+                                                Get.back();
+                                              }, child:Text("Cancel",style: TextStyle(fontSize: 18),)
+                                          ),
+                                          TextButton(
+                                              onPressed: (){
+                                                d.delapi(driver.id);
+                                                Get.back();
+                                              }, child:Text("ok",style: TextStyle(fontSize: 18),)
+                                          )
+
+                                        ],
+
+                                      );
+                                    }
+                                );
+                              },
+                            ),
+
                           ],
                         ),
-                      ],
+                      ),
                     ),
-                    trailing: Row(
-                      mainAxisSize: MainAxisSize.min,
+                    if (index == d.driverlist.length - 1)
+                      SizedBox(height: 150),
+                  ],
 
-                      children: [
-                        IconButton(
-                          icon:  Icon(Icons.edit, color: Colors.green),
-                          onPressed: () {
-                            Get.to(()=>AddDriverPage(),
-                                arguments: {
-                                  "isEdit":true,
-                                  "name":driver.name,
-                                  "email":driver.email,
-                                  "password":driver.password,
-                                  "mobileno":driver.mobileno.toString(),
-                                  "age":driver.age.toString(),
-                                  "address":driver.address,
-                                  "licenceno":driver.licenceno,
-                                  "id":driver.id,
-                                }
-                            );
-                          },
-                        ),
-                        IconButton(
-                          icon:  Icon(Icons.delete, color: Colors.red),
-                          onPressed: () {
-                            showDialog(
-                                context: context,
-                                builder: (BuildContext context)
-                                {
-                                  return AlertDialog(
-                                    title: Text("Delete"),
-                                    content:  Text("Are you Sure delete",style: TextStyle(fontSize: 16),),
-                                    actions: [
-                                      TextButton(
-                                          onPressed: (){
-                                            Get.back();
-                                          }, child:Text("Cancel",style: TextStyle(fontSize: 18),)
-                                      ),
-                                      TextButton(
-                                          onPressed: (){
-                                            d.delapi(driver.id);
-                                            Get.back();
-                                          }, child:Text("ok",style: TextStyle(fontSize: 18),)
-                                      )
-
-                                    ],
-
-                                  );
-                                }
-                            );
-                          },
-                        ),
-
-                      ],
-                    ),
-                  ),
-                ),
-                if (index == d.driverlist.length - 1)
-                  SizedBox(height: 150),
-              ],
-
+                );
+              },
             );
-          },
-        ),
+          }
+      }
+
       ),
 
       floatingActionButton: FloatingActionButton(

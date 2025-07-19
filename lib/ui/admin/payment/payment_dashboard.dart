@@ -47,7 +47,7 @@ class PaymentDashboard extends StatelessWidget {
             ),
             Expanded(
               child: TabBarView(
-                children: [PandingCustomerList(), AllPaymentDetails()],
+                children: [PandingCustomerList(), CompletePaymentDetails()],
               ),
             ),
           ],
