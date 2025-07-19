@@ -18,7 +18,7 @@ class CustomerApiController extends GetxController
   TextEditingController age = TextEditingController();
   TextEditingController address = TextEditingController();
   TextEditingController pincode = TextEditingController();
-
+  RxBool loader = false.obs;
   @override
      void onInit()
     {
@@ -29,6 +29,7 @@ class CustomerApiController extends GetxController
     }
   Future<void> getcustomerapi () async
   {
+    loader.value = true;
       final cusresponse = await http.get(Uri.parse('https://6870ea047ca4d06b34b89eaf.mockapi.io/motordriving/customer'));
       if(cusresponse.statusCode==200)
         {
@@ -39,11 +40,13 @@ class CustomerApiController extends GetxController
               cusdata.add(CustomerModel.fromJson(i));
             }
           customerlist.value=cusdata;
+
         }
       else
         {
           Get.snackbar("Error", "Not data fatch");
         }
+    loader.value = false;
   }
 
   // add

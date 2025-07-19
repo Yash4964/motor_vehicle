@@ -26,70 +26,82 @@ class PandingCustomerList extends StatelessWidget {
               itemCount: paymentController.paymentList.length,
               itemBuilder: (context, index) {
                 final payment = paymentController.paymentList[index];
-                return Card(
-                  color: Appcolor.container,
-                  margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  elevation: 2,
-                  child: ListTile(
-                    contentPadding: EdgeInsets.all(12),
-                    leading: CircleAvatar(
-                      radius: 30,
-                      backgroundImage: AssetImage("assets/images/person3.jpg"),
-                    ),
-                    title: Text(
-                      payment.bookingid,
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 6),
-                        Row(
+                return Column(
+                  children: [
+                    Card(
+                      color: Appcolor.container,
+                      margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      elevation: 2,
+                      child: ListTile(
+                        contentPadding: EdgeInsets.all(12),
+                        leading: CircleAvatar(
+                          radius: 30,
+                          backgroundImage: AssetImage("assets/images/person3.jpg"),
+                        ),
+                        title: Text(
+                          payment.bookingid,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Amount: ',
-                                style: TextStyle(fontWeight: FontWeight.bold)),
-                            Expanded(
-                              child: Text(
-                                payment.amount,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(fontSize: 15),
-                              ),
+                            SizedBox(height: 6),
+                            Row(
+                              children: [
+                                Text('Amount: ',
+                                    style: TextStyle(fontWeight: FontWeight.bold)),
+                                Expanded(
+                                  child: Text(
+                                    payment.amount,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: TextStyle(fontSize: 15),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 4),
+                            Row(
+                              children: [
+                                Text("Date :",style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold)),
+                                SizedBox(width: 4),
+                                Text(payment.date, style: TextStyle(fontSize: 13)),
+                              ],
                             ),
                           ],
                         ),
-                        SizedBox(height: 4),
-                        Row(
-                          children: [
-                            Text("Date :",style: TextStyle(fontSize: 13,fontWeight: FontWeight.bold)),
-                            SizedBox(width: 4),
-                            Text(payment.date, style: TextStyle(fontSize: 13)),
-                          ],
+                        trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                        IconButton(
+                        icon: Icon(Icons.edit, color: Colors.green),
+
+                        onPressed: () {
+                          Get.to(
+                                () => AddPaymentPage(),
+                            arguments: {
+                              "isEdit": true,
+                              "amount": payment.amount,
+                              "id": payment.id,
+                              "bookingid": payment.bookingid,
+                              "date": payment.date,
+                            },
+                          );
+                        }
+
                         ),
+                              IconButton(
+                                icon: Icon(Icons.delete, color: Colors.red),
+                                onPressed: () {
+                                 paymentController.delapi(payment.id);
+                                },
+                              ),
                       ],
+                        )
+                      ),
                     ),
-                    trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                    IconButton(
-                    icon: Icon(Icons.edit, color: Colors.green),
-
-                    onPressed: () {
-                      Get.to(
-                            () => AddPaymentPage(),
-                        arguments: {
-                          "isEdit": true,
-                          "amount": payment.amount,
-                          "id": payment.id,
-                          "bookingid": payment.bookingid,
-                          "date": payment.date,
-                        },
-                      );
-                    }
-
-                    ),
+                    if (index == paymentController.paymentList.length - 1)
+                      SizedBox(height: 100,)
                   ],
-                    )
-                  ),
                 );
               },
             ),

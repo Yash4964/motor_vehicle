@@ -28,6 +28,7 @@ class AddBookingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    b.clr();
     if (args?['isEdit'] ?? false) {
       b.setData(args);
     }
@@ -51,9 +52,24 @@ class AddBookingPage extends StatelessWidget {
               if (customerController.customerlist.isEmpty) {
                 return Center(child: CircularProgressIndicator());
               }
-              b.selectbooking ??= Rx<CustomerModel>
-                (customerController.customerlist[0]);
-
+              if(b.selectCustomer == null)
+              {
+                if(args?["isEdit"] == true)
+                {
+                  final customerid = args["customer_id"] ?? "";
+                  final match = customerController.customerlist.firstWhereOrNull(
+                          (i) => i.id == customerid
+                  );
+                  if(match != null)
+                    {
+                      b.selectCustomer = Rx<CustomerModel>(match,);
+                    }
+                }
+                else
+                  {
+                    b.selectCustomer = Rx<CustomerModel>(customerController.customerlist[0]);
+                  }
+              }
               return Container(
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(5),
@@ -63,15 +79,15 @@ class AddBookingPage extends StatelessWidget {
                 width: double.infinity,
                 child: DropdownButton<CustomerModel>(
                   isExpanded: true,
-                  value: b.selectbooking?.value,
+                  value: b.selectCustomer?.value,
                   items: customerController.customerlist.map((customer) {
                     return DropdownMenuItem(
                       value: customer,
-                      child: Text(customer.name ?? ""),
+                      child: Text(customer.name),
                     );
                   }).toList(),
                   onChanged: (val) {
-                    b.selectbooking?.value = val!;
+                    b.selectCustomer?.value = val!;
                   },
                 ),
               );
@@ -89,6 +105,27 @@ class AddBookingPage extends StatelessWidget {
               if(packageController.tolist.isEmpty)
                 {
                   return Center(child: CircularProgressIndicator());
+                }
+
+              if(b.selectpackage == null)
+                {
+                  if(args?["isEdit"] == true)
+                    {
+                      final packageid = args["package_id"];
+                      final matchpack = packageController.tolist.firstWhereOrNull(
+                              (i) => i.id == packageid
+                      );
+                      if(matchpack != null)
+                        {
+                          b.selectpackage ??= Rx<PackageModel>
+                            (matchpack);
+                        }
+                    }
+                  else
+                    {
+                      b.selectpackage = Rx<PackageModel>
+                        (packageController.tolist[0]);
+                    }
                 }
               b.selectpackage ??= Rx<PackageModel>
                 (packageController.tolist[0]);
