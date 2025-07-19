@@ -14,7 +14,7 @@ class BookingApiController extends GetxController {
   final TextEditingController bookingDate = TextEditingController();
   RxBool loader = false.obs;
   RxList<BookingModel> bookingList = <BookingModel>[].obs;
-  Rx<CustomerModel>? selectbooking ;
+  Rx<CustomerModel>? selectCustomer ;
   Rx<PackageModel>? selectpackage ;
   @override
   void onInit() {
@@ -84,7 +84,7 @@ class BookingApiController extends GetxController {
   {
     return
         {
-          "customer_id": selectbooking?.value.id ?? "",
+          "customer_id": selectCustomer?.value.id ?? "",
           "lerner_name": lernerName.text,
           "package_id": selectpackage?.value.id ?? "",
           "joinig_date": joinigDate.text,
@@ -97,7 +97,7 @@ class BookingApiController extends GetxController {
     joinigDate.clear();
     timeSlot.clear();
     bookingDate.clear();
-    selectbooking = null;
+    selectCustomer = null;
     selectpackage = null;
   }
 }
