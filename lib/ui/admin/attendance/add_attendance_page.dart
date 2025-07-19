@@ -104,12 +104,25 @@ class AddAttendancePages extends StatelessWidget {
             const SizedBox(height: 10),
             Obx(
                   () {
+                    if (bookingcontroller.loader.value) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
                     if(bookingcontroller.bookingList.isEmpty)
                       {
-                        return Center(child: CircularProgressIndicator(),);
+                        return const Text("No vehicles available");
                       }
-                      a.selectedbooking ??= Rx<BookingModel>
-                        (bookingcontroller.bookingList[0]);
+                    if (a.selectedbooking == null) {
+                      if ((args?['isEdit'] ?? false) && args?['bookingid'] != null) {
+                        final bookingid = args['bookingid'];
+                        final matchbooking = bookingcontroller.bookingList
+                            .firstWhereOrNull((v) => v.id == bookingid);
+                        if (matchbooking != null) {
+                          a.selectedbooking = Rx<BookingModel>(matchbooking);
+                        }
+                      } else {
+                        a.selectedbooking = Rx<BookingModel>(bookingcontroller.bookingList.first);
+                      }
+                    }
 
                         return  Container(
                           decoration: BoxDecoration(
@@ -129,8 +142,9 @@ class AddAttendancePages extends StatelessWidget {
                                     )
                             ).toList(),
                             onChanged: (val) {
-                              a.selectedbooking?.value = val!;
-                            },
+    if (val != null) {
+    a.selectedbooking?.value = val;
+    }}
                           ),
                         );
 
@@ -141,12 +155,27 @@ class AddAttendancePages extends StatelessWidget {
             labels("Select Driver Name"),
             Obx(
                   () {
-                    if(driverConrollerApi.driverlist.isEmpty)
+                    if(driverConrollerApi.loader.value)
                       {
                         return Center(child: CircularProgressIndicator());
                       }
-                    a.selecteddriver ??= Rx<DriverModel>
-                      ( driverConrollerApi.driverlist[0]);
+                    if (driverConrollerApi.driverlist.isEmpty) {
+                      return const Text("No vehicles available");
+                    }
+                    if (a.selecteddriver == null) {
+                      if ((args?['isEdit'] ?? false) && args?['driverid'] != null) {
+                        final driverid = args['driverid'];
+                        final matchdriver = driverConrollerApi.driverlist
+                            .firstWhereOrNull((v) => v.id == driverid);
+                        if (matchdriver != null) {
+                          a.selecteddriver = Rx<DriverModel>(matchdriver);
+                        }
+                      } else {
+                        a.selecteddriver = Rx<DriverModel>(driverConrollerApi.driverlist.first);
+                      }
+                    }
+
+
                    return Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(5),
@@ -164,13 +193,14 @@ class AddAttendancePages extends StatelessWidget {
                             )
                         ).toList(),
                         onChanged: (val) {
-                          a.selecteddriver?.value= val!;
-                        },
+                          if (val != null) {
+                            a.selecteddriver?.value = val;
+                          }}
                       ),
                     );
                   }
             ),
-            
+
             labels("Date"),
             InkWell(
               onTap: () {
@@ -194,7 +224,7 @@ class AddAttendancePages extends StatelessWidget {
                 ),
               ),
             ),
-           
+
             labels("Select Time"),
             Container(
               child: Row(

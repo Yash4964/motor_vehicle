@@ -158,8 +158,6 @@ class Aboutus extends StatelessWidget {
               ),
             ),
             SizedBox(height: 24),
-
-            // Info Card 1
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Container(
@@ -197,8 +195,6 @@ class Aboutus extends StatelessWidget {
               ),
             ),
             SizedBox(height: 20),
-
-            // Info Card 2
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Container(
@@ -237,7 +233,6 @@ class Aboutus extends StatelessWidget {
             ),
             SizedBox(height: 20),
 
-            // Info Card 3
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 16),
               child: Container(

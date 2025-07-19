@@ -8,7 +8,6 @@ import 'package:motor_vehicle/ui/admin/customer/customerlist_page.dart';
 import 'package:motor_vehicle/utils/app_enum.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
-// ignore: must_be_immutable
 class AddcustomerPage extends StatelessWidget {
   AddcustomerPage({super.key});
 

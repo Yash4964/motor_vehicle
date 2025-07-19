@@ -14,6 +14,7 @@ class DriverConrollerApi extends GetxController {
   final TextEditingController address = TextEditingController();
   final TextEditingController licenceno = TextEditingController();
 
+  RxBool loader = false.obs;
 
 
   @override
@@ -25,6 +26,8 @@ class DriverConrollerApi extends GetxController {
   }
   var driverlist = <DriverModel>[].obs;
   Future<void> getapi() async {
+    loader.value = false;
+
     final response = await http.get(
       Uri.parse(
           'https://6870ea047ca4d06b34b89eaf.mockapi.io/motordriving/driver'),
@@ -36,6 +39,8 @@ class DriverConrollerApi extends GetxController {
           .toList();
       driverlist.value = demo1;
     }
+    loader.value = false;
+
   }
 
 

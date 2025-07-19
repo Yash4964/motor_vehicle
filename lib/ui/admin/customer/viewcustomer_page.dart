@@ -3,7 +3,8 @@ import 'package:get/get.dart';
 import 'package:motor_vehicle/controller_api/customer_api_controller.dart';
 // ignore: must_be_immutable
 class CustomerProfilePage extends StatelessWidget {
-   CustomerProfilePage({super.key});
+
+  CustomerProfilePage({super.key});
    var arg = Get.arguments;
    final _formkey = GlobalKey<FormState>();
   @override
