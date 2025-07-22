@@ -1,67 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motor_vehicle/model/attendence_model.dart';
 import 'package:motor_vehicle/ui/admin/attendance/add_attendance_customer.dart';
 import 'package:motor_vehicle/ui/admin/attendance/add_attendance_page.dart';
 import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class View_Attendance extends StatelessWidget {
-  View_Attendance({super.key});
-
-  final List<Map<String, String>> customers = [
-    {
-      'Name': 'Ravi Desai',
-      'Attempt': 'Present',
-      'Date': '2025/06/15',
-      'Time': '6:30',
-    },
-    {
-      'Name': 'Ravi Desai',
-      'Attempt': 'Present',
-      'Date': '2025/06/15',
-      'Time': '6:30',
-    },
-    {
-      'Name': 'Amit Patel',
-      'Attempt': 'Present',
-      'Date': '2025/06/15',
-      'Time': '6:30',
-    },
-    {
-      'Name': 'Ravi Desai',
-      'Attempt': 'Present',
-      'Date': '2025/06/15',
-      'Time': '6:30',
-    },
-    {
-      'Name': 'Ravi Desai',
-      'Attempt': 'Present',
-      'Date': '2025/06/15',
-      'Time': '6:30',
-    },
-    {
-      'Name': 'Ravi Desai',
-      'Attempt': 'Present',
-      'Date': '2025/06/15',
-      'Time': '6:30',
-    },
-    {
-      'Name': 'Ravi Desai',
-      'Attempt': 'Present',
-      'Date': '2025/06/15',
-      'Time': '6:30',
-    },
-
-  ];
+  final List<AttendanceModel> attList;
+  View_Attendance({super.key, required this.attList });
+  var arg = Get.arguments;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Appcolor.background,
-      body: ListView.builder(
-        itemCount: customers.length,
+      body:attList.isEmpty ?  Center(child:CircularProgressIndicator())
+      :
+      ListView.builder(
+        itemCount: attList.length,
         itemBuilder: (BuildContext context, int index) {
-          final customer = customers[index];
+          final att = attList[index];
           return Card(
             color: Appcolor.container,
             margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -74,15 +33,15 @@ class View_Attendance extends StatelessWidget {
               contentPadding: EdgeInsets.all(12),
               title: InkWell(
                 onTap: () {
-                  Get.to(() => CustomerProfilePage(), arguments: customer);
+                  //Get.to(() => CustomerProfilePage(), arguments: customer);
                 },
                 child: Text(
-                  "Driver Name : ${customer['Name']!}",
+                  "Driver Name : ${att.driverid}",
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
               ),
               subtitle: Text(
-                'Date: ${customer['Date']}  |  Time: ${customer['Time']}',
+                'Date: ${att.date}  |  Time: ${att.time}',
                 style: TextStyle(color: Colors.black54),
               ),
             ),

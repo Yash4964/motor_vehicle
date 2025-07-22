@@ -4,10 +4,10 @@ class CustomerModel {
   String name;
   String email;
   String password;
-  int mobileno;
+  String mobileno;
   int age;
   String address;
-  int pincode;
+  String pincode;
   String id;
 
   CustomerModel({

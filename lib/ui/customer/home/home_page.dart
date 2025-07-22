@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/customer/home/aboutus_page.dart';
 import 'package:motor_vehicle/ui/customer/home/cus_booking_list_page.dart';
-import 'package:motor_vehicle/ui/customer/home/booking_page.dart';
+import 'package:motor_vehicle/ui/customer/home/booking_details_page.dart';
 import 'package:motor_vehicle/ui/customer/home/profile_page.dart';
 import 'package:motor_vehicle/ui/customer/home/vehicle.dart';
 import 'package:motor_vehicle/ui/customer/home/license_page.dart';
