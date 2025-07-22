@@ -32,7 +32,7 @@ class AddAttendancePages extends StatelessWidget {
   final DropController d = Get.put(DropController());
   final DropdownController c = Get.put(DropdownController());
   var args = Get.arguments;
-  final attendenceConrollerApi a = Get.put(attendenceConrollerApi());
+  final AttendenceConrollerApi a = Get.put(AttendenceConrollerApi());
 
   BookingApiController bookingcontroller = Get.put(BookingApiController());
   DriverConrollerApi driverConrollerApi = Get.put(DriverConrollerApi());
@@ -112,8 +112,9 @@ class AddAttendancePages extends StatelessWidget {
                         return const Text("No vehicles available");
                       }
                     if (a.selectedbooking == null) {
-                      if ((args?['isEdit'] ?? false) && args?['bookingid'] != null) {
-                        final bookingid = args['bookingid'];
+                      if ((args?['isEdit'] ?? false) ) {
+                        final bookingid = args['id'];
+                        print("==>>>>>>>"+bookingid);
                         final matchbooking = bookingcontroller.bookingList
                             .firstWhereOrNull((v) => v.id == bookingid);
                         if (matchbooking != null) {

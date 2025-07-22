@@ -11,7 +11,7 @@ import 'package:motor_vehicle/ui/admin/attendance/add_attendance_page.dart';
 import '../model/attendence_model.dart';
 import '../model/booking_model.dart';
 
-class attendenceConrollerApi extends GetxController {
+class AttendenceConrollerApi extends GetxController {
 
   DropdownController c = Get.put(DropdownController());
   BookingApiController bookingApiController = Get.put(BookingApiController());
@@ -25,10 +25,10 @@ class attendenceConrollerApi extends GetxController {
   void onInit() {
     super.onInit();
     clr();
-
     getapi();
 
   }
+
 
 
   Future<void> getapi() async {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
 import 'package:motor_vehicle/ui/admin/bokking/add_booking_page.dart';
+import 'package:motor_vehicle/ui/customer/home/booking_details_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class BookingListPage extends StatelessWidget {
@@ -36,7 +37,13 @@ class BookingListPage extends StatelessWidget {
                         child: ListTile(
                           contentPadding: EdgeInsets.all(12),
                           title: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Get.to(() => BookingDetailsPage(),
+                              arguments:
+                              {
+                                "Booking_id":booking.id,
+                              });
+                            },
                             child: Text(
                               "Lerner Name : ${booking.lernerName}",
                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),

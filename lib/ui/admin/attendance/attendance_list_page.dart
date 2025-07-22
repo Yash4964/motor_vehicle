@@ -7,7 +7,7 @@ import '../../../controller_api/attendance_api_controller.dart';
 class AttendanceListPage extends StatelessWidget {
   AttendanceListPage({super.key});
 
-  final attendenceConrollerApi a = Get.put(attendenceConrollerApi());
+  final AttendenceConrollerApi a = Get.put(AttendenceConrollerApi());
 
   @override
   Widget build(BuildContext context) {
