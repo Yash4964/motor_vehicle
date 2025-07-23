@@ -60,7 +60,7 @@ class LoginPage extends StatelessWidget {
                   Text("Email", style: TextStyle(fontSize: 18)),
                  SizedBox(height: 8),
                   TextFieldWidget(
-                    controller: loginApiController.eemail,
+                    controller: loginApiController.emailController,
                     hint: "ex: jon.smith@gmail.com",
                     textInputType: TextInputType.emailAddress,
                   ),
@@ -69,7 +69,7 @@ class LoginPage extends StatelessWidget {
                   Text("Password", style: TextStyle(fontSize: 18)),
                  SizedBox(height: 8),
                   TextFieldWidget(
-                    controller:loginApiController.pass,
+                    controller:loginApiController.passwordController,
                     hint: "**********",
                     textInputType: TextInputType.text,
                   ),
@@ -84,41 +84,6 @@ class LoginPage extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           loginApiController.postapi();
-                          Get.to(CustomerHomePage());
-                          // String email = emailController.text.trim();
-                          // String password = passwordController.text.trim();
-                          //
-                          // if (email.isEmpty || password.isEmpty) {
-                          //   Get.snackbar(
-                          //     "Missing Fields",
-                          //     "Please enter both email and password",
-                          //     colorText: Colors.white,
-                          //     backgroundColor: Colors.lightGreen,
-                          //   );
-                          //   return;
-                          // }
-
-                          // final SharedPreferences prefs = await SharedPreferences.getInstance();
-                          // await prefs.setBool('isLogin', true);
-                          // if (email == Cusemail && password == Cuspass)
-                          // {
-                          //   await prefs.setBool('customer', true);
-                          //
-                          //   Get.off(CustomerHomePage(), arguments: 'customer');
-                          // }
-                          // else if (email == Adminemail && password == Adminpass)
-                          // {
-                          //   await prefs.setBool('customer', false);
-                          //   Get.off(Dashboard_page(), arguments: 'admin');
-                          // }
-                          // else {
-                          //   Get.snackbar(
-                          //     "Login Failed",
-                          //     "Invalid email or password",
-                          //     colorText: Colors.white,
-                          //     backgroundColor: Colors.lightGreen,
-                          //   );
-                          // }
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Appcolor.primary,

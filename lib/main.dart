@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:motor_vehicle/ApiService.dart';
 import 'package:motor_vehicle/ui/admin/home/admin_dashboard_page.dart';
 import 'package:motor_vehicle/ui/customer/home/home_page.dart';
 
 import 'package:motor_vehicle/ui/splash_page.dart';
 
 void main() {
+  Get.put(() => ApiService());
+
   runApp( MainApp());
 }
 

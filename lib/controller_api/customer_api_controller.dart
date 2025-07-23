@@ -28,7 +28,7 @@ class CustomerApiController extends GetxController
   Future<void> getcustomerapi () async
   {
     loader.value = true;
-      final cusresponse = await http.get(Uri.parse('https://6870ea047ca4d06b34b89eaf.mockapi.io/motordriving/customer'));
+      final cusresponse = await http.get(Uri.parse('https://motordriving.sathwarainfotech.com/api/customers'));
       if(cusresponse.statusCode==200)
         {
           List data = jsonDecode(cusresponse.body);
@@ -49,21 +49,13 @@ class CustomerApiController extends GetxController
 
   // add
 
-  Future<void> postcustomerapi (String name,String email,String password,String mobileno,String age, String address,String pincode) async
+  Future<void> postcustomerapi () async
   {
     final cusresponse = await http.post(Uri.parse('https://6870ea047ca4d06b34b89eaf.mockapi.io/motordriving/customer'),
         headers: {"Content-Type": "application/json"},
-        body: jsonEncode({
-          "name": name,
-          "email": email,
-          "password": password,
-          "mobileno":int.parse(mobileno),
-          "age": int.parse(age),
-          "address": address,
-          "pincode": int.parse(pincode),
-        }),
-
-    );
+      body: jsonEncode(
+          _getData()),
+        );
     if(cusresponse.statusCode==200 || cusresponse.statusCode==201)
     {
       clr();
@@ -76,21 +68,13 @@ class CustomerApiController extends GetxController
     }
   }
   //update
-  Future<void> updatecustomerapi (String id ,String name,String email,String password,String mobileno,String age, String address,String pincode) async
+  Future<void> updatecustomerapi (String id ) async
   {
-    final cusresponse = await http.put(Uri.parse('https://6870ea047ca4d06b34b89eaf.mockapi.io/motordriving/customer/$id'),
+    final cusresponse = await http.put(Uri.parse('https://motordriving.sathwarainfotech.com/api/customers/$id'),
       headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "name": name,
-        "email": email,
-        "password": password,
-        "mobileno":int.parse(mobileno),
-        "age": int.parse(age),
-        "address": address,
-        "pincode": int.parse(pincode),
-      }),
-
-    );
+      body: jsonEncode(
+        _getData()),
+      );
     if(cusresponse.statusCode==200 || cusresponse.statusCode==201)
     {
       clr();
@@ -107,7 +91,7 @@ class CustomerApiController extends GetxController
   //delete
   Future<void> deletecustomerapi (String id) async
   {
-    final cusresponse = await http.delete(Uri.parse('https://6870ea047ca4d06b34b89eaf.mockapi.io/motordriving/customer/$id'));
+    final cusresponse = await http.delete(Uri.parse('https://motordriving.sathwarainfotech.com/api/customers//$id'));
     if(cusresponse.statusCode==200)
     {
       customerlist.removeWhere((item)=> item.id == id);
@@ -138,5 +122,18 @@ class CustomerApiController extends GetxController
     age.clear();
     address.clear();
     pincode.clear();
+  }
+  Map<String,dynamic> _getData ()
+  {
+    return
+      {
+        "name": cname.text,
+        "email": email.text,
+        "password": pass.text,
+        "mobile_no":mobile.text,
+        "age":int.parse(age.text),
+        "address": address.text,
+        "pincode":pincode.text
+      };
   }
 }

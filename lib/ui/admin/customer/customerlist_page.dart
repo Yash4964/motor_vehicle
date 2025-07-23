@@ -97,7 +97,7 @@ class CustomerListPage extends StatelessWidget {
                                   Icon(Icons.call, size: 16),
                                   SizedBox(width: 4),
                                   Text(
-                                    "${customer.mobileno}",
+                                    customer.mobileno,
                                     style: TextStyle(fontSize: 13),
                                   ),
                                 ],
