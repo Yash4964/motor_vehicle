@@ -159,30 +159,13 @@ class AddcustomerPage extends StatelessWidget {
                     if(_formkey.currentState!.validate())
                       {
                         if((args?['isEdit'] ?? false) == false) {
-                          cusapi.postcustomerapi(
-                            cusapi.cname.text,
-                            cusapi.email.text,
-                            cusapi.pass.text,
-                            cusapi.mobile.text,
-                            cusapi.age.text,
-                            cusapi.address.text,
-                            cusapi.pincode.text,
-                          );
+                          cusapi.postcustomerapi();
                           Get.back();
                         }
                         else
                         {
                           cusapi.updatecustomerapi(
-                            args['id'],
-                            cusapi.cname.text,
-                            cusapi.email.text,
-                            cusapi.pass.text,
-                            cusapi.mobile.text,
-                            cusapi.age.text,
-                            cusapi.address.text,
-                            cusapi.pincode.text,
-
-                          );
+                            args['id']);
                           Get.back();
                         }
                       }

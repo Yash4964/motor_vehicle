@@ -28,12 +28,12 @@ class CustomerModel {
   factory CustomerModel.fromJson(Map<String, dynamic> json) => CustomerModel(
     name: json["name"],
     email: json["email"],
-    password: json["password"],
-    mobileno: json["mobileno"],
+    password: json["password"] ?? "",
+    mobileno: json["mobile_no"],
     age: json["age"],
     address: json["address"],
     pincode: json["pincode"],
-    id: json["id"],
+    id: json["id"].toString(),
   );
 
   Map<String, dynamic> toJson() => {
