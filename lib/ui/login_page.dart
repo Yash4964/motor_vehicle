@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/utils.dart';
+import 'package:motor_vehicle/controller_api/login_api_controller.dart';
 import 'package:motor_vehicle/main.dart';
 import 'package:motor_vehicle/ui/admin/home/admin_dashboard_page.dart';
 import 'package:motor_vehicle/ui/customer/home/home_page.dart';
@@ -12,14 +13,17 @@ import 'package:shared_preferences_android/shared_preferences_android.dart';
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+  // final TextEditingController emailController = TextEditingController();
+  // final TextEditingController passwordController = TextEditingController();
 
-  final String Cusemail = 'customer@gmail.com';
-  final String Cuspass = 'customer';
+  LoginApiController loginApiController = Get.put(LoginApiController());
 
-  final String Adminemail = 'admin@gmail.com';
-  final String Adminpass = 'admin';
+
+  // final String Cusemail = 'customer@gmail.com';
+  // final String Cuspass = 'customer';
+  //
+  // final String Adminemail = 'admin@gmail.com';
+  // final String Adminpass = 'admin';
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +58,7 @@ class LoginPage extends StatelessWidget {
                   Text("Email", style: TextStyle(fontSize: 18)),
                  SizedBox(height: 8),
                   TextFieldWidget(
-                    controller: emailController,
+                    controller: loginApiController.eemail,
                     hint: "ex: jon.smith@gmail.com",
                     textInputType: TextInputType.emailAddress,
                   ),
@@ -63,66 +67,76 @@ class LoginPage extends StatelessWidget {
                   Text("Password", style: TextStyle(fontSize: 18)),
                  SizedBox(height: 8),
                   TextFieldWidget(
-                    controller:passwordController,
+                    controller:loginApiController.pass,
                     hint: "**********",
                     textInputType: TextInputType.text,
                   ),
                   SizedBox(height: 30),
-                  Container(
-                    height: 40,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () async {
-                        String email = emailController.text.trim();
-                        String password = passwordController.text.trim();
+                  // InkWell(
+                  //   onTap: (){
+                  //     loginApiController.postapi();
+                  //   },
+                     Container(
+                      height: 40,
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          loginApiController.postapi();
+                          // String email = emailController.text.trim();
+                          // String password = passwordController.text.trim();
+                          //
+                          // if (email.isEmpty || password.isEmpty) {
+                          //   Get.snackbar(
+                          //     "Missing Fields",
+                          //     "Please enter both email and password",
+                          //     colorText: Colors.white,
+                          //     backgroundColor: Colors.lightGreen,
+                          //   );
+                          //   return;
+                          // }
 
-                        if (email.isEmpty || password.isEmpty) {
-                          Get.snackbar(
-                            "Missing Fields",
-                            "Please enter both email and password",
-                            colorText: Colors.white,
-                            backgroundColor: Colors.lightGreen,
-                          );
-                          return;
-                        }
-
-                        final SharedPreferences prefs = await SharedPreferences.getInstance();
-                        await prefs.setBool('isLogin', true);
-                        if (email == Cusemail && password == Cuspass)
-                        {
-                          await prefs.setBool('customer', true);
-
-                          Get.off(CustomerHomePage(), arguments: 'customer');
-                        }
-                        else if (email == Adminemail && password == Adminpass)
-                        {
-                          await prefs.setBool('customer', false);
-                          Get.off(Dashboard_page(), arguments: 'admin');
-                        }
-                        else {
-                          Get.snackbar(
-                            "Login Failed",
-                            "Invalid email or password",
-                            colorText: Colors.white,
-                            backgroundColor: Colors.lightGreen,
-                          );
-                        }
-                      },
-
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Appcolor.primary,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(7),
+                          // final SharedPreferences prefs = await SharedPreferences.getInstance();
+                          // await prefs.setBool('isLogin', true);
+                          // if (email == Cusemail && password == Cuspass)
+                          // {
+                          //   await prefs.setBool('customer', true);
+                          //
+                          //   Get.off(CustomerHomePage(), arguments: 'customer');
+                          // }
+                          // else if (email == Adminemail && password == Adminpass)
+                          // {
+                          //   await prefs.setBool('customer', false);
+                          //   Get.off(Dashboard_page(), arguments: 'admin');
+                          // }
+                          // else {
+                          //   Get.snackbar(
+                          //     "Login Failed",
+                          //     "Invalid email or password",
+                          //     colorText: Colors.white,
+                          //     backgroundColor: Colors.lightGreen,
+                          //   );
+                          // }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Appcolor.primary,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(7),
+                          ),
+                        ),
+                        child: Text(
+                          "SIGN IN",
+                          style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                       ),
-                      child: Text(
-                        "SIGN IN",
-                        style: TextStyle(fontSize: 16, color: Colors.white),
-                      ),
-                    ),
+
                   ),
-                  SizedBox(height: 16),
-              
+                  // SizedBox(height: 16),
+                  // ElevatedButton(onPressed: () {
+                  //     loginApiController.postapi();
+                  // }, child: Text(
+                  //   "SIGN IN",
+                  //   style: TextStyle(fontSize: 16),
+                  // ),),
                   Center(
                     child: InkWell(
                       onTap: () {
