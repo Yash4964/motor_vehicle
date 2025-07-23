@@ -10,6 +10,8 @@ import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:shared_preferences_android/shared_preferences_android.dart';
+
+import 'customer/home/home_page.dart';
 class LoginPage extends StatelessWidget {
   final _formKey = GlobalKey<FormState>();
 
@@ -82,6 +84,7 @@ class LoginPage extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           loginApiController.postapi();
+                          Get.to(CustomerHomePage());
                           // String email = emailController.text.trim();
                           // String password = passwordController.text.trim();
                           //
