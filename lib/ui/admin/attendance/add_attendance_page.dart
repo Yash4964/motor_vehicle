@@ -116,7 +116,7 @@ class AddAttendancePages extends StatelessWidget {
                         final bookingid = args['id'];
                         print("==>>>>>>>"+bookingid);
                         final matchbooking = bookingcontroller.bookingList
-                            .firstWhereOrNull((v) => v.id == bookingid);
+                            .firstWhereOrNull((b) => b.id == bookingid);
                         if (matchbooking != null) {
                           a.selectedbooking = Rx<BookingModel>(matchbooking);
                         }
@@ -132,7 +132,7 @@ class AddAttendancePages extends StatelessWidget {
                           ),
                           padding: EdgeInsets.only(left: 5),
                           width: double.infinity,
-                            child: DropdownButton(
+                            child: DropdownButton<BookingModel>(
                             isExpanded: true,
                             value: a.selectedbooking?.value,
                             items: bookingcontroller.bookingList.map
@@ -143,9 +143,9 @@ class AddAttendancePages extends StatelessWidget {
                                     )
                             ).toList(),
                             onChanged: (val) {
-    if (val != null) {
-    a.selectedbooking?.value = val;
-    }}
+                                if (val != null) {
+                                a.selectedbooking?.value = val;
+                                }}
                           ),
                         );
 
