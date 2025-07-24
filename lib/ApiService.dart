@@ -80,5 +80,24 @@ class ApiService extends GetConnect {
       rethrow;
     }
   }
+
+  Future<Response> customerget(String url) async {
+    try {
+      final String fullUrl = url;
+      debugPrint("Customer GET API Request: $fullUrl");
+
+      final response = await get(
+        fullUrl,
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("Customer GET API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("Customer GET API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
 }
 
