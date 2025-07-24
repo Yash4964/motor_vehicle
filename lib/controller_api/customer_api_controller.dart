@@ -28,7 +28,6 @@ class CustomerApiController extends GetxController
      void onInit()
     {
       clr();
-      getCustomer();
       super.onInit();
 
     }
@@ -54,16 +53,14 @@ class CustomerApiController extends GetxController
 
   Future<void> postcustomerapi () async
   {
-    Response response = await apiService.customerget();
+
+    Response response = await apiService.customeradd(_getData());
 
     if(response.statusCode==200 || response.statusCode==201)
     {
-      ResponseModel responseModel = ResponseModel.fromJson(response.body);
-      getStorage.write("token", responseModel.data['token_type'] + " " + responseModel.data['token']);
-      getStorage.write("user_mode", responseModel.data['user_type']);
-      getStorage.write("user", CustomerModel.fromJson(responseModel.data['user']).toJson().toString());
       Get.snackbar("Success", "Customer added successfully");
       getCustomer();
+      clr();
     }
     else
     {
@@ -71,19 +68,18 @@ class CustomerApiController extends GetxController
     }
   }
   //update
-  Future<void> updatecustomerapi (String id ) async
+  Future<void> updatecustomerapi (String id) async
   {
-    final cusresponse = await http.put(Uri.parse('https://motordriving.sathwarainfotech.com/api/customers/$id'),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(
-        _getData()),
-      );
+    Response cusresponse = await apiService.customerupdate(id, _getData());
     if(cusresponse.statusCode==200 || cusresponse.statusCode==201)
     {
       clr();
-      Get.snackbar("Success", "Customer added successfully");
 
-      getCustomer();
+      int index = customerlist.indexWhere((customer) => customer.id == id);
+      customerlist[index] = CustomerModel.fromJson(cusresponse.body['data'] as Map<String, dynamic>);
+      customerlist.refresh();
+
+      Get.snackbar("Success", "Customer added successfully");
     }
     else
     {
@@ -94,7 +90,7 @@ class CustomerApiController extends GetxController
   //delete
   Future<void> deletecustomerapi (String id) async
   {
-    final cusresponse = await http.delete(Uri.parse('https://motordriving.sathwarainfotech.com/api/customers/$id'));
+    final cusresponse = await apiService.customerdelete(id);
     if(cusresponse.statusCode==200)
     {
       customerlist.removeWhere((item)=> item.id == id);
