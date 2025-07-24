@@ -36,6 +36,7 @@ class ApiService extends GetConnect {
     return {
       "Authorization": storage.read("token") ?? "",
       "Content-Type": "application/json",
+      "Cookie": "humans_21909=1",
     };
   }
 
@@ -119,6 +120,45 @@ class ApiService extends GetConnect {
       rethrow;
     }
   }
+  // customer update
+  Future<Response> customerupdate(String id,Map<String, dynamic> data) async {
+    try {
+      final String fullUrl = "https://motordriving.sathwarainfotech.com/api/customers/$id";
+      debugPrint("Login API Request: $fullUrl\nPayload: $data");
+
+      final response = await put(
+        fullUrl,
+        jsonEncode(data),
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint(
+        "Login API Response: ${response.statusCode}\nBody: ${response.bodyString}",
+      );
+      return response;
+    } catch (e, stack) {
+      debugPrint("Login API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+  Future<Response> customerdelete(String id) async {
+    try {
+      final String fullUrl = "https://motordriving.sathwarainfotech.com/api/customers/$id";
+      debugPrint("Customer DELETE API Request: $fullUrl");
+
+      final response = await delete(
+        fullUrl,
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("Customer DELETE API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("Customer DELETE API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
 
 }
 

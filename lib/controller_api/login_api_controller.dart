@@ -11,8 +11,10 @@ import 'package:motor_vehicle/ui/customer/home/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginApiController extends GetxController {
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+
+
+  TextEditingController emailController = TextEditingController(text: 'admin@example.com');
+  TextEditingController passwordController = TextEditingController(text: 'Admin@123');
   GetStorage getStorage = GetStorage();
   RxList<AdminModel> customerlist = <AdminModel>[].obs;
 
