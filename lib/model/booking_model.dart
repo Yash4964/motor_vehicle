@@ -6,7 +6,6 @@ class BookingModel {
   String packageId;
   String joinigDate;
   String timeSlot;
-  String bookingDate;
   String id;
 
   BookingModel({
@@ -15,7 +14,6 @@ class BookingModel {
     required this.packageId,
     required this.joinigDate,
     required this.timeSlot,
-    required this.bookingDate,
     required this.id,
   });
 
@@ -27,9 +25,8 @@ class BookingModel {
     customerId: json["customer_id"],
     lernerName: json["lerner_name"],
     packageId: json["package_id"],
-    joinigDate: json["joinig_date"],
+    joinigDate: json["joining_date"],
     timeSlot: json["time_slot"],
-    bookingDate: json["booking_date"],
     id: json["id"],
   );
 
@@ -39,7 +36,6 @@ class BookingModel {
     "package_id": packageId,
     "joinig_date": joinigDate,
     "time_slot": timeSlot,
-    "booking_date": bookingDate,
     "id": id,
   };
 }

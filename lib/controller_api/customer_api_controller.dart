@@ -13,7 +13,7 @@ class CustomerApiController extends GetxController
   RxList<CustomerModel> customerlist =<CustomerModel>[].obs;
 
   GetStorage getStorage = GetStorage();
-  ApiService apiService = Get.put(ApiService());
+  ApiService apiService = ApiService();
 
   String url = 'https://motordriving.sathwarainfotech.com/api/customers';
   TextEditingController cname = TextEditingController();
@@ -33,25 +33,19 @@ class CustomerApiController extends GetxController
 
     }
 
-  Future<void> getCustomer()  async {
-    final response = await apiService.customerget(url);
+  void getCustomer() async {
+    loader.value = true;
+    final response = await apiService.customerget();
     if (response.status.isOk) {
       final data = response.body;
-
       if (data["status"] == true && data["data"] != null) {
         final List<dynamic> responseData = data["data"];
-        final customers = responseData
+        customerlist.value = responseData
             .map((json) => CustomerModel.fromJson(json))
             .toList();
-
-        customerlist.value = customers; // ✅ assign to observable
-      } else {
-        customerlist.clear(); // No data received
       }
-    } else {
-      customerlist.clear(); // Request failed
-      Get.snackbar("Error", "Failed to load customers");
     }
+    loader.value = false;
   }
 
 
@@ -60,14 +54,14 @@ class CustomerApiController extends GetxController
 
   Future<void> postcustomerapi () async
   {
-    final cusresponse = await http.post(Uri.parse('https://motordriving.sathwarainfotech.com/api/customers'),
-        headers: {"Content-Type": "application/json"},
-      body: jsonEncode(
-          _getData()),
-        );
-    if(cusresponse.statusCode==200 || cusresponse.statusCode==201)
+    Response response = await apiService.customerget();
+
+    if(response.statusCode==200 || response.statusCode==201)
     {
-      clr();
+      ResponseModel responseModel = ResponseModel.fromJson(response.body);
+      getStorage.write("token", responseModel.data['token_type'] + " " + responseModel.data['token']);
+      getStorage.write("user_mode", responseModel.data['user_type']);
+      getStorage.write("user", CustomerModel.fromJson(responseModel.data['user']).toJson().toString());
       Get.snackbar("Success", "Customer added successfully");
       getCustomer();
     }

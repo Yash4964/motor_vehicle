@@ -64,7 +64,7 @@ class BookingListPage extends StatelessWidget {
                               ),
                               Text("Package: ${booking.packageId}",
                                   style: TextStyle(fontSize: 16, color: Colors.grey[700])),
-                              Text("Booking Date: ${booking.bookingDate}",
+                              Text("Booking Date: ${booking.joinigDate}",
                                   style: TextStyle(fontSize: 16, color: Colors.grey[700])),
                               Text("Joining Date: ${booking.joinigDate}",
                                   style: TextStyle(fontSize: 16, color: Colors.grey[700])),

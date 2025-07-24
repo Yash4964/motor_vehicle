@@ -81,9 +81,9 @@ class ApiService extends GetConnect {
     }
   }
 
-  Future<Response> customerget(String url) async {
+  Future<Response> customerget() async {
     try {
-      final String fullUrl = url;
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/customers';
       debugPrint("Customer GET API Request: $fullUrl");
 
       final response = await get(
@@ -95,6 +95,27 @@ class ApiService extends GetConnect {
       return response;
     } catch (e, stack) {
       debugPrint("Customer GET API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+  Future<Response> customeradd(Map<String, dynamic> data) async {
+    try {
+      final String fullUrl = "https://motordriving.sathwarainfotech.com/api/customers";
+      debugPrint("Login API Request: $fullUrl\nPayload: $data");
+
+      final response = await post(
+        fullUrl,
+        jsonEncode(data),
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint(
+        "Login API Response: ${response.statusCode}\nBody: ${response.bodyString}",
+      );
+      return response;
+    } catch (e, stack) {
+      debugPrint("Login API Error: $e\nStack: $stack");
       rethrow;
     }
   }
