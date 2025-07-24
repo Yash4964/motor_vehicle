@@ -159,6 +159,25 @@ class ApiService extends GetConnect {
     }
   }
 
+  //package
+  Future<Response> packageget() async {
+    try {
+      final String fullUrl = "https://motordriving.sathwarainfotech.com/api/packages";
+      debugPrint("Customer DELETE API Request: $fullUrl");
+
+      final response = await get(
+        fullUrl,
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("Customer DELETE API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("Customer DELETE API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
 
 }
 
