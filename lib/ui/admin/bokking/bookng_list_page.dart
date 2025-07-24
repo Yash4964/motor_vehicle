@@ -55,7 +55,7 @@ class BookingListPage extends StatelessWidget {
                               SizedBox(height: 1,),
                               Text("Customer Name: ${booking.customerId}"),
                               Text("Package: ${booking.packageId}"),
-                              Text("Booking Date: ${booking.bookingDate}"),
+                              Text("Booking Date: ${booking.joinigDate}"),
                               Text("Joining Date: ${booking.joinigDate}"),
                               Text("Joining Time: ${booking.timeSlot}"),
                             ],
@@ -74,7 +74,7 @@ class BookingListPage extends StatelessWidget {
                                     "package_id": booking.packageId,
                                     "joinig_date": booking.joinigDate,
                                     "time_slot": booking.timeSlot,
-                                    "booking_date": booking.bookingDate,
+                                    "booking_date": booking.joinigDate,
                                     "id": booking.id,
                                   });
                                 },

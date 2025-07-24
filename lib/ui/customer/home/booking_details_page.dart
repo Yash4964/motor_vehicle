@@ -144,7 +144,7 @@ class BookingDetailsPage extends StatelessWidget {
                               ),
                               SizedBox(height: 6),
                               Text(
-                                "Booking Date: ${match?.bookingDate }",
+                                "Booking Date: ${match?.joinigDate }",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.black54,

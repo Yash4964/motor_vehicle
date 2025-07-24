@@ -78,26 +78,32 @@ class LoginPage extends StatelessWidget {
                   //   onTap: (){
                   //     loginApiController.postapi();
                   //   },
-                     Container(
-                      height: 40,
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          loginApiController.postapi();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Appcolor.primary,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(7),
+                     InkWell(
+                       onTap: ()
+                       {
+                         loginApiController.postapi();
+                       },
+                       child: Container(
+                        height: 40,
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            loginApiController.postapi();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Appcolor.primary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(7),
+                            ),
+                          ),
+                          child: Text(
+                            "SIGN IN",
+                            style: TextStyle(fontSize: 16, color: Colors.white),
                           ),
                         ),
-                        child: Text(
-                          "SIGN IN",
-                          style: TextStyle(fontSize: 16, color: Colors.white),
-                        ),
-                      ),
 
-                  ),
+                                         ),
+                     ),
                   // SizedBox(height: 16),
                   // ElevatedButton(onPressed: () {
                   //     loginApiController.postapi();

@@ -27,7 +27,10 @@ class BookingApiController extends GetxController {
   Future<void> fetchBookings() async {
     loader.value = true;
     final response = await http.get(
-      Uri.parse('https://68735d60c75558e27353fea7.mockapi.io/motor/booking'),
+      Uri.parse('https://motordriving.sathwarainfotech.com/api/bookings'),
+      headers: {
+        'Authorization': 'Bearer 85|Sa38g160lFQCXFup6BCFzqetBBioIFs5LuNlSZpV1e866fad'
+      }
     );
     if (response.statusCode == 200) {
       List data = jsonDecode(response.body);

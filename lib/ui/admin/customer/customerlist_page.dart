@@ -13,6 +13,7 @@ class CustomerListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    cusapi.getCustomer();
     return Scaffold(
       backgroundColor: Appcolor.background,
       appBar: AppBar(
