@@ -17,13 +17,13 @@ class AddVehiclePage extends StatelessWidget {
   var args = Get.arguments;
   CameraContoller c = Get.put(CameraContoller());
 
-  VehicleController v = Get.put(VehicleController());
+  VehicleController vehicleController = Get.put(VehicleController());
   final _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     if(args?['isEdit']??false)
     {
-      v.setData(Get.arguments);
+      vehicleController.setData(Get.arguments);
     }
     return Scaffold(
       backgroundColor: Colors.white,
@@ -97,7 +97,7 @@ class AddVehiclePage extends StatelessWidget {
 
               labels("Name"),
               TextFieldWidget(
-                controller: v.name,
+                controller: vehicleController.name,
                 hint: 'Name',
                 textInputType: TextInputType.name,
                 inputTypeMode: InputTypeMode.normal,
@@ -105,15 +105,15 @@ class AddVehiclePage extends StatelessWidget {
 
               labels("Car No"),
               TextFieldWidget(
-                controller: v.carno,
+                controller: vehicleController.carno,
                 hint: 'GJ01243',
                 textInputType: TextInputType.text,
-                inputTypeMode: InputTypeMode.carno,
+                inputTypeMode: InputTypeMode.normal,
               ),
 
               labels("Model No"),
               TextFieldWidget(
-                controller: v.modelno,
+                controller: vehicleController.modelno,
                 hint: "FVS425",
                 textInputType: TextInputType.text,
                 inputTypeMode: InputTypeMode.normal,
@@ -121,7 +121,7 @@ class AddVehiclePage extends StatelessWidget {
 
               labels("Color"),
               TextFieldWidget(
-                controller: v.color,
+                controller: vehicleController.color,
                 hint: 'color name',
                 textInputType: TextInputType.text,
                 inputTypeMode: InputTypeMode.normal,
@@ -129,7 +129,7 @@ class AddVehiclePage extends StatelessWidget {
 
               labels("Description"),
               TextFieldWidget(
-                controller: v.description,
+                controller: vehicleController.description,
                 hint: "enter description",
                 textInputType: TextInputType.text,
                 inputTypeMode: InputTypeMode.normal,
@@ -140,16 +140,18 @@ class AddVehiclePage extends StatelessWidget {
               const SizedBox(height: 20),
               InkWell(
                 onTap: () {
-                  Get.back();
-                  if((args?["isEdit"] ?? false) == false)
+                  if(_formkey.currentState!.validate())
                   {
-                    v.postapi(v.name.text, v.carno.text, v.modelno.text, v.color.text, v.description.text);
-
-                  }
-                  else
-                  {
-                    v.editapi(args['id'],v.name.text, v.carno.text, v.modelno.text, v.color.text, v.description.text);
-
+                    if((args?['isEdit'] ?? false) == false) {
+                      vehicleController.postVehicle();
+                      Get.back();
+                    }
+                    else
+                    {
+                      vehicleController.updatevehicleapi(
+                          args['id']);
+                      Get.back();
+                    }
                   }
                 },
                 child: Container(

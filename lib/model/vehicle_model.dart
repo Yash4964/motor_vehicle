@@ -23,11 +23,11 @@ class VehicleModel {
 
   factory VehicleModel.fromJson(Map<String, dynamic> json) => VehicleModel(
     name: json["name"],
-    carno: json["carno"],
-    modelno: json["modelno"],
-    color: json["color"],
-    description: json["description"],
-    id: json["id"],
+    carno: json["car_no"] ?? "",
+    modelno: json["model_no"] ?? "",
+    color: json["color"] ?? "",
+    description: json["description"] ?? "",
+    id: json["id"].toString(),
   );
 
   Map<String, dynamic> toJson() => {

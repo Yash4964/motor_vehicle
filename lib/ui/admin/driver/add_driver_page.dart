@@ -10,13 +10,13 @@ class AddDriverPage extends StatelessWidget {
   AddDriverPage({super.key});
 
   var args=Get.arguments;
-  final DriverConrollerApi d = Get.put(DriverConrollerApi());
+  final DriverConrollerApi driverConrollerApi = Get.put(DriverConrollerApi());
   final _formkey =GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     if(args?['isEdit']??false)
     {
-      d.setData(Get.arguments);
+      driverConrollerApi.setData(Get.arguments);
     }
     return Scaffold(
       backgroundColor: Colors.white,
@@ -79,7 +79,7 @@ class AddDriverPage extends StatelessWidget {
 
               labels("Name"),
               TextFieldWidget(
-                controller: d.name,
+                controller: driverConrollerApi.cname,
                 hint: 'Name',
                 textInputType: TextInputType.name,
                 inputTypeMode: InputTypeMode.normal,
@@ -87,7 +87,7 @@ class AddDriverPage extends StatelessWidget {
 
               labels("Email"),
               TextFieldWidget(
-                controller: d.email,
+                controller: driverConrollerApi.email,
                 hint: 'ex: jon.smith@gmail.com',
                 textInputType: TextInputType.emailAddress,
                 inputTypeMode: InputTypeMode.email,
@@ -95,7 +95,7 @@ class AddDriverPage extends StatelessWidget {
 
               labels("Password"),
               TextFieldWidget(
-                controller: d.password,
+                controller: driverConrollerApi.pass,
                 hint: "Password",
                 obscureText: true,
                 textInputType: TextInputType.text,
@@ -104,7 +104,7 @@ class AddDriverPage extends StatelessWidget {
 
               labels("Mobile"),
               TextFieldWidget(
-                controller: d.mobileno,
+                controller: driverConrollerApi.mobile,
                 hint: '91+ 9698521475',
                 textInputType: TextInputType.phone,
                 inputTypeMode: InputTypeMode.phone,
@@ -112,7 +112,7 @@ class AddDriverPage extends StatelessWidget {
 
               labels("Age"),
               TextFieldWidget(
-                controller: d.age,
+                controller: driverConrollerApi.age,
                 hint: "Age must be 18+",
                 textInputType: TextInputType.number,
                 inputTypeMode: InputTypeMode.age,
@@ -120,7 +120,7 @@ class AddDriverPage extends StatelessWidget {
 
               labels("Address"),
               TextFieldWidget(
-                controller: d.address,
+                controller: driverConrollerApi.address,
                 hint: "Address",
                 textInputType: TextInputType.text,
 
@@ -129,25 +129,32 @@ class AddDriverPage extends StatelessWidget {
 
               labels("Licenceno"),
               TextFieldWidget(
-                controller: d.licenceno,
+                controller: driverConrollerApi.licenceno,
                 hint: 'GJ24DD3344',
                 textInputType: TextInputType.text,
-                inputTypeMode: InputTypeMode.licenceno,
+                inputTypeMode: InputTypeMode.normal,
 
               ),
               const SizedBox(height: 20),
               InkWell(
                 onTap: () {
-                  Get.back();
-                  if((args?["isEdit"] ?? false) == false)
-                  {
-                    d.postapi(d.name.text, d.email.text, d.password.text, d.mobileno.text, d.age.text, d.address.text, d.licenceno.text);
-                  }
-                  else
-                  {
-                    d.editapi(args['id'],d.name.text, d.email.text, d.password.text, d.mobileno.text, d.age.text, d.address.text, d.licenceno.text);
+                  if (_formkey.currentState!.validate()) {
+
+
+                    if ((args?["isEdit"] ?? false) == false) {
+                      driverConrollerApi.postDriverapi();
+                      Get.back();
+
+                    } else {
+                      driverConrollerApi.updatedriverapi(args["id"]);
+                      Get.back();
+
+                    }
+
                   }
                 },
+
+
                 child: Container(
                   width: double.infinity,
                   height: 45,

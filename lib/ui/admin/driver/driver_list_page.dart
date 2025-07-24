@@ -11,10 +11,11 @@ import '../../../controller_api/driver_api_controller.dart';
 class DriverListPage extends StatelessWidget {
   DriverListPage({super.key});
 
-  DriverConrollerApi d = Get.put(DriverConrollerApi());
+  DriverConrollerApi driverConrollerApi = Get.put(DriverConrollerApi());
 
   @override
   Widget build(BuildContext context) {
+    driverConrollerApi.getDriver();
     return Scaffold(
       backgroundColor: Appcolor.background,
       appBar: AppBar(
@@ -24,16 +25,16 @@ class DriverListPage extends StatelessWidget {
       ),
       body: Obx(()
       {
-        if(d.driverlist.isEmpty)
+        if(driverConrollerApi.driverlist.isEmpty)
           {
            return Center(child: CircularProgressIndicator());
           }
         else
           {
             return ListView.builder(
-              itemCount: d.driverlist.length,
+              itemCount: driverConrollerApi.driverlist.length,
               itemBuilder: (BuildContext context ,int index) {
-                final driver = d.driverlist[index];
+                final driver = driverConrollerApi.driverlist[index];
                 return Column(
                   children: [
                     Card(
@@ -144,7 +145,7 @@ class DriverListPage extends StatelessWidget {
                                           ),
                                           TextButton(
                                               onPressed: (){
-                                                d.delapi(driver.id);
+                                                driverConrollerApi.deletedriverapi(driver.id);
                                                 Get.back();
                                               }, child:Text("ok",style: TextStyle(fontSize: 18),)
                                           )
@@ -161,7 +162,7 @@ class DriverListPage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    if (index == d.driverlist.length - 1)
+                    if (index == driverConrollerApi.driverlist.length - 1)
                       SizedBox(height: 150),
                   ],
 
@@ -175,7 +176,7 @@ class DriverListPage extends StatelessWidget {
 
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          d.clr();
+          driverConrollerApi.clr();
           Get.to(AddDriverPage());
         },
         child: Icon(Icons.add,color: Colors.white,),

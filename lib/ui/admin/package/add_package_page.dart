@@ -132,9 +132,9 @@ class AddPackagePage extends StatelessWidget {
               InkWell(
                 onTap: () {
                   if ((args?["isEdit"] ?? false) == false) {
-                    packageConrollerApi.postapi();
+                    // packageConrollerApi.postapi();
                   } else {
-                    packageConrollerApi.editapi();
+                    // packageConrollerApi.editapi();
                   }
                   Get.back();
                 },

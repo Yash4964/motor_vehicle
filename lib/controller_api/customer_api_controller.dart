@@ -15,7 +15,7 @@ class CustomerApiController extends GetxController
   GetStorage getStorage = GetStorage();
   ApiService apiService = ApiService();
 
-  String url = 'https://motordriving.sathwarainfotech.com/api/customers';
+  // String url = 'https://motordriving.sathwarainfotech.com/api/customers';
   TextEditingController cname = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
@@ -46,8 +46,6 @@ class CustomerApiController extends GetxController
     }
     loader.value = false;
   }
-
-
 
   // add
 
