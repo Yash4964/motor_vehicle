@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:motor_vehicle/ApiService.dart';
 import 'package:motor_vehicle/controller_api/vehicle_api_controller.dart';
 import 'package:motor_vehicle/model/vehicle_model.dart';
 import '../model/package_model.dart';
@@ -14,24 +16,32 @@ class PackageConrollerApi extends GetxController {
 
   Rx<VehicleModel>? selectedVehicle;
 
+  RxList<PackageModel> tolist = <PackageModel>[].obs;
+  ApiService apiService = ApiService();
+  RxBool loader = false.obs;
+  GetStorage getStorage = GetStorage();
   @override
   void onInit() {
     super.onInit();
     clr();
-    getapi();
+
   }
 
-  RxList<PackageModel> tolist = <PackageModel>[].obs;
+
 
   Future<void> getapi() async {
-    final response = await http.get(
-      Uri.parse('https://68724ae676a5723aacd438b0.mockapi.io/motor/package'),
-    );
-    if (response.statusCode == 200) {
-      List data = jsonDecode(response.body);
-      List<PackageModel> demo1 = data.map((e) => PackageModel.fromJson(e)).toList();
-      tolist.value = demo1;
+    loader.value = true;
+    final response = await apiService.packageget();
+    if (response.status.isOk) {
+      final data = response.body;
+      if (data["status"] == true && data["data"] != null) {
+        final List<dynamic> responseData = data["data"];
+        tolist.value = responseData
+            .map((json) => PackageModel.fromJson(json))
+            .toList();
+      }
     }
+    loader.value = false;
   }
 
   Future<void> delapi(String id) async {
@@ -81,7 +91,7 @@ class PackageConrollerApi extends GetxController {
   Map<String, dynamic> _getData() {
     return {
       "name": name.text,
-      "vehicleid": selectedVehicle?.value.id ?? "",
+      "vehicle_id": selectedVehicle?.value.id ?? "",
       "days": int.parse(days.text),
       "km": int.parse(km.text),
       "price": int.parse(price.text),

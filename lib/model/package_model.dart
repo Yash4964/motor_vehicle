@@ -2,7 +2,7 @@ import 'dart:convert';
 
 class PackageModel {
   String name;
-  String vehicleid;
+  String vehicle_id;
   int days;
   int km;
   int price;
@@ -10,7 +10,7 @@ class PackageModel {
 
   PackageModel({
     required this.name,
-    required this.vehicleid,
+    required this.vehicle_id,
     required this.days,
     required this.km,
     required this.price,
@@ -22,17 +22,17 @@ class PackageModel {
   String toRawJson() => json.encode(toJson());
 
   factory PackageModel.fromJson(Map<String, dynamic> json) => PackageModel(
-    name: json["name"],
-    vehicleid: json["vehicleid"],
-    days: json["days"],
-    km: json["km"],
-    price: json["price"],
-    id: json["id"],
+    name: json["name"] ?? "",
+    vehicle_id: json["vehicle_id"].toString() ?? "",
+    days: int.tryParse(json["days"].toString()) ?? 0,
+    km: int.tryParse(json["km"].toString()) ?? 0,
+    price: int.tryParse(json["price"].toString()) ?? 0,
+    id: json["id"].toString(),
   );
 
   Map<String, dynamic> toJson() => {
     "name": name,
-    "vehicleid": vehicleid,
+    "vehicle_id": vehicle_id,
     "days": days,
     "km": km,
     "price": price,

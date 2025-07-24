@@ -11,6 +11,7 @@ class PackageListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    p.getapi();
     return Scaffold(
       backgroundColor: Appcolor.background,
       appBar: AppBar(
@@ -19,6 +20,9 @@ class PackageListPage extends StatelessWidget {
         iconTheme: const IconThemeData(color: Colors.white),
       ),
       body: Obx(() {
+        if (p.loader.value) {
+          return Center(child: CircularProgressIndicator());
+        }
         if (p.tolist.isEmpty) {
           return const Center(child: Text("No packages available"));
         }
@@ -46,7 +50,7 @@ class PackageListPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Vehicle ID: ${package.vehicleid}",
+                        "Vehicle ID: ${package.vehicle_id}",
                         style: TextStyle(fontSize: 15, color: Colors.grey[700]),
                       ),
                       Text(
@@ -71,7 +75,7 @@ class PackageListPage extends StatelessWidget {
                           arguments: {
                             "isEdit": true,
                             "name": package.name,
-                            "vehicleid": package.vehicleid,
+                            "vehicle_id": package.vehicle_id,
                             "days": package.days.toString(),
                             "km": package.km.toString(),
                             "price": package.price.toString(),
