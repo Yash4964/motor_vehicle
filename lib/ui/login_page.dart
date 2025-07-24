@@ -105,6 +105,7 @@ class LoginPage extends StatelessWidget {
                   //   "SIGN IN",
                   //   style: TextStyle(fontSize: 16),
                   // ),),
+                  SizedBox(height: 8,),
                   Center(
                     child: InkWell(
                       onTap: () {

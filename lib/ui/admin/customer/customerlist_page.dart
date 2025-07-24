@@ -22,9 +22,12 @@ class CustomerListPage extends StatelessWidget {
       ),
       body: Obx(
         () {
-          if(cusapi.customerlist.isEmpty)
+          if (cusapi.loader.value) {
+            return Center(child: CircularProgressIndicator());
+          }
+          else if(cusapi.customerlist.isEmpty)
             {
-              return Center(child: CircularProgressIndicator());
+              return Center(child: Text("No customers found"));
             }
           else
             { return

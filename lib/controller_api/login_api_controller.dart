@@ -41,8 +41,18 @@ class LoginApiController extends GetxController {
 
       if(responseModel.data['user_type'] == "customer"){
         Get.off(CustomerHomePage());
-      }else{
-        Get.off(Dashboard_page());
+      }
+      else if(responseModel.data['user_type'] == "admin")
+        {
+          Get.off(Dashboard_page());
+        }
+      else{
+        Get.snackbar(
+          "Not user type",
+          "Invalid",
+          colorText: Colors.white,
+          backgroundColor: Colors.lightGreen,
+        );
       }
     } else {
       Get.snackbar(

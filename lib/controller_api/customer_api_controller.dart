@@ -1,14 +1,21 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:motor_vehicle/ApiService.dart';
 import 'package:motor_vehicle/model/customer_model.dart';
+import 'package:motor_vehicle/model/response_model.dart';
 
 import '../ui/admin/customer/customerlist_page.dart';
 class CustomerApiController extends GetxController
 {
   RxList<CustomerModel> customerlist =<CustomerModel>[].obs;
 
+  GetStorage getStorage = GetStorage();
+  ApiService apiService = Get.put(ApiService());
+
+  String url = 'https://motordriving.sathwarainfotech.com/api/customers';
   TextEditingController cname = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
@@ -20,38 +27,40 @@ class CustomerApiController extends GetxController
   @override
      void onInit()
     {
-      super.onInit();
       clr();
-      getcustomerapi();
+      getCustomer();
+      super.onInit();
 
     }
-  Future<void> getcustomerapi () async
-  {
-    loader.value = true;
-      final cusresponse = await http.get(Uri.parse('https://motordriving.sathwarainfotech.com/api/customers'));
-      if(cusresponse.statusCode==200)
-        {
-          List data = jsonDecode(cusresponse.body);
-          List<CustomerModel> cusdata =[];
-          for ( var i in data)
-            {
-              cusdata.add(CustomerModel.fromJson(i));
-            }
-          customerlist.value=cusdata;
 
-        }
-      else
-        {
-          Get.snackbar("Error", "Not data fatch");
-        }
-    loader.value = false;
+  Future<void> getCustomer()  async {
+    final response = await apiService.customerget(url);
+    if (response.status.isOk) {
+      final data = response.body;
+
+      if (data["status"] == true && data["data"] != null) {
+        final List<dynamic> responseData = data["data"];
+        final customers = responseData
+            .map((json) => CustomerModel.fromJson(json))
+            .toList();
+
+        customerlist.value = customers; // ✅ assign to observable
+      } else {
+        customerlist.clear(); // No data received
+      }
+    } else {
+      customerlist.clear(); // Request failed
+      Get.snackbar("Error", "Failed to load customers");
+    }
   }
+
+
 
   // add
 
   Future<void> postcustomerapi () async
   {
-    final cusresponse = await http.post(Uri.parse('https://6870ea047ca4d06b34b89eaf.mockapi.io/motordriving/customer'),
+    final cusresponse = await http.post(Uri.parse('https://motordriving.sathwarainfotech.com/api/customers'),
         headers: {"Content-Type": "application/json"},
       body: jsonEncode(
           _getData()),
@@ -60,7 +69,7 @@ class CustomerApiController extends GetxController
     {
       clr();
       Get.snackbar("Success", "Customer added successfully");
-      getcustomerapi();
+      getCustomer();
     }
     else
     {
@@ -80,7 +89,7 @@ class CustomerApiController extends GetxController
       clr();
       Get.snackbar("Success", "Customer added successfully");
 
-      getcustomerapi();
+      getCustomer();
     }
     else
     {
@@ -91,7 +100,7 @@ class CustomerApiController extends GetxController
   //delete
   Future<void> deletecustomerapi (String id) async
   {
-    final cusresponse = await http.delete(Uri.parse('https://motordriving.sathwarainfotech.com/api/customers//$id'));
+    final cusresponse = await http.delete(Uri.parse('https://motordriving.sathwarainfotech.com/api/customers/$id'));
     if(cusresponse.statusCode==200)
     {
       customerlist.removeWhere((item)=> item.id == id);

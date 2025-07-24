@@ -29,10 +29,10 @@ class CustomerModel {
     name: json["name"],
     email: json["email"],
     password: json["password"] ?? "",
-    mobileno: json["mobile_no"],
-    age: json["age"],
-    address: json["address"],
-    pincode: json["pincode"],
+    mobileno: json["mobile_no"] ?? "",
+    age: int.tryParse(json["age"].toString()) ?? 0,
+    address: json["address"] ?? "",
+    pincode: json["pincode"] ?? "",
     id: json["id"].toString(),
   );
 
