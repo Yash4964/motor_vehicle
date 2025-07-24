@@ -4,7 +4,7 @@ class DriverModel {
   String name;
   String email;
   String password;
-  int mobileno;
+  String mobileno;
   int age;
   String address;
   String licenceno;
@@ -28,12 +28,12 @@ class DriverModel {
   factory DriverModel.fromJson(Map<String, dynamic> json) => DriverModel(
     name: json["name"],
     email: json["email"],
-    password: json["password"],
-    mobileno: json["mobileno"],
-    age: json["age"],
-    address: json["address"],
-    licenceno: json["licenceno"],
-    id: json["id"],
+    password: json["password"] ?? "",
+    mobileno: json["mobile_no"] ?? "",
+    age: int.tryParse(json["age"].toString()) ?? 0,
+    address: json["address"] ?? "",
+    licenceno: json["licence_no"] ?? "",
+    id: json["id"].toString(),
   );
 
   Map<String, dynamic> toJson() => {

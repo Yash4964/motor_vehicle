@@ -160,20 +160,201 @@ class ApiService extends GetConnect {
   }
 
   //package
-  Future<Response> packageget() async {
+  // Future<Response> packageget() async {
+  //   try {
+  //     final String fullUrl = "https://motordriving.sathwarainfotech.com/api/packages";
+  //     debugPrint("Customer DELETE API Request: $fullUrl");
+  //
+  //     final response = await get(
+  //       fullUrl,
+  //       headers: await getAuthHeaders(),
+  //     ).timeout(const Duration(seconds: 30));
+  //
+  //     debugPrint("Customer DELETE API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+  //     return response;
+  //   } catch (e, stack) {
+  //     debugPrint("Customer DELETE API Error: $e\nStack: $stack");
+  //     rethrow;
+  //   }
+  // }
+
+
+  //driver
+
+  Future<Response> driverget() async {
     try {
-      final String fullUrl = "https://motordriving.sathwarainfotech.com/api/packages";
-      debugPrint("Customer DELETE API Request: $fullUrl");
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/drivers';
+      debugPrint("Customer GET API Request: $fullUrl");
 
       final response = await get(
         fullUrl,
         headers: await getAuthHeaders(),
       ).timeout(const Duration(seconds: 30));
 
-      debugPrint("Customer DELETE API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      debugPrint("Customer GET API Response: ${response.statusCode}\nBody: ${response.bodyString}");
       return response;
     } catch (e, stack) {
-      debugPrint("Customer DELETE API Error: $e\nStack: $stack");
+      debugPrint("Customer GET API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+  Future<Response> driveradd(Map<String, dynamic> data) async {
+    try {
+      final String fullUrl = "https://motordriving.sathwarainfotech.com/api/drivers";
+      debugPrint("Login API Request: $fullUrl\nPayload: $data");
+
+      final response = await post(
+        fullUrl,
+        jsonEncode(data),
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint(
+        "Login API Response: ${response.statusCode}\nBody: ${response.bodyString}",
+      );
+      return response;
+    } catch (e, stack) {
+      debugPrint("Login API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+  Future<Response> driverupdate(String id,Map<String, dynamic> data) async {
+    try {
+      final String fullUrl = "https://motordriving.sathwarainfotech.com/api/drivers/$id";
+      debugPrint("Login API Request: $fullUrl\nPayload: $data");
+
+      final response = await put(
+        fullUrl,
+        jsonEncode(data),
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint(
+        "Login API Response: ${response.statusCode}\nBody: ${response.bodyString}",
+      );
+      return response;
+    } catch (e, stack) {
+      debugPrint("Login API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+
+  Future<Response> driverdelete(String id) async {
+    try {
+      final String fullUrl = "https://motordriving.sathwarainfotech.com/api/drivers/$id";
+      debugPrint("Driver DELETE API Request: $fullUrl");
+
+      final response = await delete(
+        fullUrl,
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("Driver DELETE API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("Driver DELETE API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+  //vehicle
+
+  Future<Response> vehicleget() async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/vehicles';
+      debugPrint("vehicle GET API Request: $fullUrl");
+
+      final response = await get(
+        fullUrl,
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("vehicle GET API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("vehicle GET API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+  Future<Response> vehicleadd(Map<String, dynamic> data) async {
+    try {
+      final String fullUrl = "https://motordriving.sathwarainfotech.com/api/vehicles";
+      debugPrint("vehicle add API Request: $fullUrl\nPayload: $data");
+
+      final response = await post(
+        fullUrl,
+        jsonEncode(data),
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint(
+        "vahicle add API Response: ${response.statusCode}\nBody: ${response.bodyString}",
+      );
+      return response;
+    } catch (e, stack) {
+      debugPrint("vehicle add API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+  Future<Response> vehicleupdate(String id,Map<String, dynamic> data) async {
+    try {
+      final String fullUrl = "https://motordriving.sathwarainfotech.com/api/vehicles/$id";
+      debugPrint("vehicle update API Request: $fullUrl\nPayload: $data");
+
+      final response = await put(
+        fullUrl,
+        jsonEncode(data),
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint(
+        "vehicle update API Response: ${response.statusCode}\nBody: ${response.bodyString}",
+      );
+      return response;
+    } catch (e, stack) {
+      debugPrint("vehicle update API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+
+  Future<Response> vehicledelete(String id) async {
+    try {
+      final String fullUrl = "https://motordriving.sathwarainfotech.com/api/vehicles/$id";
+      debugPrint("Vehicle DELETE API Request: $fullUrl");
+
+      final response = await delete(
+        fullUrl,
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("vehicle DELETE API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("vehicle DELETE API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+//package
+
+  Future<Response> packageget() async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/packages';
+      debugPrint("package GET API Request: $fullUrl");
+
+      final response = await get(
+        fullUrl,
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("package GET API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("package GET API Error: $e\nStack: $stack");
       rethrow;
     }
   }

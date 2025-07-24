@@ -12,10 +12,11 @@ import '../../../controller_api/vehicle_api_controller.dart';
 class VehicleListPage extends StatelessWidget {
   VehicleListPage({super.key});
 
-  VehicleController v = Get.put(VehicleController());
+  VehicleController vehicleController = Get.put(VehicleController());
 
   @override
   Widget build(BuildContext context) {
+    vehicleController.getVehicle();
     return Scaffold(
       backgroundColor: Appcolor.background,
       appBar: AppBar(
@@ -25,16 +26,16 @@ class VehicleListPage extends StatelessWidget {
       ),
       body: Obx(()
       {
-        if(v.vehicleList.isEmpty)
+        if(vehicleController.vehicleList.isEmpty)
           {
             return Center(child: CircularProgressIndicator());
           }
         else
           {
             return ListView.builder(
-              itemCount: v.vehicleList.length,
+              itemCount: vehicleController.vehicleList.length,
               itemBuilder: (BuildContext context ,int index) {
-                final vehicle = v.vehicleList[index];
+                final vehicle = vehicleController.vehicleList[index];
                 return Card(
                   color: Appcolor.container,
                   margin:  EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -137,7 +138,7 @@ class VehicleListPage extends StatelessWidget {
                                       ),
                                       TextButton(
                                           onPressed: (){
-                                            v.delapi(vehicle.id);
+                                            vehicleController.deletevehicleapi(vehicle.id);
                                             Get.back();
                                           }, child:Text("ok",style: TextStyle(fontSize: 18),)
                                       )

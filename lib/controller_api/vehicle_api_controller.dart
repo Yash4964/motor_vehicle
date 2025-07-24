@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:motor_vehicle/ApiService.dart';
 
 import '../model/vehicle_model.dart';
 
@@ -13,93 +14,79 @@ class VehicleController extends GetxController {
   final TextEditingController description = TextEditingController();
   RxBool loader = false.obs;
   RxList<VehicleModel> vehicleList = <VehicleModel>[].obs;
+  ApiService apiService = ApiService();
 
   @override
   void onInit() {
     super.onInit();
     clr();
-    getapi();
+    getVehicle();
   }
 
 
-  Future<void> getapi() async {
-    loader.value = false;
-
-    final response = await http.get(
-      Uri.parse('https://68724ae676a5723aacd438b0.mockapi.io/motor/vehicle'),
-    );
-    if (response.statusCode == 200) {
-      List data = jsonDecode(response.body);
-      List<VehicleModel> demo1 = data
-          .map((e) => VehicleModel.fromJson(e))
-          .toList();
-      vehicleList.value = demo1;
+  void getVehicle() async {
+    loader.value = true;
+    final response = await apiService.vehicleget();
+    if (response.status.isOk) {
+      final data = response.body;
+      if (data["status"] == true && data["data"] != null) {
+        final List<dynamic> responseData = data["data"];
+        vehicleList.value = responseData
+            .map((json) => VehicleModel.fromJson(json))
+            .toList();
+      }
     }
     loader.value = false;
-
   }
 
-  Future<void> delapi(String id) async {
-    final response = await http.delete(
-      Uri.parse(
-        'https://68724ae676a5723aacd438b0.mockapi.io/motor/vehicle/$id',
-      ),
-    );
-    if (response.statusCode == 200) {
-      vehicleList.removeWhere((item) => item.id == id);
-      Get.snackbar('deleted', 'thank you');
-      getapi();
+  Future<void> postVehicle() async
+  {
+
+    Response response = await apiService.vehicleadd(_getData());
+
+    if(response.statusCode==200 || response.statusCode==201)
+    {
+      Get.snackbar("Success", "Customer added successfully");
+      getVehicle();
+      clr();
+    }
+    else
+    {
+      Get.snackbar("Error", "Not data Add");
+    }
+  }
+//update
+  Future<void> updatevehicleapi (String id) async
+  {
+    Response cusresponse = await apiService.vehicleupdate(id, _getData());
+    if(cusresponse.statusCode==200 || cusresponse.statusCode==201)
+    {
+      clr();
+
+      int index = vehicleList.indexWhere((vehicle) => vehicle.id == id);
+      vehicleList[index] = VehicleModel.fromJson(cusresponse.body['data'] as Map<String, dynamic>);
+      vehicleList.refresh();
+
+      Get.snackbar("Success", "vehicle update successfully");
+    }
+    else
+    {
+      Get.snackbar("Error", "Not data Add");
     }
   }
 
-  Future<void> postapi(
-    String name,
-    String carno,
-    String modelno,
-    String color,
-    String description,
-  ) async {
-    final response = await http.post(
-      Uri.parse('https://68724ae676a5723aacd438b0.mockapi.io/motor/vehicle'),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "name": name,
-        "carno": carno,
-        "modelno": modelno,
-        "color": color,
-        "description": description,
-      }),
-    );
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      getapi();
-      Get.snackbar("confrim", "thankyou");
+  //delete
+  Future<void> deletevehicleapi (String id) async
+  {
+    final cusresponse = await apiService.vehicledelete(id);
+    if(cusresponse.statusCode==200)
+    {
+      vehicleList.removeWhere((item)=> item.id == id);
+      Get.snackbar("Success", "Item deleted successfully");
     }
-  }
-
-  Future<void> editapi(
-    String id,
-    String name,
-    String carno,
-    String modelno,
-    String color,
-    String description,
-  ) async {
-    final response = await http.put(
-      Uri.parse(
-        'https://68724ae676a5723aacd438b0.mockapi.io/motor/vehicle/$id',
-      ),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({
-        "name": name,
-        "carno": carno,
-        "modelno": modelno,
-        "color": color,
-        "description": description,
-      }),
-    );
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      getapi();
-      Get.snackbar("confirm", "thankyou");
+    else
+    {
+      Get.snackbar("Error", "Not data fatch");
     }
   }
 
@@ -117,5 +104,17 @@ class VehicleController extends GetxController {
     modelno.clear();
     color.clear();
     description.clear();
+  }
+
+  Map<String,dynamic> _getData ()
+  {
+    return
+      {
+        "name": name.text,
+        "car_no": carno.text,
+        "color": modelno.text,
+        "model_no":color.text,
+        "description": description.text,
+      };
   }
 }

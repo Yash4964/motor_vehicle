@@ -2,91 +2,117 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http ;
+import 'package:motor_vehicle/ApiService.dart';
 import '../model/driver_model.dart';
 
 class DriverConrollerApi extends GetxController {
 
-  final TextEditingController name = TextEditingController();
-  final TextEditingController email = TextEditingController();
-  final TextEditingController password = TextEditingController();
-  final TextEditingController mobileno = TextEditingController();
-  final TextEditingController age = TextEditingController();
-  final TextEditingController address = TextEditingController();
-  final TextEditingController licenceno = TextEditingController();
+  // final TextEditingController name = TextEditingController();
+  // final TextEditingController email = TextEditingController();
+  // final TextEditingController password = TextEditingController();
+  // final TextEditingController mobileno = TextEditingController();
+  // final TextEditingController age = TextEditingController();
+  // final TextEditingController address = TextEditingController();
+  // final TextEditingController licenceno = TextEditingController();
 
   RxBool loader = false.obs;
+  ApiService apiService = ApiService();
 
+  TextEditingController cname = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController pass = TextEditingController();
+  TextEditingController mobile = TextEditingController();
+  TextEditingController age = TextEditingController();
+  TextEditingController address = TextEditingController();
+  TextEditingController pincode = TextEditingController();
+  TextEditingController licenceno = TextEditingController();
 
   @override
   void onInit() {
     super.onInit();
     clr();
-    getapi();
 
   }
   var driverlist = <DriverModel>[].obs;
-  Future<void> getapi() async {
-    loader.value = false;
 
-    final response = await http.get(
-      Uri.parse(
-          'https://6870ea047ca4d06b34b89eaf.mockapi.io/motordriving/driver'),
-    );
-    if (response.statusCode == 200) {
-      List data = jsonDecode(response.body);
-      List<DriverModel> demo1 = data
-          .map((e) => DriverModel.fromJson(e))
-          .toList();
-      driverlist.value = demo1;
+
+
+  void getDriver() async {
+    loader.value = true;
+    final response = await apiService.driverget();
+    if (response.status.isOk) {
+      final data = response.body;
+      if (data["status"] == true && data["data"] != null) {
+        final List<dynamic> responseData = data["data"];
+        driverlist.value = responseData
+            .map((json) => DriverModel.fromJson(json))
+            .toList();
+      }
     }
     loader.value = false;
-
   }
 
+  Future<void> postDriverapi () async
+  {
 
-  Future<void> delapi(String id) async {
-    final response = await http.delete(
-      Uri.parse(
-          'https://6870ea047ca4d06b34b89eaf.mockapi.io/motordriving/driver/$id'),
-    );
-    if (response.statusCode == 200) {
-      driverlist.removeWhere((item) => item.id == id);
-      Get.snackbar('deleted', 'thank you');
-      getapi();
-    }
-  }
+    Response response = await apiService.driveradd(_getData());
 
-  Future<void> postapi(String name,String email,String password,String mobileno,String age,String address,String licenceno) async {
-    final response = await http.post(
-      Uri.parse('https://6870ea047ca4d06b34b89eaf.mockapi.io/motordriving/driver'),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"name": name,"email":email,"password":password,"mobileno":int.parse(mobileno),"age":int.parse(age),"licenceno":licenceno ,"address":address,}),
-    );
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      getapi();
+    if(response.statusCode==200 || response.statusCode==201)
+    {
+      Get.snackbar("Success", "driver added successfully");
+      getDriver();
       clr();
-      Get.snackbar("confrim", "thankyou");
+    }
+    else
+    {
+      Get.snackbar("Error", "Not data Add");
     }
   }
 
-  Future<void> editapi(String id,String name,String email,String password,String mobileno,String age,String address,String licenceno) async {
-    final response = await http.put(
-      Uri.parse('https://6870ea047ca4d06b34b89eaf.mockapi.io/motordriving/driver/$id'),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode({"name": name,"email":email,"password":password,"mobileno":int.parse(mobileno),"age":int.parse(age),"licenceno":licenceno ,"address":address,}),
-    );
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      getapi();
-      Get.snackbar("confrim", "thankyou");
+  Future<void> updatedriverapi (String id) async
+  {
+    Response cusresponse = await apiService.driverupdate(id, _getData());
+    if(cusresponse.statusCode==200 || cusresponse.statusCode==201)
+    {
+      clr();
+
+      int index = driverlist.indexWhere((driver) => driver.id == id);
+      driverlist[index] = DriverModel.fromJson(cusresponse.body['data'] as Map<String, dynamic>);
+      driverlist.refresh();
+
+      Get.snackbar("Success", "driver update successfully");
+    }
+    else
+    {
+      Get.snackbar("Error", "Not data Add");
     }
   }
+
+  //delete
+  Future<void> deletedriverapi (String id) async
+  {
+    final cusresponse = await apiService.driverdelete(id);
+    if(cusresponse.statusCode==200)
+    {
+      driverlist.removeWhere((item)=> item.id == id);
+      Get.snackbar("Success", "Item deleted successfully");
+    }
+    else
+    {
+      Get.snackbar("Error", "Not data fatch");
+    }
+  }
+
+
+
+
 
   void setData(arguments) {
 
-    name.text = arguments['name'];
+    cname.text = arguments['name'];
     email.text=arguments['email'];
-    password.text = arguments['password'];
-    mobileno.text=arguments['mobileno'];
+    pass.text = arguments['password'];
+    mobile.text=arguments['mobileno'];
     age.text = arguments['age'];
     address.text=arguments['address'];
     licenceno.text = arguments['licenceno'];
@@ -94,12 +120,25 @@ class DriverConrollerApi extends GetxController {
 
   }
   void clr(){
-    name.clear();
+    cname.clear();
     email.clear();
-    password.clear();
-    mobileno.clear();
+    pass.clear();
+    mobile.clear();
     age.clear();
     address.clear();
     licenceno.clear();
 }
+  Map<String,dynamic> _getData ()
+  {
+    return
+      {
+        "name": cname.text,
+        "email": email.text,
+        "password": pass.text,
+        "mobile_no":mobile.text,
+        "age":int.parse(age.text),
+        "address": address.text,
+        "licence_no":licenceno.text,
+      };
+  }
 }
