@@ -41,7 +41,7 @@ class AttendanceListPage extends StatelessWidget {
                       backgroundImage: AssetImage('assets/images/person3.jpg'),
                     ),
                     title: Text(
-                      att.bookingid,
+                      att.booking_id,
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text.rich(

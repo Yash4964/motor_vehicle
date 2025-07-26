@@ -26,10 +26,8 @@ class PackageConrollerApi extends GetxController {
     clr();
 
   }
-
-
-
-  Future<void> getapi() async {
+//get
+  Future<void> packageget() async {
     loader.value = true;
     final response = await apiService.packageget();
     if (response.status.isOk) {
@@ -43,42 +41,53 @@ class PackageConrollerApi extends GetxController {
     }
     loader.value = false;
   }
-
-  Future<void> delapi(String id) async {
-    final response = await http.delete(
-      Uri.parse('https://68724ae676a5723aacd438b0.mockapi.io/motor/package/$id'),
-    );
+//del
+  Future<void> packagedelete(String id) async {
+    final response = await apiService.packagedelete(id);
     if (response.statusCode == 200) {
       tolist.removeWhere((item) => item.id == id);
       Get.snackbar('Deleted', 'Package deleted successfully');
-      getapi();
+      packageget();
     }
   }
 
-  Future<void> postapi() async {
-    final response = await http.post(
-      Uri.parse('https://68724ae676a5723aacd438b0.mockapi.io/motor/package'),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(_getData()),
-    );
+  Future<void> packageadd() async {
+    final response = await apiService.packageadd(_getData());
     if (response.statusCode == 200 || response.statusCode == 201) {
-      getapi();
+      packageget();
       Get.snackbar("Success", "Package added");
     }
   }
-
-  Future<void> editapi() async {
-    String id = Get.arguments['id'];
-    final response = await http.put(
-      Uri.parse('https://68724ae676a5723aacd438b0.mockapi.io/motor/package/$id'),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(_getData()),
-    );
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      getapi();
-      Get.snackbar("Success", "Package updated");
+//update
+//   Future<void> packageupdate(String id) async {
+//     String id = Get.arguments['id'];
+//     final response = await apiService.packageupdate(id, _getData());
+//     if (response.statusCode == 200 || response.statusCode == 201) {
+//
+//       int index = tolist.indexWhere((i) => i.id == id);
+//       tolist[index] = PackageModel.fromJson(response.body['data'] as Map<String, dynamic>);
+//       tolist.refresh();
+//       clr();
+//       Get.snackbar("Success", "Package updated");
+//     }
+//   }
+  Future<void> packageupdates (String id) async
+  {
+    Response cusresponse = await apiService.packageupdate(id, _getData());
+    if(cusresponse.statusCode==200 || cusresponse.statusCode==201)
+    {
+      clr();
+      int index = tolist.indexWhere((package) => package.id == id);
+      tolist[index] = PackageModel.fromJson(cusresponse.body['data'] as Map<String, dynamic>);
+      tolist.refresh();
+      Get.snackbar("Success", "driver update successfully");
+    }
+    else
+    {
+      Get.snackbar("Error", "Not data Add");
     }
   }
+
 
   void clr() {
     name.clear();
@@ -94,17 +103,17 @@ class PackageConrollerApi extends GetxController {
       "vehicle_id": selectedVehicle?.value.id ?? "",
       "days": int.parse(days.text),
       "km": int.parse(km.text),
-      "price": int.parse(price.text),
+      "price": price.text,
     };
   }
 
   void setData(arguments) {
-    name.text = arguments['name'];
-    days.text = arguments['days'];
-    km.text = arguments['km'];
-    price.text = arguments['price'];
+    name.text = arguments['name'] ;
+    days.text = arguments['days'].toString() ;
+    km.text = arguments['km'].toString();
+    price.text = arguments['price'].toString() ;
 
-    String vid = arguments['vehicleid'];
+    String vid = arguments['vehicle_id'].toString();
     final VehicleController vehicleController = Get.find<VehicleController>();
     final matchedVehicle = vehicleController.vehicleList.firstWhereOrNull((v) => v.id == vid);
 
@@ -112,4 +121,5 @@ class PackageConrollerApi extends GetxController {
       selectedVehicle = Rx<VehicleModel>(matchedVehicle);
     }
   }
+
 }

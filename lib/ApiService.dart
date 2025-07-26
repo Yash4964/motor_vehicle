@@ -1,19 +1,4 @@
-// import 'package:get/get.dart';
-// import 'package:get/get_connect/http/src/request/request.dart';
-// import 'package:shared_preferences/shared_preferences.dart';
-//
-// class ApiService extends GetConnect {
-//   @override
-//   void onInit() {
-//     httpClient.baseUrl = 'https://motordriving.sathwarainfotech.com/api/';
-//     httpClient.addRequestModifier((Request request) async{
-//       final SharedPreferences prefs = await SharedPreferences.getInstance();
-//       request.headers['Authorization'] =prefs.getString("token") ?? "";
-//       return request;
-//     });
-//     httpClient.maxAuthRetries = 3;
-//   }
-// }
+
 
 import 'dart:convert';
 
@@ -158,26 +143,6 @@ class ApiService extends GetConnect {
       rethrow;
     }
   }
-
-  //package
-  // Future<Response> packageget() async {
-  //   try {
-  //     final String fullUrl = "https://motordriving.sathwarainfotech.com/api/packages";
-  //     debugPrint("Customer DELETE API Request: $fullUrl");
-  //
-  //     final response = await get(
-  //       fullUrl,
-  //       headers: await getAuthHeaders(),
-  //     ).timeout(const Duration(seconds: 30));
-  //
-  //     debugPrint("Customer DELETE API Response: ${response.statusCode}\nBody: ${response.bodyString}");
-  //     return response;
-  //   } catch (e, stack) {
-  //     debugPrint("Customer DELETE API Error: $e\nStack: $stack");
-  //     rethrow;
-  //   }
-  // }
-
 
   //driver
 
@@ -358,7 +323,214 @@ class ApiService extends GetConnect {
       rethrow;
     }
   }
+  //package delete
+  Future<Response> packagedelete(String id) async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/packages/$id';
+      debugPrint("package GET API Request: $fullUrl");
 
+      final response = await delete(
+        fullUrl,
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("package GET API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("package GET API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+  Future<Response> packageadd(Map<String, dynamic> data) async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/packages';
+      debugPrint("package GET API Request: $fullUrl");
+
+      final response = await post(
+        fullUrl,
+        jsonEncode(data),
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("package GET API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("package GET API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+  Future<Response> packageupdate(String id , Map<String, dynamic> data) async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/packages/$id';
+      debugPrint("package GET API Request: $fullUrl");
+
+      final response = await put(
+        fullUrl,
+        jsonEncode(data),
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("package GET API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("package GET API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+  //booking
+
+  Future<Response> bookingget() async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/bookings';
+      debugPrint("Booking GET API Request: $fullUrl");
+
+      final response = await get(
+        fullUrl,
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("Booking GET API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("Booking GET API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+  Future<Response> bookingupdate(String id , Map<String, dynamic> data) async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/bookings/$id';
+      debugPrint("booking GET API Request: $fullUrl");
+
+      final response = await put(
+        fullUrl,
+        jsonEncode(data),
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("booking GET API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("booking GET API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+  Future<Response> bookingadd(Map<String, dynamic> data) async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/bookings';
+      debugPrint("booking GET API Request: $fullUrl");
+
+      final response = await post(
+        fullUrl,
+        jsonEncode(data),
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("booking GET API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("booking GET API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+  Future<Response> bookingdelete(String id) async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/bookings/$id';
+      debugPrint("booking GET API Request: $fullUrl");
+
+      final response = await delete(
+        fullUrl,
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("booking GET API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("booking GET API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+  // payment get
+  Future<Response> paymentget() async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/transactions';
+      debugPrint("Booking GET API Request: $fullUrl");
+
+      final response = await get(
+        fullUrl,
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("Booking GET API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("Booking GET API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+// Payment: Add
+  Future<Response> paymentadd(Map<String, dynamic> data) async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/transactions';
+      debugPrint("Payment ADD API Request: $fullUrl\nPayload: $data");
+
+      final response = await post(
+        fullUrl,
+        jsonEncode(data),
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("Payment ADD API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("Payment ADD API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+// Payment: Update
+  Future<Response> paymentupdate(String id, Map<String, dynamic> data) async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/transactions/$id';
+      debugPrint("Payment UPDATE API Request: $fullUrl\nPayload: $data");
+
+      final response = await put(
+        fullUrl,
+        jsonEncode(data),
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("Payment UPDATE API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("Payment UPDATE API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+// Payment: Delete
+  Future<Response> paymentdelete(String id) async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/transactions/$id';
+      debugPrint("Payment DELETE API Request: $fullUrl");
+
+      final response = await delete(
+        fullUrl,
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("Payment DELETE API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("Payment DELETE API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
 
 }
 

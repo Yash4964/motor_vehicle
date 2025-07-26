@@ -54,7 +54,7 @@ class BookingDetailsPage extends StatelessWidget {
 
           final att_id = match?.id;
           final List<AttendanceModel> attendanceList = attendenceConrollerApi.tolist.where(
-              (j) => j.bookingid == att_id
+              (j) => j.booking_id == att_id
           ).toList();
           return Column(
             key: _form,
@@ -120,7 +120,7 @@ class BookingDetailsPage extends StatelessWidget {
                               ),
                               SizedBox(height: 2),
                               Text(
-                                "Customer name: ${match?.customerId}",
+                                "Customer name: ${match?.customer_id}",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.black54,
@@ -128,7 +128,7 @@ class BookingDetailsPage extends StatelessWidget {
                               ),
                               SizedBox(height: 6),
                               Text(
-                                "Package name:  ${match?.packageId}",
+                                "Package name:  ${match?.package_id}",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.black54,
@@ -144,7 +144,7 @@ class BookingDetailsPage extends StatelessWidget {
                               ),
                               SizedBox(height: 6),
                               Text(
-                                "Booking Date: ${match?.joinigDate }",
+                                "Booking Date: ${match?.joining_date }",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.black54,
@@ -152,7 +152,7 @@ class BookingDetailsPage extends StatelessWidget {
                               ),
                               SizedBox(height: 6),
                               Text(
-                                "Join Date: ${match?.joinigDate}",
+                                "Join Date: ${match?.joining_date}",
                                 style: TextStyle(
                                   fontSize: 14,
                                   color: Colors.black54,

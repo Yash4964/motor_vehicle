@@ -11,7 +11,7 @@ class PackageListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    p.getapi();
+    p.packageget();
     return Scaffold(
       backgroundColor: Appcolor.background,
       appBar: AppBar(
@@ -74,11 +74,11 @@ class PackageListPage extends StatelessWidget {
                               () => AddPackagePage(),
                           arguments: {
                             "isEdit": true,
-                            "name": package.name,
-                            "vehicle_id": package.vehicle_id,
-                            "days": package.days.toString(),
-                            "km": package.km.toString(),
-                            "price": package.price.toString(),
+                            "name" :package.name,
+                            "vehicle_id" :package.vehicle_id,
+                            "days" :package.days,
+                            "km":package.km,
+                            "price" :package.price,
                             "id": package.id,
                           },
                         );
@@ -105,7 +105,7 @@ class PackageListPage extends StatelessWidget {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    p.delapi(package.id);
+                                    p.packagedelete(package.id);
                                     Get.back();
                                   },
                                   child: const Text("OK", style: TextStyle(fontSize: 18)),

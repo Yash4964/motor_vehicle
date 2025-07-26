@@ -139,7 +139,7 @@ class AddAttendancePages extends StatelessWidget {
                               (
                                     (book) => DropdownMenuItem(
                                       value: book,
-                                        child:Text(book.lernerName ?? ''),
+                                        child:Text(book.learner_name ?? ''),
                                     )
                             ).toList(),
                             onChanged: (val) {

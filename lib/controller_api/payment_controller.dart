@@ -1,45 +1,48 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
+import 'package:motor_vehicle/ApiService.dart';
+
 import 'package:motor_vehicle/model/booking_model.dart';
 import 'package:motor_vehicle/model/payment_model.dart';
-import 'package:motor_vehicle/ui/admin/payment/add_payment_page.dart';
 
 class PaymentController extends GetxController {
   final TextEditingController amount = TextEditingController();
+  ApiService apiService = ApiService();
+  GetStorage getStorage = GetStorage();
+  RxBool loader = false.obs;
   var datevalue = '12/08/2025'.obs;
 
   @override
   void onInit() {
     super.onInit();
-    clr();
     getapi();
+    clr();
   }
 
   RxList<PaymentModel> paymentList = <PaymentModel>[].obs;
   Rx<BookingModel>? selectedbook;
 
   Future<void> getapi() async {
-    final response = await http.get(
-      Uri.parse('https://6874eafbdd06792b9c95d77b.mockapi.io/motor/payment'),
-    );
+
+    loader.value = true;
+
+    final response = await apiService.paymentget();
     if (response.statusCode == 200) {
-      List data = jsonDecode(response.body);
-      List<PaymentModel> payment = data
+      final data = response.body;
+      final List<dynamic> responseData = data["data"];
+      paymentList.value = responseData
           .map((e) => PaymentModel.fromJson(e))
           .toList();
-      paymentList.value = payment;
     }
+
+    loader.value = false;
   }
 
   Future<void> delapi(String id) async {
-    final response = await http.delete(
-      Uri.parse(
-        'https://6874eafbdd06792b9c95d77b.mockapi.io/motor/payment/$id',
-      ),
-    );
+    final response = await apiService.paymentdelete(id);
     if (response.statusCode == 200) {
       paymentList.removeWhere((item) => item.id == id);
       Get.snackbar('deleted', 'thank you');
@@ -48,11 +51,7 @@ class PaymentController extends GetxController {
   }
 
   Future<void> postapi() async {
-    final response = await http.post(
-      Uri.parse("https://6874eafbdd06792b9c95d77b.mockapi.io/motor/payment"),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(_getData()),
-    );
+    final response = await apiService.paymentadd(_getData());
     if (response.statusCode == 200 || response.statusCode == 201) {
       getapi();
       Get.snackbar("confrim", "thankyou", backgroundColor: Colors.green);
@@ -60,13 +59,7 @@ class PaymentController extends GetxController {
   }
 
   Future<void> editapi(String id) async {
-    final response = await http.put(
-      Uri.parse(
-        'https://6874eafbdd06792b9c95d77b.mockapi.io/motor/payment/$id',
-      ),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(_getData()),
-    );
+    final response = await apiService.paymentupdate(id, _getData());
     if (response.statusCode == 200 || response.statusCode == 201) {
       getapi();
       Get.snackbar("Update Successfully", "thankyou");
@@ -82,7 +75,7 @@ class PaymentController extends GetxController {
 
   Map<String, dynamic> _getData() {
     return {
-      "bookingid": selectedbook?.value.id ?? "",
+      "booking_id": selectedbook?.value.id ?? "",
       "amount": amount.text,
       "date":datevalue.value,
     };

@@ -7,14 +7,6 @@ import '../model/driver_model.dart';
 
 class DriverConrollerApi extends GetxController {
 
-  // final TextEditingController name = TextEditingController();
-  // final TextEditingController email = TextEditingController();
-  // final TextEditingController password = TextEditingController();
-  // final TextEditingController mobileno = TextEditingController();
-  // final TextEditingController age = TextEditingController();
-  // final TextEditingController address = TextEditingController();
-  // final TextEditingController licenceno = TextEditingController();
-
   RxBool loader = false.obs;
   ApiService apiService = ApiService();
 
@@ -34,9 +26,7 @@ class DriverConrollerApi extends GetxController {
 
   }
   var driverlist = <DriverModel>[].obs;
-
-
-
+//get
   void getDriver() async {
     loader.value = true;
     final response = await apiService.driverget();
@@ -51,12 +41,10 @@ class DriverConrollerApi extends GetxController {
     }
     loader.value = false;
   }
-
+//add
   Future<void> postDriverapi () async
   {
-
     Response response = await apiService.driveradd(_getData());
-
     if(response.statusCode==200 || response.statusCode==201)
     {
       Get.snackbar("Success", "driver added successfully");
@@ -68,18 +56,16 @@ class DriverConrollerApi extends GetxController {
       Get.snackbar("Error", "Not data Add");
     }
   }
-
+//update
   Future<void> updatedriverapi (String id) async
   {
     Response cusresponse = await apiService.driverupdate(id, _getData());
     if(cusresponse.statusCode==200 || cusresponse.statusCode==201)
     {
       clr();
-
       int index = driverlist.indexWhere((driver) => driver.id == id);
       driverlist[index] = DriverModel.fromJson(cusresponse.body['data'] as Map<String, dynamic>);
       driverlist.refresh();
-
       Get.snackbar("Success", "driver update successfully");
     }
     else
@@ -102,10 +88,6 @@ class DriverConrollerApi extends GetxController {
       Get.snackbar("Error", "Not data fatch");
     }
   }
-
-
-
-
 
   void setData(arguments) {
 

@@ -18,6 +18,7 @@ class AddPaymentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     paymentController.clr();
+    bookingcontroller.bookingget();
     if (args?['isEdit'] ?? false) {
       paymentController.setData(Get.arguments);
     }
@@ -50,7 +51,7 @@ class AddPaymentPage extends StatelessWidget {
 
                 if (paymentController.selectedbook == null) {
                   if (args?['isEdit'] == true) {
-                    final bookingId = args["bookingid"] ?? "";
+                    final bookingId = args["booking_id"] ?? "";
                     final matchedBooking = bookingcontroller.bookingList
                         .firstWhereOrNull((book) => book.id == bookingId);
 
@@ -80,7 +81,7 @@ class AddPaymentPage extends StatelessWidget {
                         .map(
                           (book) => DropdownMenuItem<BookingModel>(
                             value: book,
-                            child: Text(book.lernerName),
+                            child: Text(book.learner_name),
                           ),
                         )
                         .toList(),
