@@ -13,7 +13,7 @@ class PaymentController extends GetxController {
   ApiService apiService = ApiService();
   GetStorage getStorage = GetStorage();
   RxBool loader = false.obs;
-  var datevalue = '12/08/2025'.obs;
+  RxString datevalue = '12/08/2025'.obs;
 
   @override
   void onInit() {
@@ -70,9 +70,9 @@ class PaymentController extends GetxController {
     amount.clear();
     selectedbook = null;
     final today = DateTime.now();
-    datevalue.value = "${today.day}/${today.month}/${today.year}";
+    datevalue.value = "${today.year}-${today.month}-${today.day}";
   }
-
+  // add
   Map<String, dynamic> _getData() {
     return {
       "booking_id": selectedbook?.value.id ?? "",

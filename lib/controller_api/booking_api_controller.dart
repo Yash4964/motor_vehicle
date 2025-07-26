@@ -90,41 +90,7 @@ class BookingApiController extends GetxController {
   }
 
 
-  // Future<void> addBooking() async {
-  //   final response = await http.post(
-  //     Uri.parse('https://68735d60c75558e27353fea7.mockapi.io/motor/booking'),
-  //     headers: {"Content-Type": "application/json"},
-  //     body: jsonEncode(_getData()),
-  //   );
-  //   if (response.statusCode == 200 || response.statusCode == 201) {
-  //     fetchBookings();
-  //     Get.snackbar("Success", "Booking created successfully");
-  //   }
-  // }
-  //
-  // Future<void> updateBooking(String id) async {
-  //   final response = await http.put(
-  //     Uri.parse('https://68735d60c75558e27353fea7.mockapi.io/motor/booking/$id'),
-  //     headers: {"Content-Type": "application/json"},
-  //     body: jsonEncode(_getData()),
-  //   );
-  //   if (response.statusCode == 200 || response.statusCode == 201) {
-  //     fetchBookings();
-  //     Get.snackbar("Success", "Booking updated successfully");
-  //   }
-  // }
-  //
-  //
-  // Future<void> deleteBooking(String id) async {
-  //   final response = await http.delete(
-  //     Uri.parse('https://68735d60c75558e27353fea7.mockapi.io/motor/booking/$id'),
-  //   );
-  //   if (response.statusCode == 200) {
-  //     bookingList.removeWhere((element) => element.id == id);
-  //     Get.snackbar("Deleted", "Booking removed");
-  //     fetchBookings();
-  //   }
-  // }
+
 
   void setData(arguments) {
     learner_name.text = arguments['lerner_name'];

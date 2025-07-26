@@ -35,8 +35,9 @@ class AddPaymentPage extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Form(
-          key: _formkey,
+
           child: Column(
+            key: _formkey,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               labels("Select Booking Name"),
@@ -175,7 +176,7 @@ class AddPaymentPage extends StatelessWidget {
     );
     if (pickedDate != null) {
       paymentController.datevalue.value =
-          "${pickedDate.day ?? 0}/${pickedDate.month ?? 0}/${pickedDate.year ?? 0}";
+          "${pickedDate.year ?? 0}/${pickedDate.month ?? 0}/${pickedDate.day ?? 0}";
     }
   }
 }
