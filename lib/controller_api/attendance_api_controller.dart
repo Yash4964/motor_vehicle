@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:motor_vehicle/ApiService.dart';
 import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
 import 'package:motor_vehicle/controller_api/driver_api_controller.dart';
 import 'package:motor_vehicle/model/driver_model.dart';
@@ -19,6 +20,7 @@ class AttendenceConrollerApi extends GetxController {
   Rx<BookingModel>? selectedbooking ;
   Rx<DriverModel>? selecteddriver;
 
+    ApiService apiService = ApiService();
   var tolist = <AttendanceModel>[].obs;
 
   @override
@@ -32,16 +34,13 @@ class AttendenceConrollerApi extends GetxController {
 
 
   Future<void> getapi() async {
-    final response = await http.get(
-      Uri.parse(
-          'https://68735d60c75558e27353fea7.mockapi.io/motor/Attendence'),
-    );
+    final response = await apiService.attendanceget();
     if (response.statusCode == 200) {
-      List data = jsonDecode(response.body);
-      List<AttendanceModel> demo1 = data
+      final data =response.body;
+      final List<dynamic> responcedata = data['data'];
+      tolist.value = responcedata
           .map((e) => AttendanceModel.fromJson(e))
           .toList();
-      tolist.value = demo1;
     }
   }
 
@@ -94,10 +93,10 @@ class AttendenceConrollerApi extends GetxController {
   {
     return
         {
-          "Bookingid": selectedbooking?.value.id ?? "",
-          "Date": c.datepick.value,
-          "Time": c.timeselected.value,
-          "Driverid": selecteddriver?.value.id ?? "",
+          "booking_id": selectedbooking?.value.id ?? "",
+          "date": c.datepick.value,
+          "time": c.timeselected.value,
+          //"Driverid": selecteddriver?.value.id ?? "",
         };
   }
   void setData(Map<String, dynamic> arguments) {

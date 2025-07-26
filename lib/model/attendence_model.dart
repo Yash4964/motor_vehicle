@@ -4,14 +4,14 @@ class AttendanceModel {
   String booking_id;
   String date;
   String time;
-  String driverid;
+  //String driverid;
   String id;
 
   AttendanceModel({
     required this.booking_id,
     required this.date,
     required this.time,
-    required this.driverid,
+    //required this.driverid,
     required this.id,
   });
 
@@ -20,18 +20,18 @@ class AttendanceModel {
   String toRawJson() => json.encode(toJson());
 
   factory AttendanceModel.fromJson(Map<String, dynamic> json) => AttendanceModel(
-    booking_id: json["Bookingid"],
-    date: json["Date"],
-    time: json["Time"],
-    driverid: json["Driverid"],
-    id: json["id"],
+    booking_id: json["booking_id"].toString(),
+    date: json["date"].toString(),
+    time: json["date"].toString(),
+    //driverid: json["Driverid"],
+    id: json["id"].toString(),
   );
 
   Map<String, dynamic> toJson() => {
-    "Bookingid": booking_id,
-    "Date": date,
-    "Time": time,
-    "Driverid": driverid,
+    "Booking_id": booking_id,
+    "date": date,
+    "time": time,
+    //"Driverid": driverid,
     "id": id,
   };
 }

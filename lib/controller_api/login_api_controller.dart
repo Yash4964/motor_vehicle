@@ -13,8 +13,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginApiController extends GetxController {
 
 
-  TextEditingController emailController = TextEditingController(text: 'admin@example.com');
-  TextEditingController passwordController = TextEditingController(text: 'Admin@123');
+  TextEditingController emailController = TextEditingController(text: 'rajubhai@gmail.com');
+  TextEditingController passwordController = TextEditingController(text: 'Rajubhai123');
   GetStorage getStorage = GetStorage();
   RxList<AdminModel> customerlist = <AdminModel>[].obs;
 
@@ -39,7 +39,7 @@ class LoginApiController extends GetxController {
 
       getStorage.write("token", responseModel.data['token_type'] + " " + responseModel.data['token']);
       getStorage.write("user_mode", responseModel.data['user_type']);
-      getStorage.write("user", CustomerModel.fromJson(responseModel.data['user']).toJson().toString());
+      getStorage.write("user", CustomerModel.fromJson(responseModel.data['user']).toJson());
 
       if(responseModel.data['user_type'] == "customer"){
         Get.off(CustomerHomePage());

@@ -4,7 +4,7 @@ class CustomerModel {
   String name;
   String email;
   String password;
-  String mobileno;
+  String mobile_no;
   int age;
   String address;
   String pincode;
@@ -14,7 +14,7 @@ class CustomerModel {
     required this.name,
     required this.email,
     required this.password,
-    required this.mobileno,
+    required this.mobile_no,
     required this.age,
     required this.address,
     required this.pincode,
@@ -29,7 +29,7 @@ class CustomerModel {
     name: json["name"],
     email: json["email"],
     password: json["password"] ?? "",
-    mobileno: json["mobile_no"] ?? "",
+    mobile_no: json["mobile_no"] ?? "",
     age: int.tryParse(json["age"].toString()) ?? 0,
     address: json["address"] ?? "",
     pincode: json["pincode"] ?? "",
@@ -40,7 +40,7 @@ class CustomerModel {
   "name": name,
   "email": email,
   "password": password,
-  "mobileno": mobileno,
+  "mobile_no": mobile_no,
   "age": age,
   "address": address,
   "pincode": pincode,
