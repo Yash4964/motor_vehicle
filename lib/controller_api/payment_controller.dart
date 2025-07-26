@@ -72,7 +72,7 @@ class PaymentController extends GetxController {
     final today = DateTime.now();
     datevalue.value = "${today.year}-${today.month}-${today.day}";
   }
-
+  // add
   Map<String, dynamic> _getData() {
     return {
       "booking_id": selectedbook?.value.id ?? "",
