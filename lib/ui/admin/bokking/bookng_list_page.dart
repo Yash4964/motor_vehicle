@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
 import 'package:motor_vehicle/ui/admin/bokking/add_booking_page.dart';
 import 'package:motor_vehicle/ui/customer/home/booking_details_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
+
 
 class BookingListPage extends StatelessWidget {
   BookingListPage({super.key});
@@ -35,6 +37,9 @@ class BookingListPage extends StatelessWidget {
                     itemCount: b.bookingList.length,
                     itemBuilder: (context, index) {
                       final booking = b.bookingList[index];
+                      DateTime dateTime = DateTime.parse(booking.joining_date);
+                      final formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
+
                       return Card(
                         color: Appcolor.container,
                         margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -59,8 +64,7 @@ class BookingListPage extends StatelessWidget {
                               SizedBox(height: 1,),
                               Text("Customer Name: ${booking.customer_id}"),
                               Text("Package: ${booking.package_id}"),
-                              Text("Booking Date: ${booking.joining_date}"),
-                              Text("Joining Date: ${booking.joining_date}"),
+                              Text("Booking Date: ${formattedDate}"),
                               Text("Joining Time: ${booking.time_slot}"),
                             ],
                           ),
@@ -76,9 +80,8 @@ class BookingListPage extends StatelessWidget {
                                     "customer_id": booking.customer_id,
                                     "lerner_name": booking.learner_name,
                                     "package_id": booking.package_id,
-                                    "joinig_date": booking.joining_date,
-                                    "time_slot": booking.time_slot,
-                                    "booking_date": booking.joining_date,
+                                    "joining_date":  booking.joining_date,
+                                    "time_slot": booking.joining_date,
                                     "id": booking.id,
                                   });
                                 },
