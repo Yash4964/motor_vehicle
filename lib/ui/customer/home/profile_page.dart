@@ -1,19 +1,27 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/utils.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:motor_vehicle/ui/login_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../model/customer_model.dart';
+import '../../../model/response_model.dart';
+
 class ProfilePage extends StatelessWidget {
   final Uri _url = Uri.parse(
     'https://www.youtube.com/watch?v=JYLEyMvj6sE&list=RDf23e6nfVQiI&index=4',
   );
-  //final Uri  _url = Uri.parse('tel:123456789');
+  GetStorage getStorage =GetStorage();
 
   @override
   Widget build(BuildContext context)  {
+    CustomerModel customerdata = CustomerModel.fromJson(getStorage.read('user'));
+
     return Scaffold(
       backgroundColor: Appcolor.background,
       body: SingleChildScrollView(
@@ -69,7 +77,9 @@ class ProfilePage extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.only(top: 40, left: 10),
                             child: Text(
-                              "John Doe",
+                              //CustomerModel.fromJson(jsonDecode(getStorage.read('user'))).name.toString(),
+                              customerdata.name,
+                              //(CustomerModel.fromJson(getStorage.read('user')).name.toString()),
                               style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
@@ -88,7 +98,7 @@ class ProfilePage extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.only(left: 4),
                                 child: Text(
-                                  " johndoe@gmail.com",
+                                  customerdata.email,
                                   style: TextStyle(color: Colors.grey),
                                 ),
                               ),
@@ -132,7 +142,7 @@ class ProfilePage extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: 20),
                     child: Text(
-                      "+91 9925973355",
+                      customerdata.mobile_no,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
@@ -150,7 +160,7 @@ class ProfilePage extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: 20),
                     child: Text(
-                      "License No",
+                      "Address",
                       style: TextStyle(
                         fontSize: 15,
                         color: Color.fromARGB(255, 129, 129, 129),
@@ -161,7 +171,7 @@ class ProfilePage extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: 20),
                     child: Text(
-                      "DL-1234-567890",
+                      customerdata.address,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
@@ -177,7 +187,7 @@ class ProfilePage extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: 20),
                     child: Text(
-                      "Course",
+                      "Pincode",
                       style: TextStyle(
                         fontSize: 15,
                         color: Color.fromARGB(255, 129, 129, 129),
@@ -188,7 +198,7 @@ class ProfilePage extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(left: 20),
                     child: Text(
-                      "4-Wheeler Advanced",
+                      customerdata.pincode,
                       style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,

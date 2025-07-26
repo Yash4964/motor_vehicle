@@ -55,7 +55,7 @@ class AttendanceListPage extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: '${att.driverid}\n',
+                            //text: '${att.driverid}\n',
                             style: TextStyle(color: Colors.grey[700]),
                           ),
                           TextSpan(

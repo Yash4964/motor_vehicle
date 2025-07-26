@@ -101,7 +101,7 @@ class CustomerListPage extends StatelessWidget {
                                   Icon(Icons.call, size: 16),
                                   SizedBox(width: 4),
                                   Text(
-                                    customer.mobileno,
+                                    customer.mobile_no,
                                     style: TextStyle(fontSize: 13),
                                   ),
                                 ],
@@ -122,7 +122,7 @@ class CustomerListPage extends StatelessWidget {
                                       "name": customer.name,
                                       "email": customer.email,
                                       "password": customer.password,
-                                      "mobileno": customer.mobileno.toString(),
+                                      "mobileno": customer.mobile_no.toString(),
                                       "age": customer.age.toString(),
                                       "address": customer.address,
                                       "pincode": customer.pincode.toString(),
