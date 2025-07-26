@@ -11,6 +11,7 @@ class BookingListPage extends StatelessWidget {
   final _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
+    bookingApiController.bookingget();
 
     return Scaffold(
       backgroundColor: Color(0xFFF1F4F8),

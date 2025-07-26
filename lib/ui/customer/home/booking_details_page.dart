@@ -26,6 +26,8 @@ class BookingDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // attendenceConrollerApi.tolist();
+
     return Scaffold(
       backgroundColor: Appcolor.background,
       appBar: AppBar(

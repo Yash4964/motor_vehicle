@@ -50,21 +50,40 @@ class PaymentController extends GetxController {
     }
   }
 
-  Future<void> postapi() async {
-    final response = await apiService.paymentadd(_getData());
-    if (response.statusCode == 200 || response.statusCode == 201) {
+  Future<void> postapi() async
+  {
+    loader.value = true;
+    Response response = await apiService.paymentadd(_getData());
+    if(response.statusCode==200 || response.statusCode==201)
+    {
+      Get.snackbar("Success", "driver added successfully");
       getapi();
-      Get.snackbar("confrim", "thankyou", backgroundColor: Colors.green);
+      clr();
     }
+    else
+    {
+      Get.snackbar("Error", "Not data Add");
+    }
+    loader.value = false;
   }
 
   Future<void> editapi(String id) async {
     final response = await apiService.paymentupdate(id, _getData());
     if (response.statusCode == 200 || response.statusCode == 201) {
-      getapi();
-      Get.snackbar("Update Successfully", "thankyou");
+      clr();
+      int index = paymentList.indexWhere((driver) => driver.id == id);
+      paymentList[index] =
+          PaymentModel.fromJson(response.body['data'] as Map<String, dynamic>);
+      paymentList.refresh();
+      Get.snackbar("Success", "payment update successfully");
+    }
+    else
+    {
+      Get.snackbar("Error", "Not data Add");
     }
   }
+
+
 
   void clr() {
     amount.clear();

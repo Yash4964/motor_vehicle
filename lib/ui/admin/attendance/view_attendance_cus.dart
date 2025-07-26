@@ -31,15 +31,15 @@ class View_Attendance extends StatelessWidget {
                 backgroundImage: AssetImage('assets/images/default_person.png'),
               ),
               contentPadding: EdgeInsets.all(12),
-              title: InkWell(
-                onTap: () {
-                  //Get.to(() => CustomerProfilePage(), arguments: customer);
-                },
-                child: Text(
-                  "Driver Name : ${att.driverid}",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-              ),
+              // title: InkWell(
+              //   onTap: () {
+              //     Get.to(() => CustomerProfilePage());
+              //   },
+              //   child: Text(
+              //     "Driver Name : ${att.driverid}",
+              //     style: TextStyle(fontWeight: FontWeight.bold),
+              //   ),
+              // ),
               subtitle: Text(
                 'Date: ${att.date}  |  Time: ${att.time}',
                 style: TextStyle(color: Colors.black54),

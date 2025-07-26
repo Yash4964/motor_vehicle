@@ -275,11 +275,11 @@ class AddAttendancePages extends StatelessWidget {
                 Get.back();
                 if((args?["isEdit"] ?? false) == false)
                 {
-                  a.postapi();
+                  // a.postapi();
                 }
                 else
                 {
-                  a.editapi(args['id']);
+                  // a.editapi(args['id']);
                 }
 
 

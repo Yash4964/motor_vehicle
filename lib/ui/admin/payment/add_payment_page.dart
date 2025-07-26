@@ -118,7 +118,7 @@ class AddPaymentPage extends StatelessWidget {
                       width: double.infinity,
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
-                        child: Text(paymentController.datevalue.value),
+                        child: Text(paymentController.datevalue.value.toString()),
                       ),
                     ),
                   ),
@@ -128,12 +128,13 @@ class AddPaymentPage extends StatelessWidget {
               InkWell(
                 onTap: () {
                   Get.back();
+
                   if ((args?["isEdit"] ?? false) == false) {
                     paymentController.postapi();
                   } else {
                     paymentController.editapi(args["id"]);
                   }
-                },
+                  },
                 child: Container(
                   width: double.infinity,
                   height: 45,
@@ -171,7 +172,7 @@ class AddPaymentPage extends StatelessWidget {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2025),
+      firstDate: DateTime(2020),
       lastDate: DateTime(2030),
     );
     if (pickedDate != null) {

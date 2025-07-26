@@ -11,6 +11,9 @@ class AttendanceListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (a.tolist.isEmpty) {
+      a.attendanceget();
+    }
     return Scaffold(
       backgroundColor: Appcolor.background,
       appBar: AppBar(
@@ -41,23 +44,23 @@ class AttendanceListPage extends StatelessWidget {
                       backgroundImage: AssetImage('assets/images/person3.jpg'),
                     ),
                     title: Text(
-                      att.booking_id,
+                      "Booking id: ${att.booking_id}",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text.rich(
                       TextSpan(
                         children: [
-                          TextSpan(
-                            text: 'Driver : ',
-                            style: TextStyle(
-                              color: Colors.grey[800],
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          TextSpan(
-                            text: '${att.driverid}\n',
-                            style: TextStyle(color: Colors.grey[700]),
-                          ),
+                          // TextSpan(
+                          //   text: 'Driver : ',
+                          //   style: TextStyle(
+                          //     color: Colors.grey[800],
+                          //     fontWeight: FontWeight.bold,
+                          //   ),
+                          // ),
+                          // TextSpan(
+                          //   text: '${att.driverid}\n',
+                          //   style: TextStyle(color: Colors.grey[700]),
+                          // ),
                           TextSpan(
                             text: 'Time : ',
                             style: TextStyle(
@@ -77,7 +80,7 @@ class AttendanceListPage extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: att.date,
+                            text: '${att.date}\n',
                             style: TextStyle(color: Colors.grey[700]),
                           ),
                         ],
@@ -114,7 +117,7 @@ class AttendanceListPage extends StatelessWidget {
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        a.delapi(att.id);
+                                        a.attendancedelete(att.id);
                                         Get.back();
                                       },
                                       child: const Text("OK"),
