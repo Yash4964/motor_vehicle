@@ -5,19 +5,19 @@ import 'package:http/http.dart' as http;
 import 'package:motor_vehicle/ApiService.dart';
 import 'package:motor_vehicle/model/customer_model.dart';
 import 'package:motor_vehicle/model/package_model.dart';
-
+import 'package:intl/intl.dart';
 import '../model/booking_model.dart';
 
 class BookingApiController extends GetxController {
   ApiService apiService = ApiService();
   final TextEditingController learner_name = TextEditingController();
-  final TextEditingController joinigDate = TextEditingController();
   final TextEditingController timeSlot = TextEditingController();
-  final TextEditingController bookingDate = TextEditingController();
   RxBool loader = false.obs;
   RxList<BookingModel> bookingList = <BookingModel>[].obs;
   Rx<CustomerModel>? selectCustomer ;
   Rx<PackageModel>? selectpackage ;
+
+  RxString joining_date = '12/08/2025'.obs;
   @override
   void onInit() {
     super.onInit();
@@ -94,7 +94,7 @@ class BookingApiController extends GetxController {
 
   void setData(arguments) {
     learner_name.text = arguments['lerner_name'];
-    joinigDate.text = arguments['joinig_date'];
+    joining_date.value = arguments['joining_date'];
     timeSlot.text = arguments['time_slot'];
   }
 
@@ -105,17 +105,18 @@ class BookingApiController extends GetxController {
           "customer_id": selectCustomer?.value.id ?? "",
           "learner_name": learner_name.text,
           "package_id": selectpackage?.value.id ?? "",
-          "joining_date": joinigDate.text,
+          "joining_date": joining_date.value,
           "time_slot": timeSlot.text,
         };
   }
 
   void clr() {
     learner_name.clear();
-    joinigDate.clear();
     timeSlot.clear();
-    bookingDate.clear();
     selectCustomer = null;
     selectpackage = null;
+    joining_date.value = '12/08/2025';
   }
 }
+
+

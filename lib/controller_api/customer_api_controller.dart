@@ -53,7 +53,6 @@ class CustomerApiController extends GetxController
   {
 
     Response response = await apiService.customeradd(_getData());
-
     if(response.statusCode==200 || response.statusCode==201)
     {
       Get.snackbar("Success", "Customer added successfully");

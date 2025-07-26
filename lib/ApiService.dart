@@ -532,42 +532,23 @@ class ApiService extends GetConnect {
     }
   }
 
-  //attendance
+  //attendance get
   Future<Response> attendanceget() async {
     try {
       final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/attendances';
-      debugPrint("attendance GET API Request: $fullUrl");
+      debugPrint("Booking GET API Request: $fullUrl");
 
       final response = await get(
         fullUrl,
         headers: await getAuthHeaders(),
       ).timeout(const Duration(seconds: 30));
 
-      debugPrint("Attendance response data: ${response.body}");
+      debugPrint("Booking GET API Response: ${response.statusCode}\nBody: ${response.bodyString}");
       return response;
     } catch (e, stack) {
-      debugPrint("attendance GET API Error: $e\nStack: $stack");
+      debugPrint("Booking GET API Error: $e\nStack: $stack");
       rethrow;
     }
   }
-
-  Future<Response> attendancedelete(String id) async {
-    try {
-      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/attendances/$id';
-      debugPrint("attendance DELETE API Request: $fullUrl");
-
-      final response = await delete(
-        fullUrl,
-        headers: await getAuthHeaders(),
-      ).timeout(const Duration(seconds: 30));
-
-      debugPrint("attendance DELETE API Response: ${response.statusCode}\nBody: ${response.bodyString}");
-      return response;
-    } catch (e, stack) {
-      debugPrint("attendance DELETE API Error: $e\nStack: $stack");
-      rethrow;
-    }
-  }
-
 }
 
