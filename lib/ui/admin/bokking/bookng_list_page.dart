@@ -12,6 +12,7 @@ class BookingListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    b.bookingget();
     return Scaffold(
       backgroundColor: Appcolor.background,
       appBar: AppBar(
@@ -21,9 +22,12 @@ class BookingListPage extends StatelessWidget {
       ),
       body: Obx(
             ()  {
+              if (b.loader.value) {
+                return Center(child: CircularProgressIndicator());
+              }
               if(b.bookingList.isEmpty)
                 {
-                  return  Center(child: CircularProgressIndicator());
+                  return  Center(child: Text("No packages available"));
                 }
               else
                 {
@@ -45,7 +49,7 @@ class BookingListPage extends StatelessWidget {
                               });
                             },
                             child: Text(
-                              "Lerner Name : ${booking.lernerName}",
+                              "Lerner Name : ${booking.learner_name}",
                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                             ),
                           ),
@@ -53,11 +57,11 @@ class BookingListPage extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(height: 1,),
-                              Text("Customer Name: ${booking.customerId}"),
-                              Text("Package: ${booking.packageId}"),
-                              Text("Booking Date: ${booking.joinigDate}"),
-                              Text("Joining Date: ${booking.joinigDate}"),
-                              Text("Joining Time: ${booking.timeSlot}"),
+                              Text("Customer Name: ${booking.customer_id}"),
+                              Text("Package: ${booking.package_id}"),
+                              Text("Booking Date: ${booking.joining_date}"),
+                              Text("Joining Date: ${booking.joining_date}"),
+                              Text("Joining Time: ${booking.time_slot}"),
                             ],
                           ),
                           trailing: Row(
@@ -69,12 +73,12 @@ class BookingListPage extends StatelessWidget {
                                   b.clr();
                                   Get.to(() => AddBookingPage(), arguments: {
                                     "isEdit": true,
-                                    "customer_id": booking.customerId,
-                                    "lerner_name": booking.lernerName,
-                                    "package_id": booking.packageId,
-                                    "joinig_date": booking.joinigDate,
-                                    "time_slot": booking.timeSlot,
-                                    "booking_date": booking.joinigDate,
+                                    "customer_id": booking.customer_id,
+                                    "lerner_name": booking.learner_name,
+                                    "package_id": booking.package_id,
+                                    "joinig_date": booking.joining_date,
+                                    "time_slot": booking.time_slot,
+                                    "booking_date": booking.joining_date,
                                     "id": booking.id,
                                   });
                                 },
@@ -82,7 +86,7 @@ class BookingListPage extends StatelessWidget {
                               IconButton(
                                 icon: Icon(Icons.delete, color: Colors.red),
                                 onPressed: () {
-                                  b.deleteBooking(booking.id);
+                                  b.bookingdelete(booking.id);
                                 },
                               ),
                             ],

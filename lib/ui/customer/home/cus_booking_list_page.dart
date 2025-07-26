@@ -59,16 +59,16 @@ class BookingListPage extends StatelessWidget {
                             children: [
                               Padding(
                                 padding:  EdgeInsets.only(left: 50),
-                                child: Text(booking.lernerName,
+                                child: Text(booking.learner_name,
                                     style: TextStyle(fontSize: 18, color: Appcolor.primary,fontWeight: FontWeight.bold)),
                               ),
-                              Text("Package: ${booking.packageId}",
+                              Text("Package: ${booking.package_id}",
                                   style: TextStyle(fontSize: 16, color: Colors.grey[700])),
-                              Text("Booking Date: ${booking.joinigDate}",
+                              Text("Booking Date: ${booking.joining_date}",
                                   style: TextStyle(fontSize: 16, color: Colors.grey[700])),
-                              Text("Joining Date: ${booking.joinigDate}",
+                              Text("Joining Date: ${booking.joining_date}",
                                   style: TextStyle(fontSize: 16, color: Colors.grey[700])),
-                              Text("Joining Time: ${booking.timeSlot}",
+                              Text("Joining Time: ${booking.time_slot}",
                                   style: TextStyle(fontSize: 16, color: Colors.grey[700])),
 
                             ],

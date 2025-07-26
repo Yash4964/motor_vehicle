@@ -5,7 +5,7 @@ class PackageModel {
   String vehicle_id;
   int days;
   int km;
-  int price;
+  String price;
   String id;
 
   PackageModel({
@@ -26,7 +26,7 @@ class PackageModel {
     vehicle_id: json["vehicle_id"].toString() ?? "",
     days: int.tryParse(json["days"].toString()) ?? 0,
     km: int.tryParse(json["km"].toString()) ?? 0,
-    price: int.tryParse(json["price"].toString()) ?? 0,
+    price: json["price"].toString(),
     id: json["id"].toString(),
   );
 

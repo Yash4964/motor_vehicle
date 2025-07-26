@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 class PaymentModel {
-  String bookingid;
+  String booking_id;
   String amount;
   String date;
   String id;
 
   PaymentModel({
-    required this.bookingid,
+    required this.booking_id,
     required this.amount,
     required this.date,
     required this.id,
@@ -18,14 +18,14 @@ class PaymentModel {
   String toRawJson() => json.encode(toJson());
 
   factory PaymentModel.fromJson(Map<String, dynamic> json) => PaymentModel(
-    bookingid: json["bookingid"],
-    amount: json["amount"],
-    date: json["date"],
-    id: json["id"],
+    booking_id: json["booking_id"].toString() ?? "",
+    amount: json["amount"] ?? "",
+    date: json["date"] ?? "",
+    id: json["id"].toString()?? "",
   );
 
   Map<String, dynamic> toJson() => {
-    "bookingid": bookingid,
+    "booking_id": booking_id,
     "amount": amount,
     "date": date,
     "id": id,

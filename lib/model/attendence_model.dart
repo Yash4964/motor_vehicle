@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 class AttendanceModel {
-  String bookingid;
+  String booking_id;
   String date;
   String time;
   String driverid;
   String id;
 
   AttendanceModel({
-    required this.bookingid,
+    required this.booking_id,
     required this.date,
     required this.time,
     required this.driverid,
@@ -20,7 +20,7 @@ class AttendanceModel {
   String toRawJson() => json.encode(toJson());
 
   factory AttendanceModel.fromJson(Map<String, dynamic> json) => AttendanceModel(
-    bookingid: json["Bookingid"],
+    booking_id: json["Bookingid"],
     date: json["Date"],
     time: json["Time"],
     driverid: json["Driverid"],
@@ -28,7 +28,7 @@ class AttendanceModel {
   );
 
   Map<String, dynamic> toJson() => {
-    "Bookingid": bookingid,
+    "Bookingid": booking_id,
     "Date": date,
     "Time": time,
     "Driverid": driverid,

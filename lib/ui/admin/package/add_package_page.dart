@@ -17,6 +17,7 @@ class AddPackagePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     packageConrollerApi.clr();
+    vehicleController.getVehicle();
 
     if (args?['isEdit'] ?? false) {
       packageConrollerApi.setData(args);
@@ -35,8 +36,9 @@ class AddPackagePage extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Form(
-          key: _formkey,
+
           child: Column(
+            key: _formkey,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: 10),
@@ -67,10 +69,10 @@ class AddPackagePage extends StatelessWidget {
                 }
 
                 if (packageConrollerApi.selectedVehicle == null) {
-                  if ((args?['isEdit'] ?? false) && args?['vehicleid'] != null) {
-                    final vehicleId = args['vehicleid'];
+                  if ((args?['isEdit'] ?? false) && args?['vehicle_id'] != null) {
+                    final vehicle_id = args['vehicle_id'];
                     final matchedVehicle = vehicleController.vehicleList
-                        .firstWhereOrNull((v) => v.id == vehicleId);
+                        .firstWhereOrNull((v) => v.id == vehicle_id);
                     if (matchedVehicle != null) {
                       packageConrollerApi.selectedVehicle = Rx<VehicleModel>(matchedVehicle);
                     }
@@ -132,9 +134,9 @@ class AddPackagePage extends StatelessWidget {
               InkWell(
                 onTap: () {
                   if ((args?["isEdit"] ?? false) == false) {
-                    // packageConrollerApi.postapi();
+                      packageConrollerApi.packageadd();
                   } else {
-                    // packageConrollerApi.editapi();
+                      packageConrollerApi.packageupdates(args['id']);
                   }
                   Get.back();
                 },

@@ -41,9 +41,7 @@ class VehicleController extends GetxController {
 
   Future<void> postVehicle() async
   {
-
     Response response = await apiService.vehicleadd(_getData());
-
     if(response.statusCode==200 || response.statusCode==201)
     {
       Get.snackbar("Success", "Customer added successfully");
@@ -62,11 +60,9 @@ class VehicleController extends GetxController {
     if(cusresponse.statusCode==200 || cusresponse.statusCode==201)
     {
       clr();
-
       int index = vehicleList.indexWhere((vehicle) => vehicle.id == id);
       vehicleList[index] = VehicleModel.fromJson(cusresponse.body['data'] as Map<String, dynamic>);
       vehicleList.refresh();
-
       Get.snackbar("Success", "vehicle update successfully");
     }
     else
