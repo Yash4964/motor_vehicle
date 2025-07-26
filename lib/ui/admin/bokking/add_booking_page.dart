@@ -193,10 +193,9 @@ class AddBookingPage extends StatelessWidget {
               SizedBox(height: 20),
               InkWell(
                 onTap: () {
-                  b.joinigDate.text = c.datepick.value;
+                  b.joining_date.value = c.datepick.value;
                   b.timeSlot.text = d.timeselected.value;
-                  b.bookingDate.text = DateTime.now().toString().split(' ')[0];
-
+                  //b.bookingDate.text = DateTime.now().toString().split(' ')[0];
                   if ((args?['isEdit'] ?? false) == false) {
                    b.bookingadd();
                   } else {
@@ -236,7 +235,7 @@ class AddBookingPage extends StatelessWidget {
       lastDate: DateTime(2030),
     );
     if (pickedDate != null) {
-      c.datepick.value = "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
+      c.datepick.value = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
     }
   }
 }

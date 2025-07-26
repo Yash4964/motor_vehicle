@@ -26,7 +26,7 @@ class Customercontoller extends GetxController {
   ];
 
 
-  var datepick = '12/08/2025'.obs;
+  var datepick = '2025/12/08'.obs;
 
 }
 

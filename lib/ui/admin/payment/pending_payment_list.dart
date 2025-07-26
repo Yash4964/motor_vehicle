@@ -4,6 +4,9 @@ import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
 import 'package:motor_vehicle/controller_api/payment_controller.dart';
 import 'package:motor_vehicle/ui/admin/payment/add_payment_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
+import 'package:intl/intl.dart';
+
+import '../../../model/payment_model.dart';
 
 class PandingCustomerList extends StatelessWidget {
   PandingCustomerList({super.key});
@@ -21,11 +24,14 @@ class PandingCustomerList extends StatelessWidget {
         } else if (paymentController.paymentList.isEmpty) {
           return Center(child: Text("No payment found"));
         } else {
+
           return ListView.builder(
             itemCount: paymentController.paymentList.length,
             itemBuilder: (context, index) {
               final payment = paymentController.paymentList[index];
-
+              //date convret formate
+              DateTime dateTime = DateTime.parse(payment.date);
+              final formattedDate = DateFormat('yyyy:MM:dd').format(dateTime);
               return Column(
                 children: [
                   Card(
@@ -58,6 +64,7 @@ class PandingCustomerList extends StatelessWidget {
                             ),
                           ),
                           SizedBox(height: 4),
+
                           RichText(
                             text: TextSpan(
                               style: TextStyle(fontSize: 13, color: Colors.black),
@@ -65,7 +72,7 @@ class PandingCustomerList extends StatelessWidget {
                                 TextSpan(
                                     text: "Date: ",
                                     style: TextStyle(fontWeight: FontWeight.bold)),
-                                TextSpan(text: payment.date),
+                                TextSpan(text: formattedDate),
                               ],
                             ),
                           ),
@@ -84,7 +91,7 @@ class PandingCustomerList extends StatelessWidget {
                                   "amount": payment.amount,
                                   "id": payment.id,
                                   "booking_id": payment.booking_id,
-                                  "date": payment.date,
+                                  "date": formattedDate,
                                 },
                               );
                             },
