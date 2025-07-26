@@ -20,7 +20,7 @@ class PaymentModel {
   factory PaymentModel.fromJson(Map<String, dynamic> json) => PaymentModel(
     booking_id: json["booking_id"].toString() ?? "",
     amount: json["amount"] ?? "",
-    date: json["date"] ?? "",
+    date: json["date"].toString() ?? "",
     id: json["id"].toString()?? "",
   );
 
