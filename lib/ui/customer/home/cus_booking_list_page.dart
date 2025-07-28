@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
 import 'package:motor_vehicle/ui/customer/home/booking_details_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
@@ -16,16 +17,21 @@ class BookingListPage extends StatelessWidget {
       backgroundColor: Color(0xFFF1F4F8),
       body: Obx(()
       {
-        if(bookingApiController.bookingList.isEmpty)
-        {
+        if(bookingApiController.loader.value) {
           return Center(child: CircularProgressIndicator(),);
         }
-        return ListView.builder(
-          key: _formkey,
+        if(bookingApiController.bookingList.isEmpty)
+        {
+          return Center(child:Text('Not data Found'));
+        }
+          return ListView.builder(
           itemCount: bookingApiController.bookingList.length,
           itemBuilder: (BuildContext context, int index) {
             final booking = bookingApiController.bookingList[index];
+            DateTime dateTime = DateTime.parse(booking.joining_date);
+            final formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
             return Padding(
+              key: _formkey,
               padding: EdgeInsets.all(5.0),
               child: Card(
                 elevation: 2,
@@ -64,9 +70,9 @@ class BookingListPage extends StatelessWidget {
                               ),
                               Text("Package: ${booking.package_id}",
                                   style: TextStyle(fontSize: 16, color: Colors.grey[700])),
-                              Text("Booking Date: ${booking.joining_date}",
-                                  style: TextStyle(fontSize: 16, color: Colors.grey[700])),
-                              Text("Joining Date: ${booking.joining_date}",
+                              // Text("Booking Date: ${booking.joining_date}",
+                              //     style: TextStyle(fontSize: 16, color: Colors.grey[700])),
+                              Text("Joining Date: ${formattedDate}",
                                   style: TextStyle(fontSize: 16, color: Colors.grey[700])),
                               Text("Joining Time: ${booking.time_slot}",
                                   style: TextStyle(fontSize: 16, color: Colors.grey[700])),
