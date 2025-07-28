@@ -164,6 +164,8 @@ class VehicleListPage extends StatelessWidget {
 
       floatingActionButton: FloatingActionButton(
         onPressed: (){
+          vehicleController.clr();
+
           Get.to(AddVehiclePage());
         },
         child: Icon(Icons.add,color: Colors.white,),

@@ -13,7 +13,6 @@ import '../attendance/add_attendance_customer.dart';
 class DropController extends GetxController {
   var timeselected = '6:30 AM'.obs;
   var timelist = ['6:30 AM', '7:00 AM', '7:30 AM'];
-  var datepick = '12/08/2025'.obs;
 }
 
 class AddBookingPage extends StatelessWidget {
@@ -55,44 +54,48 @@ class AddBookingPage extends StatelessWidget {
               labels("Select Customer"),
               Obx(() {
                 if (customerController.customerlist.isEmpty) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
-                if(b.selectCustomer == null)
-                {
-                  if(args?["isEdit"] == true)
-                  {
+
+                // Initialization block (can be moved to initState as well)
+                if (b.selectCustomer == null) {
+                  if (args?["isEdit"] == true) {
                     final customer_id = args["customer_id"] ?? "";
                     final match = customerController.customerlist.firstWhereOrNull(
-                            (i) => i.id == customer_id
-                    );
-                    if(match != null)
-                      {
-                        b.selectCustomer = Rx<CustomerModel>(match,);
-                      }
-                  }
-                  else
-                    {
-                      b.selectCustomer = Rx<CustomerModel>(customerController.customerlist[0]);
+                            (i) => i.id == customer_id);
+                    if (match != null) {
+                      b.selectCustomer = Rx<CustomerModel>(match);
                     }
+                  } else {
+                    b.selectCustomer =
+                        Rx<CustomerModel>(customerController.customerlist[0]);
+                  }
                 }
+
+                // Safety check for matching value in list
+                final selected = customerController.customerlist.firstWhereOrNull(
+                        (e) => e.id == b.selectCustomer?.value.id);
+
                 return Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: Color(0xFFF3F4F6),
+                    color: const Color(0xFFF3F4F6),
                   ),
-                  padding: EdgeInsets.only(left: 5),
+                  padding: const EdgeInsets.only(left: 5),
                   width: double.infinity,
                   child: DropdownButton<CustomerModel>(
                     isExpanded: true,
-                    value: b.selectCustomer?.value,
+                    value: selected,
                     items: customerController.customerlist.map((customer) {
                       return DropdownMenuItem(
                         value: customer,
-                        child: Text(customer.name),
+                        child: Text(customer.name ?? "Unknown"),
                       );
                     }).toList(),
                     onChanged: (val) {
-                      b.selectCustomer?.value = val!;
+                      if (val != null) {
+                        b.selectCustomer?.value = val;
+                      }
                     },
                   ),
                 );
@@ -169,7 +172,7 @@ class AddBookingPage extends StatelessWidget {
                     ),
                     padding: EdgeInsets.all(15),
                     width: double.infinity,
-                    child: Text(c.datepick.value),
+                    child: Text(b.joining_date.value),
                   )),
                 ),
               ),
@@ -235,7 +238,9 @@ class AddBookingPage extends StatelessWidget {
       lastDate: DateTime(2030),
     );
     if (pickedDate != null) {
-      c.datepick.value = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+      b.joining_date.value =
+
+          c.datepick.value = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
     }
   }
 }

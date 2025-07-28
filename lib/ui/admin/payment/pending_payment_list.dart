@@ -29,9 +29,8 @@ class PandingCustomerList extends StatelessWidget {
             itemCount: paymentController.paymentList.length,
             itemBuilder: (context, index) {
               final payment = paymentController.paymentList[index];
-              //date convret formate
               DateTime dateTime = DateTime.parse(payment.date);
-              final formattedDate = DateFormat('yyyy:MM:dd').format(dateTime);
+              final formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
               return Column(
                 children: [
                   Card(

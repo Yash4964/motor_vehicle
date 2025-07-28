@@ -21,14 +21,13 @@ class AttendanceModel {
 
   factory AttendanceModel.fromJson(Map<String, dynamic> json) => AttendanceModel(
     booking_id: json["booking_id"].toString(),
-    date: json["date"].toString(),
-    time: json["date"].toString(),
-    //driverid: json["Driverid"],
+    date: json["date"] ?? "",
+    time: json["time"] ?? "",
     id: json["id"].toString(),
   );
 
   Map<String, dynamic> toJson() => {
-    "Booking_id": booking_id,
+    "booking_id": booking_id,
     "date": date,
     "time": time,
     //"Driverid": driverid,

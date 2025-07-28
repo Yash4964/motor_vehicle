@@ -115,7 +115,8 @@ class BookingApiController extends GetxController {
     timeSlot.clear();
     selectCustomer = null;
     selectpackage = null;
-    joining_date.value = '12/08/2025';
+    final today = DateTime.now();
+    joining_date.value = "${today.year}-${today.month}-${today.day}";
   }
 }
 

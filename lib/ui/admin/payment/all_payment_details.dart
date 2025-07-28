@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
 import 'package:motor_vehicle/controller_api/payment_controller.dart';
 import 'package:motor_vehicle/ui/admin/payment/add_payment_page.dart';
@@ -25,7 +26,8 @@ class ComplateCustomerList extends StatelessWidget {
             itemCount: paymentController.paymentList.length,
             itemBuilder: (context, index) {
               final payment = paymentController.paymentList[index];
-
+              DateTime dateTime = DateTime.parse(payment.date);
+              final formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
               return Column(
                 children: [
                   Card(
@@ -65,7 +67,7 @@ class ComplateCustomerList extends StatelessWidget {
                                 TextSpan(
                                     text: "Date: ",
                                     style: TextStyle(fontWeight: FontWeight.bold)),
-                                TextSpan(text: payment.date),
+                                TextSpan(text: formattedDate),
                               ],
                             ),
                           ),
@@ -84,7 +86,7 @@ class ComplateCustomerList extends StatelessWidget {
                                   "amount": payment.amount,
                                   "id": payment.id,
                                   "booking_id": payment.booking_id,
-                                  "date": payment.date,
+                                  "date": formattedDate,
                                 },
                               );
                             },

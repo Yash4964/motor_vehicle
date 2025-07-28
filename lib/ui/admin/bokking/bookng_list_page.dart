@@ -80,7 +80,7 @@ class BookingListPage extends StatelessWidget {
                                     "customer_id": booking.customer_id,
                                     "lerner_name": booking.learner_name,
                                     "package_id": booking.package_id,
-                                    "joining_date":  booking.joining_date,
+                                    "joining_date":  formattedDate,
                                     "time_slot": booking.joining_date,
                                     "id": booking.id,
                                   });

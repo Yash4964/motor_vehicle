@@ -22,86 +22,143 @@ class AttendenceConrollerApi extends GetxController {
 
     ApiService apiService = ApiService();
   var tolist = <AttendanceModel>[].obs;
+  RxBool loader = false.obs;
 
   @override
   void onInit() {
     super.onInit();
     clr();
-    getapi();
-
   }
 
-
-
-  Future<void> getapi() async {
+  Future<void> attendanceget() async {
+    loader.value = true;
     final response = await apiService.attendanceget();
-    if (response.statusCode == 200) {
-      final data =response.body;
-      final List<dynamic> responcedata = data['data'];
-      tolist.value = responcedata
-          .map((e) => AttendanceModel.fromJson(e))
-          .toList();
+    debugPrint("API Raw Response: ${response.body}");
+    if (response.status.isOk) {
+      final data = response.body;
+      if (data["status"] == true && data["data"] != null) {
+        final List<dynamic> responseData = data["data"];
+        tolist.value = responseData
+            .map((json) => AttendanceModel.fromJson(json))
+            .toList();
+      }
+    }
+    loader.value = false;
+  }
+
+  Future<void> attendanceadd() async
+  {
+    loader.value = true;
+    Response response = await apiService.attendanceadd(_getData());
+    if(response.statusCode==200 || response.statusCode==201)
+    {
+      Get.snackbar("Success", "attendance added successfully");
+       attendanceget();
+      clr();
+    }
+    else
+    {
+      Get.snackbar("Error", "Not data Add");
+    }
+    loader.value = false;
+  }
+
+
+  Future<void> attendanceupdate (String id) async
+  {
+    Response cusresponse = await apiService.attendanceupdate(id, _getData());
+    if(cusresponse.statusCode==200 || cusresponse.statusCode==201)
+    {
+      clr();
+      int index = tolist.indexWhere((attedance) => attedance.id == id);
+      tolist[index] = AttendanceModel.fromJson(cusresponse.body['data'] as Map<String, dynamic>);
+      tolist.refresh();
+      Get.snackbar("Success", "attendance update successfully");
+    }
+    else
+    {
+      Get.snackbar("Error", "Not data Add");
     }
   }
 
-  Future<void> delapi(String id) async {
-    final response = await http.delete(
-      Uri.parse(
-          'https://68735d60c75558e27353fea7.mockapi.io/motor/Attendence/$id'),
-    );
-    if (response.statusCode == 200) {
-      tolist.removeWhere((item) => item.id == id);
-      Get.snackbar('deleted', 'thank you');
-      getapi();
+  Future<void> attendancedelete (String id) async
+  {
+    final cusresponse = await apiService.attendancedelete(id);
+    if(cusresponse.statusCode==200)
+    {
+      tolist.removeWhere((item)=> item.id == id);
+      Get.snackbar("Success", "Item deleted successfully");
+    }
+    else
+    {
+      Get.snackbar("Error", "Not data fatch");
     }
   }
+
+
   //
-  Future<void> postapi() async {
-    final response = await http.post(
-      Uri.parse('https://68735d60c75558e27353fea7.mockapi.io/motor/Attendence'),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(
-           _getdata()
-      ),
-    );
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      getapi();
-      clr();
-      Get.snackbar("confrim", "thankyou");
-    }
-  }
-
-  Future<void> editapi(String id) async {
-    final response = await http.put(
-      Uri.parse('https://68735d60c75558e27353fea7.mockapi.io/motor/Attendence/$id'),
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(_getdata()),
-    );
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      getapi();
-      Get.snackbar("confirm", "thankyou");
-      clr();
-    }
-  }
+  // Future<void> delapi(String id) async {
+  //   final response = await http.delete(
+  //     Uri.parse(
+  //         'https://68735d60c75558e27353fea7.mockapi.io/motor/Attendence/$id'),
+  //   );
+  //   if (response.statusCode == 200) {
+  //     tolist.removeWhere((item) => item.id == id);
+  //     Get.snackbar('deleted', 'thank you');
+  //     attget();
+  //   }
+  // }
+  //
+  // Future<void> postapi() async {
+  //   final response = await http.post(
+  //     Uri.parse('https://68735d60c75558e27353fea7.mockapi.io/motor/Attendence'),
+  //     headers: {"Content-Type": "application/json"},
+  //     body: jsonEncode(
+  //          _getdata()
+  //     ),
+  //   );
+  //   if (response.statusCode == 200 || response.statusCode == 201) {
+  //     attget();
+  //     clr();
+  //     Get.snackbar("confrim", "thankyou");
+  //   }
+  // }
+  //
+  // Future<void> editapi(String id) async {
+  //   final response = await http.put(
+  //     Uri.parse('https://68735d60c75558e27353fea7.mockapi.io/motor/Attendence/$id'),
+  //     headers: {"Content-Type": "application/json"},
+  //     body: jsonEncode(_getdata()),
+  //   );
+  //   if (response.statusCode == 200 || response.statusCode == 201) {
+  //     attget();
+  //     Get.snackbar("confirm", "thankyou");
+  //     clr();
+  //   }
+  // }
 
   void clr(){
     c.datepick.value = '12/08/2025';
     c.timeselected.value = '6:30 AM';
-   }
+    final today = DateTime.now();
 
-  Map<String,dynamic> _getdata ()
-  {
-    return
-        {
-          "booking_id": selectedbooking?.value.id ?? "",
-          "date": c.datepick.value,
-          "time": c.timeselected.value,
-          //"Driverid": selecteddriver?.value.id ?? "",
-        };
+    c.datepick.value = "${today.year}-${today.month}-${today.day}";
+    selectedbooking = null;
+    selecteddriver = null;
+
+  }
+  Map<String, dynamic> _getData() {
+    return {
+      "booking_id": selectedbooking?.value.id?.toString() ?? "0",
+      "driver_id": selecteddriver?.value.id?.toString() ?? "0",
+      "date": c.datepick.value.toString(),
+      "time": c.timeselected.value.toString(),
+    };
   }
   void setData(Map<String, dynamic> arguments) {
-    c.timeselected.value = arguments["Time"];
-    c.datepick.value =
-        arguments["date"] ?? c.datepick.value;
+    final DropdownController c = Get.find<DropdownController>();
+
+    c.timeselected.value = arguments["Time"]?.toString() ?? c.timeselected.value;
+    c.datepick.value = arguments["date"]?.toString() ?? c.datepick.value;
   }
 }
