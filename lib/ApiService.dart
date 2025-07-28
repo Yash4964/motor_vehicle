@@ -550,5 +550,63 @@ class ApiService extends GetConnect {
       rethrow;
     }
   }
+//attendance: update
+  Future<Response> attendanceupdate(String id, Map<String, dynamic> data) async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/attendances/$id';
+      debugPrint("attendance UPDATE API Request: $fullUrl\nPayload: $data");
+
+      final response = await put(
+        fullUrl,
+        jsonEncode(data),
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("attendance UPDATE API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("attendance UPDATE API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+// attendance: Delete
+  Future<Response> attendancedelete(String id) async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/attendances/$id';
+      debugPrint("attendance DELETE API Request: $fullUrl");
+
+      final response = await delete(
+        fullUrl,
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("attendance DELETE API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("attendance DELETE API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+  Future<Response> attendanceadd(Map<String, dynamic> data) async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/attendances';
+      debugPrint("attendance ADD API Request: $fullUrl\nPayload: $data");
+
+      final response = await post(
+        fullUrl,
+        jsonEncode(data),
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("attendance ADD API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("attendance ADD API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
 }
 

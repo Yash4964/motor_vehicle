@@ -5,12 +5,14 @@ import 'package:motor_vehicle/controller_api/payment_controller.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 import '../../../model/booking_model.dart';
+import '../attendance/add_attendance_customer.dart';
 
 class AddPaymentPage extends StatelessWidget {
   AddPaymentPage({super.key});
 
   BookingApiController bookingcontroller = Get.put(BookingApiController());
   PaymentController paymentController = Get.put(PaymentController());
+  final Customercontoller c = Get.put(Customercontoller());
 
   final _formkey = GlobalKey<FormState>();
   var args = Get.arguments;
@@ -118,7 +120,7 @@ class AddPaymentPage extends StatelessWidget {
                       width: double.infinity,
                       child: Padding(
                         padding: const EdgeInsets.all(15.0),
-                        child: Text(paymentController.datevalue.value.toString()),
+                        child: Text(paymentController.datevalue.value),
                       ),
                     ),
                   ),
@@ -177,7 +179,7 @@ class AddPaymentPage extends StatelessWidget {
     );
     if (pickedDate != null) {
       paymentController.datevalue.value =
-          "${pickedDate.year ?? 0}/${pickedDate.month ?? 0}/${pickedDate.day ?? 0}";
+          c.datepick.value = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:motor_vehicle/ui/admin/attendance/add_attendance_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import '../../../controller_api/attendance_api_controller.dart';
@@ -11,6 +12,7 @@ class AttendanceListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    a.attendanceget();
     return Scaffold(
       backgroundColor: Appcolor.background,
       appBar: AppBar(
@@ -30,6 +32,10 @@ class AttendanceListPage extends StatelessWidget {
               itemCount: a.tolist.length,
               itemBuilder: (BuildContext context, int index) {
                 final att = a.tolist[index];
+                DateTime dateTime = DateTime.parse(att.date);
+                DateTime time = DateTime.parse(att.time);
+                final formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
+                final timeformate = DateFormat('hh:mm').format(time);
                 return Card(
                   color: Appcolor.container,
                   margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -41,32 +47,21 @@ class AttendanceListPage extends StatelessWidget {
                       backgroundImage: AssetImage('assets/images/person3.jpg'),
                     ),
                     title: Text(
-                      att.booking_id,
+                      "Booking id: ${att.booking_id}",
                       style: const TextStyle(fontWeight: FontWeight.bold),
                     ),
                     subtitle: Text.rich(
                       TextSpan(
                         children: [
-                          TextSpan(
-                            text: 'Driver : ',
-                            style: TextStyle(
-                              color: Colors.grey[800],
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          // TextSpan(
+                          //   text: 'Driver : ',
+                          //   style: TextStyle(
+                          //     color: Colors.grey[800],
+                          //     fontWeight: FontWeight.bold,
+                          //   ),
+                          // ),
                           TextSpan(
                             //text: '${att.driverid}\n',
-                            style: TextStyle(color: Colors.grey[700]),
-                          ),
-                          TextSpan(
-                            text: 'Time : ',
-                            style: TextStyle(
-                              color: Colors.grey[800],
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          TextSpan(
-                            text: '${att.time}\n',
                             style: TextStyle(color: Colors.grey[700]),
                           ),
                           TextSpan(
@@ -77,9 +72,21 @@ class AttendanceListPage extends StatelessWidget {
                             ),
                           ),
                           TextSpan(
-                            text: att.date,
+                            text: "${formattedDate}\n",
                             style: TextStyle(color: Colors.grey[700]),
                           ),
+                          TextSpan(
+                            text: 'Time : ',
+                            style: TextStyle(
+                              color: Colors.grey[800],
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "${timeformate}\n",
+                            style: TextStyle(color: Colors.grey[700]),
+                          ),
+
                         ],
                       ),
                     ),
@@ -89,9 +96,19 @@ class AttendanceListPage extends StatelessWidget {
                         IconButton(
                           icon: const Icon(Icons.edit, color: Colors.green),
                           onPressed: () {
+                            a.clr();
+
                             Get.to(() => AddAttendancePages(), arguments: {
                               "isEdit": true,
                               "id": att.id,
+                              "Time": timeformate,
+                              "date": formattedDate,
+                              "booking_id": att.booking_id,
+
+                              // potentially missing:
+                              // "Time": att.time,
+                              // "date": att.date,
+                              // "driverid": att.driverid
                             });
                           },
                         ),
@@ -114,7 +131,7 @@ class AttendanceListPage extends StatelessWidget {
                                     ),
                                     TextButton(
                                       onPressed: () {
-                                        a.delapi(att.id);
+                                         a.attendancedelete(att.id);
                                         Get.back();
                                       },
                                       child: const Text("OK"),
@@ -137,8 +154,8 @@ class AttendanceListPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          a.clr();
-          Get.to(() => AddAttendancePages());
+            a.clr();
+            Get.to(() => AddAttendancePages());
 
         },
         child: const Icon(Icons.add, color: Colors.white),

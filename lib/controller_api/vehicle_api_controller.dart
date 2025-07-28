@@ -20,7 +20,7 @@ class VehicleController extends GetxController {
   void onInit() {
     super.onInit();
     clr();
-    getVehicle();
+    // getVehicle();
   }
 
 
