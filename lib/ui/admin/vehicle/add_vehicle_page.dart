@@ -106,17 +106,17 @@ class AddVehiclePage extends StatelessWidget {
               labels("Car No"),
               TextFieldWidget(
                 controller: vehicleController.carno,
-                hint: 'GJ01243',
+                hint: '1234',
                 textInputType: TextInputType.text,
-                inputTypeMode: InputTypeMode.normal,
+                inputTypeMode: InputTypeMode.carno,
               ),
 
               labels("Model No"),
               TextFieldWidget(
                 controller: vehicleController.modelno,
-                hint: "FVS425",
+                hint: "1234",
                 textInputType: TextInputType.text,
-                inputTypeMode: InputTypeMode.normal,
+                inputTypeMode: InputTypeMode.modelno,
               ),
 
               labels("Color"),

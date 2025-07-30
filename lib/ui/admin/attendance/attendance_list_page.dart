@@ -53,15 +53,15 @@ class AttendanceListPage extends StatelessWidget {
                     subtitle: Text.rich(
                       TextSpan(
                         children: [
-                          // TextSpan(
-                          //   text: 'Driver : ',
-                          //   style: TextStyle(
-                          //     color: Colors.grey[800],
-                          //     fontWeight: FontWeight.bold,
-                          //   ),
-                          // ),
                           TextSpan(
-                            //text: '${att.driverid}\n',
+                            text: 'Driver Id : ',
+                            style: TextStyle(
+                              color: Colors.grey[800],
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '${att.driver_id}\n',
                             style: TextStyle(color: Colors.grey[700]),
                           ),
                           TextSpan(
@@ -97,18 +97,13 @@ class AttendanceListPage extends StatelessWidget {
                           icon: const Icon(Icons.edit, color: Colors.green),
                           onPressed: () {
                             a.clr();
-
                             Get.to(() => AddAttendancePages(), arguments: {
                               "isEdit": true,
                               "id": att.id,
                               "Time": timeformate,
                               "date": formattedDate,
                               "booking_id": att.booking_id,
-
-                              // potentially missing:
-                              // "Time": att.time,
-                              // "date": att.date,
-                              // "driverid": att.driverid
+                              "driver_id": att.driver_id
                             });
                           },
                         ),

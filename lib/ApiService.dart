@@ -536,17 +536,17 @@ class ApiService extends GetConnect {
   Future<Response> attendanceget() async {
     try {
       final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/attendances';
-      debugPrint("Booking GET API Request: $fullUrl");
+      debugPrint("attendance GET API Request: $fullUrl");
 
       final response = await get(
         fullUrl,
         headers: await getAuthHeaders(),
       ).timeout(const Duration(seconds: 30));
 
-      debugPrint("Booking GET API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      debugPrint("attendance GET API Response: ${response.statusCode}\nBody: ${response.bodyString}");
       return response;
     } catch (e, stack) {
-      debugPrint("Booking GET API Error: $e\nStack: $stack");
+      debugPrint("attendance GET API Error: $e\nStack: $stack");
       rethrow;
     }
   }

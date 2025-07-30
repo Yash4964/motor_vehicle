@@ -95,56 +95,15 @@ class AttendenceConrollerApi extends GetxController {
     }
   }
 
-
-  //
-  // Future<void> delapi(String id) async {
-  //   final response = await http.delete(
-  //     Uri.parse(
-  //         'https://68735d60c75558e27353fea7.mockapi.io/motor/Attendence/$id'),
-  //   );
-  //   if (response.statusCode == 200) {
-  //     tolist.removeWhere((item) => item.id == id);
-  //     Get.snackbar('deleted', 'thank you');
-  //     attget();
-  //   }
-  // }
-  //
-  // Future<void> postapi() async {
-  //   final response = await http.post(
-  //     Uri.parse('https://68735d60c75558e27353fea7.mockapi.io/motor/Attendence'),
-  //     headers: {"Content-Type": "application/json"},
-  //     body: jsonEncode(
-  //          _getdata()
-  //     ),
-  //   );
-  //   if (response.statusCode == 200 || response.statusCode == 201) {
-  //     attget();
-  //     clr();
-  //     Get.snackbar("confrim", "thankyou");
-  //   }
-  // }
-  //
-  // Future<void> editapi(String id) async {
-  //   final response = await http.put(
-  //     Uri.parse('https://68735d60c75558e27353fea7.mockapi.io/motor/Attendence/$id'),
-  //     headers: {"Content-Type": "application/json"},
-  //     body: jsonEncode(_getdata()),
-  //   );
-  //   if (response.statusCode == 200 || response.statusCode == 201) {
-  //     attget();
-  //     Get.snackbar("confirm", "thankyou");
-  //     clr();
-  //   }
-  // }
-
   void clr(){
     c.datepick.value = '12/08/2025';
     c.timeselected.value = '6:30 AM';
+    selectedbooking = null;
+    selecteddriver = null;
     final today = DateTime.now();
 
     c.datepick.value = "${today.year}-${today.month}-${today.day}";
-    selectedbooking = null;
-    selecteddriver = null;
+
 
   }
   Map<String, dynamic> _getData() {
