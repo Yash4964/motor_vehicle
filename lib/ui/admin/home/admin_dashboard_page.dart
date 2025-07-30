@@ -145,6 +145,7 @@ class Dashboard_page extends StatelessWidget {
                     bg_color: Colors.purpleAccent,
                   ),
                 ),
+
                 InkWell(
                   onTap: () async {
                     final SharedPreferences prefs = await SharedPreferences.getInstance();

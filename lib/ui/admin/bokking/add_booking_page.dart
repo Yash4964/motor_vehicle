@@ -72,7 +72,6 @@ class AddBookingPage extends StatelessWidget {
                   }
                 }
 
-                // Safety check for matching value in list
                 final selected = customerController.customerlist.firstWhereOrNull(
                         (e) => e.id == b.selectCustomer?.value.id);
 
