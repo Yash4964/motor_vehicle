@@ -130,9 +130,9 @@ class AddDriverPage extends StatelessWidget {
               labels("Licenceno"),
               TextFieldWidget(
                 controller: driverConrollerApi.licenceno,
-                hint: 'GJ24DD3344',
+                hint: 'GJ 2433447832453',
                 textInputType: TextInputType.text,
-                inputTypeMode: InputTypeMode.normal,
+                inputTypeMode: InputTypeMode.licenceno,
 
               ),
               const SizedBox(height: 20),

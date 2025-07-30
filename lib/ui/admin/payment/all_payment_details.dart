@@ -14,6 +14,7 @@ class ComplateCustomerList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    paymentController.getapi();
     return Scaffold(
       backgroundColor: Appcolor.background,
       body: Obx(() {

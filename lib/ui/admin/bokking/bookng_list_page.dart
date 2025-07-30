@@ -54,7 +54,7 @@ class BookingListPage extends StatelessWidget {
                               });
                             },
                             child: Text(
-                              "Lerner Name : ${booking.learner_name}",
+                              "Learner Name : ${booking.learner_name}",
                               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                             ),
                           ),
@@ -78,7 +78,7 @@ class BookingListPage extends StatelessWidget {
                                   Get.to(() => AddBookingPage(), arguments: {
                                     "isEdit": true,
                                     "customer_id": booking.customer_id,
-                                    "lerner_name": booking.learner_name,
+                                    "learner name": booking.learner_name,
                                     "package_id": booking.package_id,
                                     "joining_date":  formattedDate,
                                     "time_slot": booking.joining_date,

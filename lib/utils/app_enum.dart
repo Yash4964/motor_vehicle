@@ -7,6 +7,7 @@ enum InputTypeMode {
   normal,
   licenceno,
   carno,
+  modelno,
   days,
   km,
 }

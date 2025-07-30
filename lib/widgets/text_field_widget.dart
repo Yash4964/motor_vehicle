@@ -12,7 +12,8 @@ class TextFieldWidget extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final passwordRegExp = RegExp(r'^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{4,}$');
   //final licenceno=RegExp(r'^GJ[0-9]{2}[0-9]{4}[0-9]{6}$');
-  final carvali = RegExp(r'^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{1,4}$');
+  // final carvali = RegExp(r'^[A-Z]{2}[0-9]{2}[A-Z]{2}[0-9]{1,4}$');
+   final carvali = RegExp(r'^\d{4}$');
 
 
    TextFieldWidget({
@@ -105,13 +106,22 @@ class TextFieldWidget extends StatelessWidget {
             }
             if(inputTypeMode == InputTypeMode.carno )
               {
-                if(value == null ) {
-                  return "Please enter number";
+                if(value == null || value.length != 4 ) {
+                  return "Please enter valid 4-digit number";
                 }
                 else if(!carvali.hasMatch(value) ){
                   return "Invalide Car No";
                 }
               }
+            if(inputTypeMode == InputTypeMode.modelno )
+            {
+              if(value == null || value.length != 4) {
+                return "Please enter valid 4-digit number";
+              }
+              else if(!carvali.hasMatch(value) ){
+                return "Invalide model No";
+              }
+            }
             if(inputTypeMode == InputTypeMode.days)
               {
                 final day = int.tryParse(value);
