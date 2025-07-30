@@ -108,7 +108,7 @@ class AddVehiclePage extends StatelessWidget {
                 controller: vehicleController.carno,
                 hint: '1234',
                 textInputType: TextInputType.text,
-                inputTypeMode: InputTypeMode.carno,
+                inputTypeMode: InputTypeMode.normal,
               ),
 
               labels("Model No"),
@@ -116,7 +116,7 @@ class AddVehiclePage extends StatelessWidget {
                 controller: vehicleController.modelno,
                 hint: "1234",
                 textInputType: TextInputType.text,
-                inputTypeMode: InputTypeMode.modelno,
+                inputTypeMode: InputTypeMode.normal,
               ),
 
               labels("Color"),

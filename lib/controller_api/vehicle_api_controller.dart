@@ -108,8 +108,8 @@ class VehicleController extends GetxController {
       {
         "name": name.text,
         "car_no": carno.text,
-        "color": modelno.text,
-        "model_no":color.text,
+        "model_no": modelno.text,
+        "color": color.text,
         "description": description.text,
       };
   }

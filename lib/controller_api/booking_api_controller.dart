@@ -94,9 +94,9 @@ class BookingApiController extends GetxController {
 
 
   void setData(arguments) {
-    learner_name.text = arguments['lerner_name'];
-    joining_date.value = arguments['joining_date'];
-    timeSlot.text = arguments['time_slot'];
+    learner_name.text = arguments['learner_name'] ?? "";
+    joining_date.value = arguments['joining_date'] ?? "";
+    timeSlot.text = arguments['time_slot'] ??  "";
   }
 
   Map<String,dynamic> _getData ()
@@ -113,7 +113,6 @@ class BookingApiController extends GetxController {
 
   void clr() {
     learner_name.clear();
-    timeSlot.clear();
     selectCustomer = null;
     selectpackage = null;
     final today = DateTime.now();

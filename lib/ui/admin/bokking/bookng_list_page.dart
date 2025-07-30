@@ -38,6 +38,7 @@ class BookingListPage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final booking = b.bookingList[index];
                       DateTime dateTime = DateTime.parse(booking.joining_date);
+
                       final formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
 
                       return Card(
@@ -53,21 +54,81 @@ class BookingListPage extends StatelessWidget {
                                 "Booking_id":booking.id,
                               });
                             },
-                            child: Text(
-                              "Learner Name : ${booking.learner_name}",
-                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                            ),
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 1,),
-                              Text("Customer Name: ${booking.customer_id}"),
-                              Text("Package: ${booking.package_id}"),
-                              Text("Booking Date: ${formattedDate}"),
-                              Text("Joining Time: ${booking.time_slot}"),
-                            ],
-                          ),
+                            child: ListTile(
+                              contentPadding: const EdgeInsets.all(8),
+
+                              title: Text(
+                                "Learner Name: ${booking.learner_name}",
+                                style: const TextStyle(fontWeight: FontWeight.bold),
+                              ),
+
+                              subtitle: Text.rich(
+                                TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Customer Name : ',
+                                      style: TextStyle(
+                                        color: Colors.grey[800],
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: '${booking.customer_id}\n',
+                                      style: TextStyle(color: Colors.grey[700]),
+                                    ),
+                                    TextSpan(
+                                      text: 'package : ',
+                                      style: TextStyle(
+                                        color: Colors.grey[800],
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: "${booking.package_id}\n",
+                                      style: TextStyle(color: Colors.grey[700]),
+                                    ),
+                                    TextSpan(
+                                      text: 'joining_date : ',
+                                      style: TextStyle(
+                                        color: Colors.grey[800],
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: "${formattedDate}\n",
+                                      style: TextStyle(color: Colors.grey[700]),
+                                    ),
+                                    TextSpan(
+                                      text: 'Time Slot : ',
+                                      style: TextStyle(
+                                        color: Colors.grey[800],
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      text: "${booking.time_slot}\n",
+                                      style: TextStyle(color: Colors.grey[700]),
+                                    ),
+
+                                  ],
+                                ),
+                              ),
+
+                          //   child: Text(
+                          //     "Learner Name : ${booking.learner_name}",
+                          //     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+                          //   ),
+                          // ),
+                          // subtitle: Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: [
+                          //     SizedBox(height: 1,),
+                          //     Text("Customer Name: ${booking.customer_id}"),
+                          //     Text("Package: ${booking.package_id}"),
+                          //     Text("Booking Date: ${formattedDate}"),
+                          //     Text("Joining Time: ${booking.time_slot}"),
+                          //   ],
+                          // ),
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -78,10 +139,10 @@ class BookingListPage extends StatelessWidget {
                                   Get.to(() => AddBookingPage(), arguments: {
                                     "isEdit": true,
                                     "customer_id": booking.customer_id,
-                                    "learner name": booking.learner_name,
+                                    "learner_name": booking.learner_name,
                                     "package_id": booking.package_id,
                                     "joining_date":  formattedDate,
-                                    "time_slot": booking.joining_date,
+                                    "time_slot": booking.time_slot,
                                     "id": booking.id,
                                   });
                                 },
@@ -94,6 +155,8 @@ class BookingListPage extends StatelessWidget {
                               ),
                             ],
                           ),
+                        ),
+                      ),
                         ),
                       );
                     },
