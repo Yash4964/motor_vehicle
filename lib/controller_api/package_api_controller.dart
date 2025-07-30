@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:motor_vehicle/ApiService.dart';
 import 'package:motor_vehicle/controller_api/vehicle_api_controller.dart';
+import 'package:motor_vehicle/model/package_detail_byid.dart';
 import 'package:motor_vehicle/model/vehicle_model.dart';
 import '../model/package_model.dart';
 
@@ -17,6 +18,7 @@ class PackageConrollerApi extends GetxController {
   Rx<VehicleModel>? selectedVehicle;
 
   RxList<PackageModel> tolist = <PackageModel>[].obs;
+  RxList<PackageDetailsModel> packagedetails = <PackageDetailsModel>[].obs;
   ApiService apiService = ApiService();
   RxBool loader = false.obs;
   GetStorage getStorage = GetStorage();
@@ -86,6 +88,21 @@ class PackageConrollerApi extends GetxController {
     {
       Get.snackbar("Error", "Not data Add");
     }
+  }
+  //package get by vehicle id
+  Future<void> getPackagesByVehicle(String vehicleId) async {
+    loader.value = true;
+    final response = await apiService.getPackagesByVehicleId(vehicleId);
+    if (response.status.isOk) {
+      final data = response.body['data'];
+      if (data != null && data['packages'] != null) {
+        packagedetails.clear();
+        packagedetails.add(PackageDetailsModel.fromJson(data),
+        );
+
+      }
+    }
+    loader.value = false;
   }
 
 

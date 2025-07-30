@@ -9,43 +9,42 @@ class BookingListPage extends StatelessWidget {
   BookingListPage({super.key});
 
   BookingApiController bookingApiController = Get.put(BookingApiController());
-  final _formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     bookingApiController.bookingget();
     return Scaffold(
       backgroundColor: Color(0xFFF1F4F8),
-      body: Obx(()
-      {
-        if(bookingApiController.loader.value) {
-          return Center(child: CircularProgressIndicator(),);
+      body: Obx(() {
+        if (bookingApiController.loader.value) {
+          return Center(child: CircularProgressIndicator());
         }
-        if(bookingApiController.bookingList.isEmpty)
-        {
-          return Center(child:Text('Not data Found'));
+        if (bookingApiController.bookingList.isEmpty) {
+          return Center(child: Text('Not data Found'));
         }
-          return ListView.builder(
+        return ListView.builder(
           itemCount: bookingApiController.bookingList.length,
           itemBuilder: (BuildContext context, int index) {
             final booking = bookingApiController.bookingList[index];
             DateTime dateTime = DateTime.parse(booking.joining_date);
             final formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
             return Padding(
-              key: _formkey,
               padding: EdgeInsets.all(5.0),
               child: Card(
                 elevation: 2,
                 color: Colors.white,
                 child: InkWell(
                   onTap: () {
-                    Get.to(() => BookingDetailsPage(), arguments: {"Booking_id":booking.id});
+                    Get.to(
+                      () => BookingDetailsPage(),
+                      arguments: {"Booking_id": booking.id},
+                    );
                   },
                   child: Padding(
                     padding: EdgeInsets.all(12.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
                           child: Image.asset(
@@ -56,27 +55,45 @@ class BookingListPage extends StatelessWidget {
                           ),
                         ),
 
-
-
                         SizedBox(width: 15),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding:  EdgeInsets.only(left: 50),
-                                child: Text(booking.learner_name,
-                                    style: TextStyle(fontSize: 18, color: Appcolor.primary,fontWeight: FontWeight.bold)),
+                                padding: EdgeInsets.only(left: 50),
+                                child: Text(
+                                  booking.learner_name,
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Appcolor.primary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
                               ),
-                              Text("Package: ${booking.package_id}",
-                                  style: TextStyle(fontSize: 16, color: Colors.grey[700])),
+                              Text(
+                                "Package: ${booking.package_id}",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
                               // Text("Booking Date: ${booking.joining_date}",
                               //     style: TextStyle(fontSize: 16, color: Colors.grey[700])),
-                              Text("Joining Date: ${formattedDate}",
-                                  style: TextStyle(fontSize: 16, color: Colors.grey[700])),
-                              Text("Joining Time: ${booking.time_slot}",
-                                  style: TextStyle(fontSize: 16, color: Colors.grey[700])),
-
+                              Text(
+                                "Joining Date: ${formattedDate}",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
+                              Text(
+                                "Joining Time: ${booking.time_slot}",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: Colors.grey[700],
+                                ),
+                              ),
                             ],
                           ),
                         ),
@@ -88,9 +105,7 @@ class BookingListPage extends StatelessWidget {
             );
           },
         );
-      }
-
-      ),
+      }),
     );
   }
 }

@@ -8,7 +8,9 @@ class VehiclePage extends StatelessWidget {
  
   VehicleController vehicleController = Get.put(VehicleController());
   @override
+
   Widget build(BuildContext context) {
+    vehicleController.getVehicle();
     return Scaffold(
       backgroundColor:Appcolor.background,
       body: Obx(()

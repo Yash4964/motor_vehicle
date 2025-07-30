@@ -13,9 +13,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginApiController extends GetxController {
 
 
-  TextEditingController emailController = TextEditingController(text: 'admin@example.com');
-  TextEditingController passwordController = TextEditingController(text: 'Admin@123');
+  TextEditingController emailController = TextEditingController(text: 'rajubhai@gmail.com');
+  TextEditingController passwordController = TextEditingController(text: 'Rajubhai123');
   GetStorage getStorage = GetStorage();
+
   RxList<AdminModel> customerlist = <AdminModel>[].obs;
 
   Future<void> postapi() async {
@@ -43,10 +44,12 @@ class LoginApiController extends GetxController {
 
       if(responseModel.data['user_type'] == "customer"){
         Get.off(CustomerHomePage());
+        clr();
       }
       else if(responseModel.data['user_type'] == "admin")
         {
           Get.off(Dashboard_page());
+          clr();
         }
       else{
         Get.snackbar(
@@ -64,5 +67,10 @@ class LoginApiController extends GetxController {
         backgroundColor: Colors.lightGreen,
       );
     }
+  }
+  void clr()
+  {
+    emailController.clear();
+    passwordController.clear();
   }
 }
