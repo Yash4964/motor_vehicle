@@ -285,6 +285,43 @@ class ApiService extends GetConnect {
       rethrow;
     }
   }
+//licence
+
+  Future<Response> licenceget() async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/licences';
+      debugPrint("licence GET API Request: $fullUrl");
+
+      final response = await get(
+        fullUrl,
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("licence GET API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("licence GET API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+  Future<Response> aboutusget() async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/about-us';
+      debugPrint("aboutus GET API Request: $fullUrl");
+
+      final response = await get(
+        fullUrl,
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("aboutus GET API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("aboutus GET API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
 
 
   Future<Response> vehicledelete(String id) async {
