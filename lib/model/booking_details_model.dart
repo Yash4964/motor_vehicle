@@ -11,7 +11,7 @@ class BookingDetailModel {
   DateTime joiningDate;
   String timeSlot;
   List<AttendanceModel> attendances;
-  List<dynamic> transactions;
+  List<PaymentModel> transactions;
 
   CustomerModel customer;
   PackageModel package;
@@ -39,7 +39,7 @@ class BookingDetailModel {
     joiningDate: DateTime.parse(json["joining_date"]),
     timeSlot: json["time_slot"],
     attendances: List<AttendanceModel>.from(json["attendances"].map((x) => AttendanceModel.fromJson(x))),
-    transactions: List<PaymentModel>.from(json["transactions"]),
+    transactions: List<PaymentModel>.from(json["transactions"].map((x) => PaymentModel.fromJson(x))),
     customer: CustomerModel.fromJson(json["customer"]),
     package: PackageModel.fromJson(json["package"]),
     //summary: SummaryModel.fromJson(json["summary"]),

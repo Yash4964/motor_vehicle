@@ -1,40 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:motor_vehicle/model/payment_model.dart';
 import 'package:motor_vehicle/ui/admin/attendance/add_attendance_customer.dart';
 import 'package:motor_vehicle/ui/admin/attendance/add_attendance_page.dart';
 import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class EmiPayment extends StatelessWidget {
-  EmiPayment({super.key});
-
-  final List<Map<String, dynamic>> customers = [
-    {
-      'emi':500,
-      'Date': '2025/06/15',
-      'Time': '6:30',
-    },
-    {
-      'emi':1000,
-      'Date': '2025/06/15',
-      'Time': '6:30',
-    },
-    {
-      'emi':1000,
-      'Date': '2025/06/15',
-      'Time': '6:30',
-    },
-
-  ];
+   List<PaymentModel> transactionsList;
+   EmiPayment({super.key, required this.transactionsList});
 
   @override
   Widget build(BuildContext context) {
+    if (transactionsList.isEmpty) {
+      return const Center(child: Text('No payments yet'));
+    }
+
     return Scaffold(
       backgroundColor: Appcolor.background,
       body: ListView.builder(
-        itemCount: customers.length,
+        itemCount: transactionsList.length,
         itemBuilder: (BuildContext context, int index) {
-          final customer = customers[index];
+          final emi = transactionsList[index];
+          DateTime dateTime = DateTime.parse(emi.date);
+          final formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
           return Card(
             color: Appcolor.container,
             margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
@@ -42,11 +32,11 @@ class EmiPayment extends StatelessWidget {
             child: ListTile(
               contentPadding: EdgeInsets.all(12),
               title: Text(
-                "EMI 1 : ${customer['emi']!}",
+                "EMI ${index + 1} : ${emi.amount}",
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               subtitle: Text(
-                'Date: ${customer['Date']}  |  Time: ${customer['Time']}',
+                'Date: ${formattedDate}',
                 style: TextStyle(color: Colors.black54),
               ),
             ),
