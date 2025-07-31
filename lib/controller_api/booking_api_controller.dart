@@ -87,6 +87,7 @@ class BookingApiController extends GetxController {
 
   Future<void> bookingDetailsget(String bookingId) async {
    // loader.value = true/=;
+
     final response = await apiService.bookingDetailsApi(bookingId);
     if (response.status.isOk) {
       final data = response.body['data'];
