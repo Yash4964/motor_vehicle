@@ -13,6 +13,9 @@ class ViewAttendance extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (attendenceList.isEmpty) {
+      return const Center(child: Text('No Attendance yet'));
+    }
     return Scaffold(
       backgroundColor: Appcolor.background,
       body: Column(

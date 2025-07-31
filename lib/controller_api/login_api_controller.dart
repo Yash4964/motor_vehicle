@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:motor_vehicle/ApiService.dart';
+import 'package:motor_vehicle/controller/booking_controller.dart';
 import 'package:motor_vehicle/model/admin_model.dart';
 import 'package:motor_vehicle/model/customer_model.dart';
 import 'package:motor_vehicle/model/response_model.dart';
@@ -15,6 +16,7 @@ class LoginApiController extends GetxController {
 
   TextEditingController emailController = TextEditingController(text: 'rajubhai@gmail.com');
   TextEditingController passwordController = TextEditingController(text: 'Rajubhai123');
+  BookingController bookingController = Get.put(BookingController());
   GetStorage getStorage = GetStorage();
 
   RxList<AdminModel> customerlist = <AdminModel>[].obs;
@@ -41,6 +43,11 @@ class LoginApiController extends GetxController {
       getStorage.write("token", responseModel.data['token_type'] + " " + responseModel.data['token']);
       getStorage.write("user_mode", responseModel.data['user_type']);
       getStorage.write("user", CustomerModel.fromJson(responseModel.data['user']).toJson());
+
+      final prefs = await SharedPreferences.getInstance();
+      final isCustomer = responseModel.data['user_type'] == "customer";
+      await prefs.setBool('isLogin', true);
+      await prefs.setBool('customer', isCustomer);
 
       if(responseModel.data['user_type'] == "customer"){
         Get.off(CustomerHomePage());

@@ -3,20 +3,14 @@ import 'package:get/get.dart';
 import 'package:get/route_manager.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
-import 'package:motor_vehicle/controller/booking_controller.dart';
-import 'package:motor_vehicle/controller_api/attendance_api_controller.dart';
 import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
 import 'package:motor_vehicle/model/booking_details_model.dart';
-import 'package:motor_vehicle/model/booking_model.dart';
-import 'package:motor_vehicle/ui/admin/attendance/add_attendance_customer.dart';
 import 'package:motor_vehicle/ui/admin/attendance/add_attendance_page.dart';
 import 'package:motor_vehicle/ui/admin/attendance/view_attendance_cus.dart';
 import 'package:motor_vehicle/ui/admin/payment/emi_payment.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
-
-import '../../../model/attendence_model.dart';
 
 class BookingDetailsPage extends StatelessWidget {
   var args = Get.arguments;
@@ -26,7 +20,7 @@ class BookingDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final user = (getStorage.read('user') ?? '').toString().toLowerCase();
+    final user = (getStorage.read('user_mode') ?? '').toString().toLowerCase();
     final bool isCustomer = user == 'customer';
     final booking_id = args["Booking_id"] ?? "";
     bookingApiController.bookingDetailsget(booking_id);
@@ -81,7 +75,7 @@ class BookingDetailsPage extends StatelessWidget {
                           ),
                           SizedBox(height: 6),
                           Text(
-                            "Total Fees: ₹5000",
+                            "Total Fees: ₹${bookingDetailModel?.package.price}",
                             style: TextStyle(
                               fontSize: 14,
                               color: Colors.green,
@@ -179,7 +173,7 @@ class BookingDetailsPage extends StatelessWidget {
                       child: TabBarView(
                         children: [
                           ViewAttendance(attendenceList : bookingDetailModel?.attendances ?? []),
-                          EmiPayment(),
+                          EmiPayment(transactionsList: bookingDetailModel?.transactions ?? []),
                         ],
                       ),
                     ),

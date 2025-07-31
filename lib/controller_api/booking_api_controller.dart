@@ -95,7 +95,6 @@ class BookingApiController extends GetxController {
       }else{
         bookingDetails?.value = BookingDetailModel.fromJson(data);
       }
-
     }
     // loader.value = false;
   }
