@@ -644,7 +644,23 @@ class ApiService extends GetConnect {
       rethrow;
     }
   }
+  //about us
+  Future<Response> getAboutus() async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/about-us';
+      debugPrint("Packages By Vehicle ID GET Request: $fullUrl");
 
+      final response = await get(
+        fullUrl,
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
 
+      debugPrint("Packages By Vehicle ID Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("Packages By Vehicle ID API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
 }
 

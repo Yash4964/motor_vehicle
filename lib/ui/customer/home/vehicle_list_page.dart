@@ -13,13 +13,25 @@ class VehicleInformation extends StatelessWidget {
     final vehicle_id = args['id'];
     packageConrollerApi.getPackagesByVehicle(vehicle_id);
     return Scaffold(
-      backgroundColor:Appcolor.background,
+      backgroundColor: Appcolor.background,
+      appBar: AppBar(
+        foregroundColor: Colors.white,
+        title: Text("Package Details"),
+        backgroundColor: Appcolor.primary,
+        elevation: 1,
+        centerTitle: true,
+        iconTheme: IconThemeData(color: Colors.white),
+      ),
       body: SingleChildScrollView(
         child: Obx(()
         {
+          if(vehicleController.loader.value)
+          {
+            return Center(child: CircularProgressIndicator());
+          }
           if(vehicleController.vehicleList.isEmpty)
             {
-              return Center(child: CircularProgressIndicator(),);
+              return Center(child: Text('not package '),);
             }
 
           final match = vehicleController.vehicleList.firstWhereOrNull((i) =>i.id == vehicle_id);
