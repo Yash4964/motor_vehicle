@@ -168,14 +168,9 @@ class _DaysPageState extends State<DaysPage> {
                                 },
                                 child: CircleAvatar(
                                   radius: 35,
-                                  backgroundImage:
-                                  customer.image != null
-                                      ? NetworkImage(
-                                      customer.image
-                                          .toString())
-                                  as ImageProvider
-                                      : const AssetImage(
-                                      'assets/images/default_avatar.png'),
+                                  backgroundImage: AssetImage(
+                                    'assets/images/default_person.png',
+                                  ),
                                 ),
                               ),
                               const SizedBox(width: 18),
