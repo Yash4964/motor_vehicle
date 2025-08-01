@@ -23,7 +23,7 @@ class BookingApiController extends GetxController {
   Rx<PackageModel>? selectpackage;
 
   RxString joining_date = '12/08/2025'.obs;
-
+  RxBool loadered = false.obs;
   @override
   void onInit() {
     super.onInit();
@@ -86,10 +86,10 @@ class BookingApiController extends GetxController {
   }
 
   Future<void> bookingDetailsget(String bookingId) async {
-   // loader.value = true/=;
-
+    loadered.value = true;
     final response = await apiService.bookingDetailsApi(bookingId);
     if (response.status.isOk) {
+
       final data = response.body['data'];
       if(bookingDetails == null) {
         bookingDetails = Rx<BookingDetailModel>(BookingDetailModel.fromJson(data));
@@ -97,7 +97,7 @@ class BookingApiController extends GetxController {
         bookingDetails?.value = BookingDetailModel.fromJson(data);
       }
     }
-    // loader.value = false;
+    loadered.value = false;
   }
 
   void setData(arguments) {
