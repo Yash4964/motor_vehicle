@@ -15,11 +15,12 @@ import 'package:motor_vehicle/widgets/text_field_widget.dart';
 class BookingDetailsPage extends StatelessWidget {
   var args = Get.arguments;
   BookingApiController bookingApiController = Get.find<BookingApiController>();
+
   GetStorage getStorage =GetStorage();
   BookingDetailsPage({super.key});
-
   @override
   Widget build(BuildContext context) {
+
     final user = (getStorage.read('user_mode') ?? '').toString().toLowerCase();
     final bool isCustomer = user == 'customer';
     final booking_id = args["Booking_id"] ?? "";
@@ -36,7 +37,7 @@ class BookingDetailsPage extends StatelessWidget {
       ),
 
       body: Obx(() {
-        if(bookingApiController.loader.value){
+        if(bookingApiController.loadered.value){
           return Center(child: CircularProgressIndicator());
         }
         if (bookingApiController.bookingDetails == null) {
