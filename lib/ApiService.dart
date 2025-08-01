@@ -699,5 +699,45 @@ class ApiService extends GetConnect {
       rethrow;
     }
   }
+
+  // report
+
+  Future<Response> reportget() async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/bookings/filter';
+      debugPrint("Packages By Vehicle ID GET Request: $fullUrl");
+
+      final response = await get(
+        fullUrl,
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("Packages By Vehicle ID Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("Packages By Vehicle ID API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
+
+
+  Future<Response> reportpost(Map<String, dynamic> data) async {
+    try {
+      final String fullUrl = 'https://motordriving.sathwarainfotech.com/api/bookings/filter';
+      debugPrint("attendance ADD API Request: $fullUrl\nPayload: $data");
+
+      final response = await post(
+        fullUrl,
+        jsonEncode(data),
+        headers: await getAuthHeaders(),
+      ).timeout(const Duration(seconds: 30));
+
+      debugPrint("attendance ADD API Response: ${response.statusCode}\nBody: ${response.bodyString}");
+      return response;
+    } catch (e, stack) {
+      debugPrint("attendance ADD API Error: $e\nStack: $stack");
+      rethrow;
+    }
+  }
 }
 

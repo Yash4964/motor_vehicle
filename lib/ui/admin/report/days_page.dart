@@ -1,7 +1,14 @@
+// days_page.dart
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
+import 'package:motor_vehicle/controller/report_controller.dart';
+import 'package:motor_vehicle/model/report_model.dart';
+
+import '../../../controller_api/report_api_controller.dart';
 
 class DaysPage extends StatefulWidget {
   const DaysPage({super.key});
@@ -11,77 +18,32 @@ class DaysPage extends StatefulWidget {
 }
 
 class _DaysPageState extends State<DaysPage> {
-  DateTime? _selectedDate;
+  final Rx<DateTime> _selectedDate = DateTime.now().obs;
   final TextEditingController _dateController = TextEditingController();
-
-  final List<Map<String, dynamic>> customers = [
-    {
-      'name': 'Riya Mehta',
-      'email': 'riya.mehta99@gmail.com',
-      'phone': '9988776655',
-      'image': 'assets/images/person1.jpg',
-      'packagename': 'Package A',
-      'days': 12,
-      'km': 10,
-      'price': 1800,
-      'bookingdate': '10-10-2025',
-      'joindate': '15-10-2025',
-      'joining_time': '7:00 AM',
-      'payment_status': 'Completed',
-    },
-    {
-      'name': 'Anil Verma',
-      'email': 'anil.verma@gmail.com',
-      'phone': '9876541230',
-      'image': 'assets/images/person2.jpg',
-      'packagename': 'Package B',
-      'days': 8,
-      'km': 6,
-      'price': 1400,
-      'bookingdate': '18-10-2025',
-      'joindate': '22-10-2025',
-      'joining_time': '6:45 AM',
-      'payment_status': 'Pending Payment',
-    },
-    {
-      'name': 'Sneha Joshi',
-      'email': 'sneha.joshi@gmail.com',
-      'phone': '9123409876',
-      'image': 'assets/images/person3.jpg',
-      'packagename': 'Package C',
-      'days': 20,
-      'km': 15,
-      'price': 2500,
-      'bookingdate': '05-10-2025',
-      'joindate': '10-10-2025',
-      'joining_time': '6:15 AM',
-      'payment_status': 'Completed',
-    },
-  ];
-
+  final ReportController _reportController = Get.put(ReportController());
 
   @override
   void initState() {
     super.initState();
-    _selectedDate = DateTime.now();
-    _dateController.text =
-        "${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}";
+    final initial = _selectedDate.value;
+    final formatted = DateFormat('dd-MM-yyyy').format(initial);
+    _dateController.text = formatted;
+    _reportController.fetchByDate(formatted);
   }
 
   Future<void> _pickDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
+    final pickedDate = await showDatePicker(
       context: context,
-      initialDate: _selectedDate ?? DateTime.now(),
-      firstDate: DateTime(1950),
+      initialDate: _selectedDate.value,
+      firstDate: DateTime(2000),
       lastDate: DateTime(2100),
     );
 
     if (pickedDate != null) {
-      setState(() {
-        _selectedDate = pickedDate;
-        _dateController.text =
-            "${pickedDate.day}/${pickedDate.month}/${pickedDate.year}";
-      });
+      _selectedDate.value = pickedDate;
+      final formatted = DateFormat('dd-MM-yyyy').format(pickedDate);
+      _dateController.text = formatted;
+      await _reportController.fetchByDate(formatted);
     }
   }
 
@@ -89,143 +51,196 @@ class _DaysPageState extends State<DaysPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Appcolor.background,
+      body: Obx(() {
+        final isLoading = _reportController.reportloader.value;
+        final bookings = _reportController.allBookings();
 
-      body: Column(
-        children: <Widget>[
-          SizedBox(height: 16),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: TextField(
-              controller: _dateController,
-              readOnly: true,
-              onTap: () => _pickDate(context),
-              decoration: InputDecoration(
-                labelText: 'Select Date',
-                hintText: 'Tap to pick a date',
-                border: OutlineInputBorder(),
-                suffixIcon: Icon(Icons.calendar_today),
+        return Column(
+          children: <Widget>[
+            const SizedBox(height: 16),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: TextField(
+                controller: _dateController,
+                readOnly: true,
+                onTap: () => _pickDate(context),
+                decoration: const InputDecoration(
+                  labelText: 'Select Date',
+                  hintText: 'Tap to pick a date',
+                  border: OutlineInputBorder(),
+                  suffixIcon: Icon(Icons.calendar_today),
+                ),
               ),
             ),
-          ),
-
-          SizedBox(height: 2),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black12,
-                  blurRadius: 4,
-                  offset: Offset(0, 2),
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Total Customers:',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    SizedBox(width: 6),
-                    Text(
-                      '3',
-                      style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.redAccent),
-                    ),
-                  ],
-                ),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Total Payment:',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    SizedBox(width: 6),
-                    Text(
-                      '₹5,000', // You can use a variable here
-                      style: TextStyle(fontWeight: FontWeight.bold,fontSize: 16,color: Colors.green),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-
-          Expanded(
-            child: ListView.builder(
-              itemCount: customers.length,
-              itemBuilder: (BuildContext context, int index) {
-                final customer = customers[index];
-                return Card(
-                  color: Appcolor.container,
-                  margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                  elevation: 2,
-                  child: Padding(
-                    padding: EdgeInsets.all(12),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Get.to(
-                                      () => CustomerProfilePage(),
-                                  arguments: [
-                                    customer['name'],
-                                    customer['email'],
-                                    customer['image'],
-                                    customer['phone'],
-                                  ],
-                                );
-                              },
-                              child: CircleAvatar(
-                                radius: 35,
-                                backgroundImage: AssetImage(customer['image']),
-                              ),
-                            ),
-                            SizedBox(width: 18),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(customer['name'], style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
-                                  Text("Email: ${customer['email']}", style: TextStyle(fontSize: 13,overflow: TextOverflow.ellipsis)),
-                                  Text("Phone: ${customer['phone']}", style: TextStyle(fontSize: 13)),
-                                  Text("Package: ${customer['packagename']}", style: TextStyle(fontSize: 13)),
-                                  Text("Days: ${customer['days']} | KM: ${customer['km']}", style: TextStyle(fontSize: 13)),
-                                  Text("Booking Date: ${customer['bookingdate']}", style: TextStyle(fontSize: 13)),
-                                  Text("Join Date: ${customer['joindate']} at ${customer['joining_time']}", style: TextStyle(fontSize: 13)),
-                                  Text("Status: ${customer['payment_status']}", style: TextStyle(fontSize: 13,color: Colors.green)),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Fees: ₹${customer['price']}", style: TextStyle(fontWeight: FontWeight.bold)),
-                            Text("Pending: ₹500", style: TextStyle(color: Colors.redAccent)),
-                          ],
-                        ),
-                      ],
-                    ),
+            const SizedBox(height: 2),
+            Container(
+              margin:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Colors.black12,
+                    blurRadius: 4,
+                    offset: Offset(0, 2),
                   ),
-                );
-              },
+                ],
+              ),
+              child: isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : Column(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Row(
+                    children: [
+                      const Text(
+                        'Total Customers:',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        '${_reportController.totalCustomers()}',
+                        style: const TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.redAccent),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text(
+                        'Total Payment:',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        '₹${_reportController.totalPayment().toStringAsFixed(2)}',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.green),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
-      ),
+            Expanded(
+              child: isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : bookings.isEmpty
+                  ? const Center(child: Text("No bookings for selected date"))
+                  : ListView.builder(
+                itemCount: bookings.length,
+                itemBuilder: (context, index) {
+                  final booking = bookings[index];
+                  final customer = booking.customer;
+                  final package = booking.package;
+                  final joinDateFormatted = DateFormat('dd-MM-yyyy')
+                      .format(booking.joiningDate);
+                  return Card(
+                    color: Appcolor.container,
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 12, vertical: 6),
+                    elevation: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Column(
+                        crossAxisAlignment:
+                        CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Get.to(
+                                        () =>  CustomerProfilePage(),
+                                    arguments: [
+                                      customer.name,
+                                      customer.email,
+                                      customer.image,
+                                      customer.mobileNo,
+                                    ],
+                                  );
+                                },
+                                child: CircleAvatar(
+                                  radius: 35,
+                                  backgroundImage:
+                                  customer.image != null
+                                      ? NetworkImage(
+                                      customer.image
+                                          .toString())
+                                  as ImageProvider
+                                      : const AssetImage(
+                                      'assets/images/default_avatar.png'),
+                                ),
+                              ),
+                              const SizedBox(width: 18),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  children: [
+                                    Text(customer.name,
+                                        style: const TextStyle(
+                                            fontWeight:
+                                            FontWeight.bold,
+                                            fontSize: 16)),
+                                    Text("Email: ${customer.email}",
+                                        style: const TextStyle(
+                                            fontSize: 13,
+                                            overflow:
+                                            TextOverflow.ellipsis)),
+                                    Text("Phone: ${customer.mobileNo}",
+                                        style: const TextStyle(
+                                            fontSize: 13)),
+                                    Text("Package: ${package.name}",
+                                        style: const TextStyle(
+                                            fontSize: 13)),
+                                    Text(
+                                        "Days: ${package.days} | KM: ${package.km}",
+                                        style: const TextStyle(
+                                            fontSize: 13)),
+                                    Text(
+                                        "Join Date: $joinDateFormatted at ${booking.timeSlot}",
+                                        style: const TextStyle(
+                                            fontSize: 13)),
+                                    Text(
+                                        "Status: ${booking.hasJoiningDatePassed ? 'Joined' : 'Upcoming'}",
+                                        style: const TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.green)),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text("Fees: ₹${package.price}",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold)),
+                              const Text("Pending: ₹500",
+                                  style: TextStyle(
+                                      color: Colors.redAccent)),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        );
+      }),
     );
   }
 }
