@@ -1,102 +1,58 @@
 // report_controller.dart
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:motor_vehicle/ApiService.dart';
 import 'package:motor_vehicle/model/report_model.dart';
 
 class ReportController extends GetxController {
-  final ApiService apiService = ApiService();
+  ApiService apiService = ApiService();
   RxBool reportloader = false.obs;
-  RxList<ReportModel> reportlist = <ReportModel>[].obs;
-  RxString dateFilter = ''.obs;
+  Rx<ReportModel>? reportlist;
 
-  /// Normalize to dd-MM-yyyy (pad zeros)
-  String _normalize(String inputDate) {
-    final parts = inputDate.split('-');
-    if (parts.length == 3) {
-      final d = parts[0].padLeft(2, '0');
-      final m = parts[1].padLeft(2, '0');
-      final y = parts[2];
-      return "$d-$m-$y";
-    }
-    return inputDate;
+  final Rx<DateTime> selectedDate = DateTime.now().obs;
+  final TextEditingController dateController = TextEditingController();
+  void onInit() {
+    super.onInit();
+    final today = DateTime.now();
+    selectedDate.value = today;
+    final formatted = DateFormat('MM-yyyy').format(today);
+    dateController.text = formatted;
+    fetchByDate(formatted.toString());
   }
-  Future<void> fetchByDate(String ddMMyyyy) async {
-    final normalized = _normalize(ddMMyyyy);
-    dateFilter.value = normalized;
+  Future<void> fetchByDate(String selectedDate) async {
     reportloader.value = true;
     try {
-      final payload = {'date_filter': normalized};
-      print("🚀 fetchByDate payload: $payload");
+      final payload = {'date_filter': selectedDate.toString()};
+      print("fetchByDate payload: $payload");
       final response = await apiService.reportpost(payload);
-      print("📥 status: ${response.statusCode}, body: ${response.body}");
+      print(" status: ${response.statusCode}, body: ${response.body}");
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
+      if (response.statusCode == 200 || response.statusCode == 201)
+      {
         final body = response.body as Map<String, dynamic>;
-        if (body["status"] == true && body["data"] != null) {
-          final dynamic rawData = body["data"];
-          if (rawData is List) {
-            // list of reports
-            if (rawData.isEmpty) {
-              Get.snackbar("Info", "No records found for $normalized");
-              reportlist.clear();
-            } else {
-              reportlist.value = rawData
-                  .map((json) => ReportModel.fromJson(json as Map<String, dynamic>))
-                  .toList();
-            }
-          } else if (rawData is Map<String, dynamic>) {
-            // single report object
-            reportlist.value = [ReportModel.fromJson(rawData)];
-          } else {
-            Get.snackbar("Error", "Unexpected data format");
-            reportlist.clear();
+        if (body["status"] == true && body["data"] != null)
+        {
+          final dynamic data = body["data"];
+          if(reportlist == null) {
+            reportlist = Rx<ReportModel>(ReportModel.fromJson(data));
+          }else{
+            reportlist?.value = ReportModel.fromJson(data);
           }
-        } else {
-          Get.snackbar("Error", body["message"] ?? "No data for $normalized");
-          reportlist.clear();
         }
-      } else {
+        else {
+          Get.snackbar("Error", body["message"]);
+        }
+      }
+      else {
         Get.snackbar("Error", "Failed to fetch. Code: ${response.statusCode}");
-        reportlist.clear();
       }
     } catch (e) {
       Get.snackbar("Error", "Exception: $e");
-      reportlist.clear();
     } finally {
       reportloader.value = false;
     }
-  }
-
-  List<Booking> allBookings() {
-    return reportlist.expand((r) => r.bookings).toList();
-  }
-
-  int totalCustomers() {
-    final ids = allBookings().map((b) => b.customer.id).toSet();
-    return ids.length;
-  }
-
-  double totalPayment() {
-    double sum = 0;
-    for (var b in allBookings()) {
-      sum += double.tryParse(b.package.price) ?? 0.0;
-    }
-    return sum;
-  }
-
-
-  double summaryTotalPending() {
-    return reportlist.fold(
-      0.0,
-          (acc, r) => acc + r.summary.remainingBalance.toDouble(),
-    );
-  }
-  double summaryTotalPaid() {
-    return reportlist.fold(
-      0.0,
-          (acc, r) => acc + (double.tryParse(r.summary.totalPaid) ?? 0.0),
-    );
   }
 
 

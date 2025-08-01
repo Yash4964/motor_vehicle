@@ -42,8 +42,8 @@ class Aboutus extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                           child: WidgetZoom(
                             heroAnimationTag: 'tag1',
-                            zoomWidget: Image.asset(
-                              'assets/images/shop.jpg',
+                            zoomWidget: Image.network(
+                                "${about?.aboutImage1}",
                               height: 200,
                               fit: BoxFit.cover,
                             ),
@@ -56,8 +56,8 @@ class Aboutus extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8),
                           child: WidgetZoom(
                             heroAnimationTag: 'tag2',
-                            zoomWidget: Image.asset(
-                              'assets/images/shop1.jpg',
+                            zoomWidget: Image.network(
+                              "${about?.aboutImage2}",
                               height: 200,
                               fit: BoxFit.cover,
                             ),
