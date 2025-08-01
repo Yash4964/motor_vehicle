@@ -174,7 +174,7 @@ class _DaysPageState extends State<DaysPage> {
                 }
 
                 if (bookings.isEmpty) {
-                  return const Center(child: Text("No bookings found for selected date."));
+                  return const Center(child: Text("NOT DATA."));
                 }
                 return ListView.builder(
                   itemCount: bookings.length,
@@ -241,7 +241,7 @@ class _DaysPageState extends State<DaysPage> {
                                 Text("Fees: ₹${booking?.package.price ?? 0}",
                                     style: const TextStyle(fontWeight: FontWeight.bold)),
                                 // Replace this with real pending if available
-                                const Text("Pending: ₹500",
+                                 Text("Pending: ₹${booking?.pendingAmount ?? 0}",
                                     style: TextStyle(color: Colors.redAccent)),
                               ],
                             ),

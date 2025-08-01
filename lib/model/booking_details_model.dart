@@ -10,6 +10,7 @@ class BookingDetailModel {
   int packageId;
   DateTime joiningDate;
   String timeSlot;
+
   List<AttendanceModel> attendances;
   List<PaymentModel> transactions;
 
@@ -24,6 +25,7 @@ class BookingDetailModel {
     required this.packageId,
     required this.joiningDate,
     required this.timeSlot,
+
     required this.attendances,
     required this.transactions,
     required this.customer,
@@ -38,6 +40,7 @@ class BookingDetailModel {
     packageId: json["package_id"],
     joiningDate: DateTime.parse(json["joining_date"]),
     timeSlot: json["time_slot"],
+
     attendances: List<AttendanceModel>.from(json["attendances"].map((x) => AttendanceModel.fromJson(x))),
     transactions: List<PaymentModel>.from(json["transactions"].map((x) => PaymentModel.fromJson(x))),
     customer: CustomerModel.fromJson(json["customer"]),

@@ -40,6 +40,7 @@ class Booking {
   final int packageId;
   final DateTime joiningDate;
   final String timeSlot;
+  final int pendingAmount;
   final DateTime createdAt;
   final DateTime updatedAt;
   final dynamic deletedAt;
@@ -53,6 +54,7 @@ class Booking {
     required this.packageId,
     required this.joiningDate,
     required this.timeSlot,
+    required this.pendingAmount,
     required this.createdAt,
     required this.updatedAt,
     this.deletedAt,
@@ -80,6 +82,7 @@ class Booking {
     packageId: json["package_id"] as int,
     joiningDate: DateTime.parse(json["joining_date"] as String),
     timeSlot: json["time_slot"] as String,
+    pendingAmount: json["pending_amount"] as int,
     createdAt: DateTime.parse(json["created_at"] as String),
     updatedAt: DateTime.parse(json["updated_at"] as String),
     deletedAt: json["deleted_at"],
