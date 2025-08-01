@@ -50,7 +50,7 @@ backgroundColor: Appcolor.background,
               child: TabBarView(
                 children: [
                   DaysPage(),
-                  
+
                   MonthsPage(),
                 ],
               ),

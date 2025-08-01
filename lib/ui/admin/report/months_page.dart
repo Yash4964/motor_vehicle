@@ -1,12 +1,11 @@
-// months_page.dart
+// days_page.dart
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:intl/intl.dart';
-import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
+import 'package:motor_vehicle/model/report_model.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
-
 import '../../../controller_api/report_api_controller.dart';
 
 class MonthsPage extends StatefulWidget {
@@ -17,63 +16,70 @@ class MonthsPage extends StatefulWidget {
 }
 
 class _MonthsPageState extends State<MonthsPage> {
-  late DateTime selectedDate;
-  late TextEditingController _monthController;
-  final ReportController _reportController = Get.put(ReportController());
+
+  final ReportController reportController = Get.put(ReportController(),tag: 'months'  );
 
   @override
   void initState() {
     super.initState();
-    selectedDate = DateTime.now();
-    _monthController = TextEditingController(text: _formatDisplay(selectedDate));
-    _reportController.fetchByDate(_formatFilter(selectedDate));
+    final today = DateTime.now();
+    reportController.selectedDate.value = today;
+    final formatted = DateFormat('MM-yyyy').format(today);
+    reportController.dateController.text = formatted;
+    reportController.fetchByDate(formatted);
   }
+  Future<void> _pickDate(BuildContext context) async {
+    final initial = reportController.selectedDate.value;
+    final pickedDate = await showMonthPicker(
+      context: context,
+      firstDate: DateTime(2025),
+      lastDate: DateTime(2030),
+      initialDate: initial,
+    );
 
-  String _formatDisplay(DateTime dt) => "${dt.month.toString().padLeft(2, '0')}/${dt.year}";
-  String _formatFilter(DateTime dt) => "${dt.month.toString().padLeft(2, '0')}-${dt.year}"; // mm-yyyy
-
+    if (pickedDate != null) {
+      reportController.selectedDate.value = pickedDate;
+      final formatted = DateFormat('MM-yyyy').format(pickedDate);
+      reportController.dateController.text = formatted;
+      await reportController.fetchByDate(formatted);
+    }
+    else
+    {
+      final today = DateTime.now();
+      reportController.selectedDate.value = today;
+      final formatted = DateFormat('MM-yyyy').format(today);
+      reportController.dateController.text = formatted;
+      await reportController.fetchByDate(today as String);
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Appcolor.background,
       body: Obx(() {
-        final isLoading = _reportController.reportloader.value;
-        final bookings = _reportController.allBookings();
-
+        final isLoading = reportController.reportloader.value;
+        Summary? summary = reportController.reportlist?.value.summary;
         return Column(
           children: <Widget>[
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: TextField(
-                controller: _monthController,
+                controller: reportController.dateController,
                 readOnly: true,
-                onTap: () async {
-                  final picked = await showMonthPicker(
-                    context: context,
-                    initialDate: selectedDate,
-                    firstDate: DateTime(2020),
-                    lastDate: DateTime(2100),
-                  );
-                  if (picked != null) {
-                    setState(() {
-                      selectedDate = picked;
-                      _monthController.text = _formatDisplay(picked);
-                    });
-                    await _reportController.fetchByDate(_formatFilter(picked));
-                  }
-                },
+                onTap: () => _pickDate(context),
                 decoration: const InputDecoration(
-                  labelText: 'Select Month',
-                  hintText: 'Tap to pick a month',
+                  labelText: 'Select Date',
+                  hintText: 'Tap to pick a date',
                   border: OutlineInputBorder(),
-                  suffixIcon: Icon(Icons.calendar_month),
+                  suffixIcon: Icon(Icons.calendar_today),
                 ),
               ),
             ),
             const SizedBox(height: 2),
             Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              margin:
+              const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -99,7 +105,7 @@ class _MonthsPageState extends State<MonthsPage> {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '${_reportController.totalCustomers()}',
+                        "${summary?.totalBookings}",
                         style: const TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
@@ -115,7 +121,7 @@ class _MonthsPageState extends State<MonthsPage> {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '₹${_reportController.totalPayment()}',
+                        "${summary?.totalPackagePrice}",
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -131,7 +137,7 @@ class _MonthsPageState extends State<MonthsPage> {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '₹${_reportController.summaryTotalPaid()}',
+                        "${summary?.totalPaid}",
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -147,7 +153,7 @@ class _MonthsPageState extends State<MonthsPage> {
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '₹${_reportController.summaryTotalPending()}',
+                        '₹${summary?.remainingBalance}',
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
@@ -159,93 +165,93 @@ class _MonthsPageState extends State<MonthsPage> {
               ),
             ),
             Expanded(
-              child: isLoading
-                  ? const Center(child: CircularProgressIndicator())
-                  : bookings.isEmpty
-                  ? const Center(child: Text("No bookings for selected month"))
-                  : ListView.builder(
-                itemCount: bookings.length,
-                itemBuilder: (context, index) {
-                  final booking = bookings[index];
-                  final customer = booking.customer;
-                  final package = booking.package;
-                  final joinDateFormatted =
-                  DateFormat('dd-MM-yyyy').format(booking.joiningDate);
-                  return Card(
-                    color: Appcolor.container,
-                    margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                    elevation: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  Get.to(
-                                        () =>  CustomerProfilePage(),
-                                    arguments: [
-                                      customer.name,
-                                      customer.email,
-                                      customer.image,
-                                      customer.mobileNo,
+              child: Obx(() {
+                final isLoading = reportController.reportloader.value;
+                final bookings = reportController.reportlist?.value.bookings ?? [];
+
+                if (isLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+
+                if (bookings.isEmpty) {
+                  return const Center(child: Text("No bookings found for selected date."));
+                }
+                return ListView.builder(
+                  itemCount: bookings.length,
+                  itemBuilder: (context, index) {
+                    final booking = bookings[index];
+                    final joinDateFormatted = DateFormat('dd-MM-yyyy')
+                        .format(booking?.joiningDate ?? DateTime.now());
+
+                    return Card(
+                      color: Appcolor.container,
+                      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                InkWell(
+                                  onTap: () {
+                                    // navigate to customer profile if needed
+                                  },
+                                  child: const CircleAvatar(
+                                    radius: 35,
+                                    backgroundImage: AssetImage(
+                                      'assets/images/default_person.png',
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(width: 18),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(booking?.customer.name ?? "Customer",
+                                          style: const TextStyle(
+                                              fontWeight: FontWeight.bold, fontSize: 16)),
+                                      Text("Email: ${booking?.customer.email ?? '-'}",
+                                          style: const TextStyle(
+                                              fontSize: 13, overflow: TextOverflow.ellipsis)),
+                                      Text("Phone: ${booking?.customer.mobileNo ?? '-'}",
+                                          style: const TextStyle(fontSize: 13)),
+                                      Text("Package: ${booking?.package.name ?? '-'}",
+                                          style: const TextStyle(fontSize: 13)),
+                                      Text(
+                                          "Days: ${booking?.package.days ?? '-'} | KM: ${booking?.package.km ?? '-'}",
+                                          style: const TextStyle(fontSize: 13)),
+                                      Text("Join Date: $joinDateFormatted",
+                                          style: const TextStyle(fontSize: 13)),
+                                      Text(
+                                          "Status:",
+                                          style: const TextStyle(
+                                              fontSize: 13, color: Colors.green)),
                                     ],
-                                  );
-                                },
-                                child: CircleAvatar(
-                                  radius: 35,
-                                  backgroundImage: customer.image != null
-                                      ? NetworkImage(customer.image.toString())
-                                  as ImageProvider
-                                      : const AssetImage(
-                                      'assets/images/default_person.png'),
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(width: 18),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(customer.name,
-                                        style: const TextStyle(
-                                            fontWeight: FontWeight.bold, fontSize: 16)),
-                                    Text("Email: ${customer.email}",
-                                        style: const TextStyle(
-                                            fontSize: 13, overflow: TextOverflow.ellipsis)),
-                                    Text("Phone: ${customer.mobileNo}",
-                                        style: const TextStyle(fontSize: 13)),
-                                    Text("Package: ${package.name}",
-                                        style: const TextStyle(fontSize: 13)),
-                                    Text("Days: ${package.days} | KM: ${package.km}",
-                                        style: const TextStyle(fontSize: 13)),
-                                    Text("Join Date: $joinDateFormatted at ${booking.timeSlot}",
-                                        style: const TextStyle(fontSize: 13)),
-                                    Text(
-                                        "Status: ${booking.hasJoiningDatePassed ? 'Joined' : 'Upcoming'}",
-                                        style: const TextStyle(fontSize: 13, color: Colors.green)),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 8),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text("Fees: ₹${package.price}",
-                                  style: const TextStyle(fontWeight: FontWeight.bold)),
-                              const Text("Pending: ₹500",
-                                  style: TextStyle(color: Colors.redAccent)),
-                            ],
-                          ),
-                        ],
+                              ],
+                            ),
+                            const SizedBox(height: 8),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text("Fees: ₹${booking?.package.price ?? 0}",
+                                    style: const TextStyle(fontWeight: FontWeight.bold)),
+                                // Replace this with real pending if available
+                                const Text("Pending: ₹500",
+                                    style: TextStyle(color: Colors.redAccent)),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  );
-                },
-              ),
+                    );
+                  },
+                );
+              }),
             ),
           ],
         );
