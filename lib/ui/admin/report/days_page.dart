@@ -5,9 +5,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
-import 'package:motor_vehicle/controller/report_controller.dart';
-import 'package:motor_vehicle/model/report_model.dart';
-
 import '../../../controller_api/report_api_controller.dart';
 
 class DaysPage extends StatefulWidget {
@@ -112,16 +109,48 @@ class _DaysPageState extends State<DaysPage> {
                   Row(
                     children: [
                       const Text(
+                        'Total Amount:',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        '₹${_reportController.totalPayment()}',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.green),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text(
                         'Total Payment:',
                         style: TextStyle(fontSize: 16),
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        '₹${_reportController.totalPayment().toStringAsFixed(2)}',
+                        '₹${_reportController.summaryTotalPaid()}',
                         style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 16,
-                            color: Colors.green),
+                            color: Colors.blue),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      const Text(
+                        'Total Pending:',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        '₹${_reportController.summaryTotalPending()}',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.red),
                       ),
                     ],
                   ),

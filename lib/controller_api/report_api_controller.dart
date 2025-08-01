@@ -84,4 +84,21 @@ class ReportController extends GetxController {
     }
     return sum;
   }
+
+
+  double summaryTotalPending() {
+    return reportlist.fold(
+      0.0,
+          (acc, r) => acc + r.summary.remainingBalance.toDouble(),
+    );
+  }
+  double summaryTotalPaid() {
+    return reportlist.fold(
+      0.0,
+          (acc, r) => acc + (double.tryParse(r.summary.totalPaid) ?? 0.0),
+    );
+  }
+
+
+
 }
