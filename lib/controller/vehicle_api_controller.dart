@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:motor_vehicle/ApiService.dart';
+import 'package:motor_vehicle/controller/camera_contoller.dart';
 
 import '../model/vehicle_model.dart';
 
@@ -12,6 +14,9 @@ class VehicleController extends GetxController {
   final TextEditingController modelno = TextEditingController();
   final TextEditingController color = TextEditingController();
   final TextEditingController description = TextEditingController();
+
+  CameraContoller imageController = Get.put(CameraContoller());
+
   RxBool loader = false.obs;
   RxList<VehicleModel> vehicleList = <VehicleModel>[].obs;
   ApiService apiService = ApiService();
@@ -39,20 +44,32 @@ class VehicleController extends GetxController {
     loader.value = false;
   }
 
-  Future<void> postVehicle() async
-  {
-    Response response = await apiService.vehicleadd(_getData());
-    if(response.statusCode==200 || response.statusCode==201)
-    {
-      Get.snackbar("Success", "Customer added successfully");
-      getVehicle();
-      clr();
+
+  Future<void> postVehicle() async {
+    loader.value = true;
+    File? profile;
+    if (imageController.returnimage != null &&
+        imageController.returnimage.value != null) {
+      profile = File(imageController.returnimage.value?.path ?? "");
     }
-    else
-    {
-      Get.snackbar("Error", "Not data Add");
+
+    try {
+      Response response = await apiService.vehicleadd(_getData(), profile);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Get.back();
+        getVehicle();
+        clr();
+      } else {
+        Get.snackbar("Error", "Not data Add");
+      }
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    } finally {
+      loader.value = false;
     }
   }
+
 //update
   Future<void> updatevehicleapi (String id) async
   {
@@ -100,9 +117,10 @@ class VehicleController extends GetxController {
     modelno.clear();
     color.clear();
     description.clear();
+    imageController.returnimage.value = null;
   }
 
-  Map<String,dynamic> _getData ()
+  Map<String,String> _getData ()
   {
     return
       {

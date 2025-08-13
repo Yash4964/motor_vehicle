@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:motor_vehicle/controller_api/attendance_api_controller.dart';
-import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
+import 'package:motor_vehicle/controller/attendance_api_controller.dart';
+import 'package:motor_vehicle/controller/booking_controller.dart';
 import 'package:motor_vehicle/model/attendence_model.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 

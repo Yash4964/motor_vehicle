@@ -2,12 +2,14 @@ import 'dart:convert';
 
 class CustomerModel {
   String name;
+
   String email;
   String password;
   String mobile_no;
   int age;
   String address;
   String pincode;
+  String image;
   String id;
 
   CustomerModel({
@@ -18,6 +20,7 @@ class CustomerModel {
     required this.age,
     required this.address,
     required this.pincode,
+    required this.image,
     required this.id,
   });
 
@@ -33,6 +36,7 @@ class CustomerModel {
     age: int.tryParse(json["age"].toString()) ?? 0,
     address: json["address"] ?? "",
     pincode: json["pincode"] ?? "",
+    image:  json["image"] ?? "",
     id: json["id"].toString(),
   );
 
@@ -44,6 +48,7 @@ class CustomerModel {
   "age": age,
   "address": address,
   "pincode": pincode,
+  "image":image,
   "id":id,
   };
 }

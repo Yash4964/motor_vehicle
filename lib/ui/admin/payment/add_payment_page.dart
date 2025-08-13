@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
-import 'package:motor_vehicle/controller_api/payment_controller.dart';
+import 'package:motor_vehicle/controller/booking_controller.dart';
+import 'package:motor_vehicle/controller/payment_controller.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 import '../../../model/booking_model.dart';
@@ -10,7 +10,7 @@ import '../attendance/add_attendance_customer.dart';
 class AddPaymentPage extends StatelessWidget {
   AddPaymentPage({super.key});
 
-  BookingApiController bookingcontroller = Get.put(BookingApiController());
+  BookingController bookingcontroller = Get.put(BookingController());
   PaymentController paymentController = Get.put(PaymentController());
   final Customercontoller c = Get.put(Customercontoller());
 
@@ -45,7 +45,7 @@ class AddPaymentPage extends StatelessWidget {
               labels("Select Booking Name"),
               const SizedBox(height: 10),
               Obx(() {
-                if (bookingcontroller.loader.value) {
+                if (bookingcontroller.bookingloader.value) {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (bookingcontroller.bookingList.isEmpty) {
@@ -84,7 +84,7 @@ class AddPaymentPage extends StatelessWidget {
                         .map(
                           (book) => DropdownMenuItem<BookingModel>(
                             value: book,
-                            child: Text(book.learner_name),
+                            child: Text(book.learnerName),
                           ),
                         )
                         .toList(),

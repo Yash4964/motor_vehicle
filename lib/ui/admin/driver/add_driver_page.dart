@@ -4,7 +4,7 @@ import 'package:motor_vehicle/utils/app_enum.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
 
-import '../../../controller_api/driver_api_controller.dart';
+import '../../../controller/driver_api_controller.dart';
 
 class AddDriverPage extends StatelessWidget {
   AddDriverPage({super.key});

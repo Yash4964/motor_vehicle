@@ -1,41 +1,50 @@
-import 'dart:convert';
+import 'package:motor_vehicle/model/attendence_model.dart';
+import 'package:motor_vehicle/model/customer_model.dart';
+import 'package:motor_vehicle/model/package_model.dart';
+import 'package:motor_vehicle/model/payment_model.dart';
 
 class BookingModel {
-  String customer_id;
-  String learner_name;
-  String package_id;
-  String joining_date;
-  String time_slot;
-  String id;
+  int id;
+  int customerId;
+  String learnerName;
+  int packageId;
+  DateTime joiningDate;
+  String timeSlot;
+
+  List<AttendanceModel>? attendances;
+  List<PaymentModel>? transactions;
+
+  CustomerModel customer;
+  PackageModel package;
+  //SummaryModel summary;
 
   BookingModel({
-    required this.customer_id,
-    required this.learner_name,
-    required this.package_id,
-    required this.joining_date,
-    required this.time_slot,
     required this.id,
+    required this.customerId,
+    required this.learnerName,
+    required this.packageId,
+    required this.joiningDate,
+    required this.timeSlot,
+
+    required this.attendances,
+    required this.transactions,
+    required this.customer,
+    required this.package,
+    //required this.summary,
   });
 
-  factory BookingModel.fromRawJson(String str) => BookingModel.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
   factory BookingModel.fromJson(Map<String, dynamic> json) => BookingModel(
-    customer_id: json["customer_id"].toString() ?? "",
-    learner_name: json["learner_name"] ?? "",
-    package_id: json["package_id"].toString() ?? "",
-    joining_date: json["joining_date"] ?? "",
-    time_slot: json["time_slot"] ?? "",
-    id: json["id"].toString(),
-  );
+    id: json["id"],
+    customerId: json["customer_id"],
+    learnerName: json["learner_name"],
+    packageId: json["package_id"],
+    joiningDate: DateTime.parse(json["joining_date"]),
+    timeSlot: json["time_slot"],
 
-  Map<String, dynamic> toJson() => {
-    "customer_id": customer_id,
-    "learner_name": learner_name,
-    "package_id": package_id,
-    "joining_date": joining_date,
-    "time_slot": time_slot,
-    "id": id,
-  };
+    attendances: (json["attendances"] == null) ? [] : List<AttendanceModel>.from(json["attendances"].map((x) => AttendanceModel.fromJson(x))) ?? null,
+    transactions: (json["transactions"] == null) ? [] : List<PaymentModel>.from(json["transactions"].map((x) => PaymentModel.fromJson(x))) ?? null,
+    customer: CustomerModel.fromJson(json["customer"]),
+    package: PackageModel.fromJson(json["package"]),
+    //summary: SummaryModel.fromJson(json["summary"]),
+  );
 }

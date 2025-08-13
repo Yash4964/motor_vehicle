@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:motor_vehicle/ApiService.dart';
-import 'package:motor_vehicle/controller_api/vehicle_api_controller.dart';
+import 'package:motor_vehicle/controller/vehicle_api_controller.dart';
 import 'package:motor_vehicle/model/licence_model.dart';
 import 'package:motor_vehicle/model/package_detail_byid.dart';
 import 'package:motor_vehicle/model/vehicle_model.dart';

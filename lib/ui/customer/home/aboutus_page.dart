@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:motor_vehicle/controller_api/about_api_controller.dart';
+import 'package:motor_vehicle/controller/about_api_controller.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:widget_zoom/widget_zoom.dart';
+
 
 class Aboutus extends StatelessWidget {
   AboutApiController controller = Get.put(AboutApiController());
@@ -43,7 +44,7 @@ class Aboutus extends StatelessWidget {
                           child: WidgetZoom(
                             heroAnimationTag: 'tag1',
                             zoomWidget: Image.network(
-                                "${about?.aboutImage1}",
+                                "${about?.aboutImage1}" ?? '',
                               height: 200,
                               fit: BoxFit.cover,
                             ),

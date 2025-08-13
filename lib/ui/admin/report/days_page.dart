@@ -6,7 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:motor_vehicle/model/report_model.dart';
 import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
-import '../../../controller_api/report_api_controller.dart';
+import '../../../controller/report_api_controller.dart';
 
 class DaysPage extends StatefulWidget {
   const DaysPage({super.key});

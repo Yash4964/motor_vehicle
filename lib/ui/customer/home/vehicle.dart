@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:motor_vehicle/controller_api/vehicle_api_controller.dart';
+import 'package:motor_vehicle/controller/vehicle_api_controller.dart';
 import 'package:motor_vehicle/ui/customer/home/vehicle_list_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:motor_vehicle/controller_api/licence_api_controller.dart';
+import 'package:motor_vehicle/controller/licence_api_controller.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class LicensePages extends StatelessWidget {

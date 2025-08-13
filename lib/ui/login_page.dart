@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/utils.dart';
-import 'package:motor_vehicle/controller_api/login_api_controller.dart';
+import 'package:motor_vehicle/controller/login_api_controller.dart';
 import 'package:motor_vehicle/main.dart';
 import 'package:motor_vehicle/ui/admin/home/admin_dashboard_page.dart';
 import 'package:motor_vehicle/ui/customer/home/home_page.dart';

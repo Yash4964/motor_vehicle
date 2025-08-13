@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:motor_vehicle/ui/admin/attendance/add_attendance_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
-import '../../../controller_api/attendance_api_controller.dart';
+import '../../../controller/attendance_api_controller.dart';
 
 class AttendanceListPage extends StatelessWidget {
   AttendanceListPage({super.key});
@@ -22,16 +22,16 @@ class AttendanceListPage extends StatelessWidget {
       ),
       body: Obx(()
       {
-        if(a.tolist.isEmpty)
+        if(a.attendList.isEmpty)
           {
             return Center(child: CircularProgressIndicator());
           }
         else
           {
             return ListView.builder(
-              itemCount: a.tolist.length,
+              itemCount: a.attendList.length,
               itemBuilder: (BuildContext context, int index) {
-                final att = a.tolist[index];
+                final att = a.attendList[index];
                 DateTime dateTime = DateTime.parse(att.date);
                 DateTime time = DateTime.parse(att.time);
                 final formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
@@ -42,10 +42,13 @@ class AttendanceListPage extends StatelessWidget {
                   elevation: 2,
                   child: ListTile(
                     contentPadding: const EdgeInsets.all(12),
-                    leading: const CircleAvatar(
+                    leading: CircleAvatar(
                       radius: 30,
-                      backgroundImage: AssetImage('assets/images/person3.jpg'),
+                      backgroundImage: att.image != null
+                          ? NetworkImage("${att.image}")
+                          : AssetImage('assets/images/person3.jpg') as ImageProvider,
                     ),
+
                     title: Text(
                       "Booking id: ${att.booking_id}",
                       style: const TextStyle(fontWeight: FontWeight.bold),
@@ -96,14 +99,14 @@ class AttendanceListPage extends StatelessWidget {
                         IconButton(
                           icon: const Icon(Icons.edit, color: Colors.green),
                           onPressed: () {
-                            a.clr();
+                            a.clear();
                             Get.to(() => AddAttendancePages(), arguments: {
                               "isEdit": true,
                               "id": att.id,
                               "Time": timeformate,
                               "date": formattedDate,
-                              "booking_id": att.booking_id,
-                              "driver_id": att.driver_id
+                              "booking_id": att.booking_id.toString(),
+                              "driver_id": att.driver_id.toString()
                             });
                           },
                         ),
@@ -149,7 +152,7 @@ class AttendanceListPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-            a.clr();
+            a.clear();
             Get.to(() => AddAttendancePages());
 
         },

@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:motor_vehicle/controller_api/vehicle_api_controller.dart';
+import 'package:motor_vehicle/controller/vehicle_api_controller.dart';
 import 'package:motor_vehicle/model/vehicle_model.dart';
 import 'package:motor_vehicle/utils/app_enum.dart';
-import '../../../controller_api/package_api_controller.dart';
+import '../../../controller/package_api_controller.dart';
 import '../../../widgets/text_field_widget.dart';
 
 class AddPackagePage extends StatelessWidget {
   AddPackagePage({super.key});
 
-  final PackageConrollerApi packageConrollerApi = Get.put(PackageConrollerApi());
+  final PackageController packageConrollerApi = Get.put(PackageController());
   final VehicleController vehicleController = Get.put(VehicleController());
   final _formkey = GlobalKey<FormState>();
   final args = Get.arguments;

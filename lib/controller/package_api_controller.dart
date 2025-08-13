@@ -4,12 +4,12 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:motor_vehicle/ApiService.dart';
-import 'package:motor_vehicle/controller_api/vehicle_api_controller.dart';
+import 'package:motor_vehicle/controller/vehicle_api_controller.dart';
 import 'package:motor_vehicle/model/package_detail_byid.dart';
 import 'package:motor_vehicle/model/vehicle_model.dart';
 import '../model/package_model.dart';
 
-class PackageConrollerApi extends GetxController {
+class PackageController extends GetxController {
   final TextEditingController name = TextEditingController();
   final TextEditingController days = TextEditingController();
   final TextEditingController km = TextEditingController();
@@ -29,7 +29,7 @@ class PackageConrollerApi extends GetxController {
 
   }
 //get
-  Future<void> packageget() async {
+  Future<void> getPackageList() async {
     loader.value = true;
     final response = await apiService.packageget();
     if (response.status.isOk) {
@@ -49,14 +49,14 @@ class PackageConrollerApi extends GetxController {
     if (response.statusCode == 200) {
       tolist.removeWhere((item) => item.id == id);
       Get.snackbar('Deleted', 'Package deleted successfully');
-      packageget();
+      getPackageList();
     }
   }
 
   Future<void> packageadd() async {
     final response = await apiService.packageadd(_getData());
     if (response.statusCode == 200 || response.statusCode == 201) {
-      packageget();
+      getPackageList();
       Get.snackbar("Success", "Package added");
     }
   }

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/admin/package/add_package_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
-import '../../../controller_api/package_api_controller.dart';
+import '../../../controller/package_api_controller.dart';
 
 class PackageListPage extends StatelessWidget {
   PackageListPage({super.key});
 
-  final PackageConrollerApi p = Get.put(PackageConrollerApi());
+  final PackageController p = Get.put(PackageController());
 
   @override
   Widget build(BuildContext context) {
-    p.packageget();
+    p.getPackageList();
     return Scaffold(
       backgroundColor: Appcolor.background,
       appBar: AppBar(

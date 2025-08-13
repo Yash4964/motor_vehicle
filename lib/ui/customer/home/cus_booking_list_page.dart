@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
+import 'package:motor_vehicle/controller/booking_controller.dart';
 import 'package:motor_vehicle/ui/customer/home/booking_details_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class BookingListPage extends StatelessWidget {
   BookingListPage({super.key});
 
-  BookingApiController bookingApiController = Get.put(BookingApiController());
+  BookingController bookingApiController = Get.put(BookingController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFF1F4F8),
       body: Obx(() {
-
-        if (bookingApiController.loader.value) {
+        if (bookingApiController.bookingloader.value) {
           bookingApiController.bookingget();
           return Center(child: CircularProgressIndicator());
         }
@@ -27,7 +26,7 @@ class BookingListPage extends StatelessWidget {
           itemCount: bookingApiController.bookingList.length,
           itemBuilder: (BuildContext context, int index) {
             final booking = bookingApiController.bookingList[index];
-            DateTime dateTime = DateTime.parse(booking.joining_date);
+            DateTime dateTime = booking.joiningDate;
             final formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
             return Padding(
               padding: EdgeInsets.all(5.0),
@@ -38,7 +37,7 @@ class BookingListPage extends StatelessWidget {
                   onTap: () {
                     Get.to(
                       () => BookingDetailsPage(),
-                      arguments: {"Booking_id": booking.id},
+                      arguments: {"booking_id": booking.id.toString()},
                     );
                   },
                   child: Padding(
@@ -64,7 +63,7 @@ class BookingListPage extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.only(left: 50),
                                 child: Text(
-                                  booking.learner_name,
+                                  booking.learnerName,
                                   style: TextStyle(
                                     fontSize: 18,
                                     color: Appcolor.primary,
@@ -73,7 +72,7 @@ class BookingListPage extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                "Package: ${booking.package_id}",
+                                "Package: ${booking.package.name}",
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.grey[700],
@@ -89,7 +88,7 @@ class BookingListPage extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                "Joining Time: ${booking.time_slot}",
+                                "Joining Time: ${booking.timeSlot}",
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.grey[700],
