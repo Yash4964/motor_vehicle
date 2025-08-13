@@ -46,23 +46,47 @@ class CustomerListPage extends StatelessWidget {
                           contentPadding: EdgeInsets.all(12),
                           leading: InkWell(
                             onTap: () {
-                              // Get.to(
-                              //       () => CustomerProfilePage(),
-                              //   arguments:[
-                              //       customer['name'] ,
-                              //        customer['email'] ,
-                              //      customer['image'] ,
-                              //     customer['phone'] ,
-                              //   ],
-                              // );
+                              // Profile page navigation here if needed
                             },
                             child: CircleAvatar(
-                              radius: 30,
-                              backgroundImage: (customer.image != null && customer.image.isNotEmpty)
-                                  ? NetworkImage(customer.image)
-                                  : AssetImage('assets/images/person3.jpg') as ImageProvider,
+                              radius: 27,
+                              backgroundColor: Colors.grey[300],
+                              child: ClipOval(
+                                child: (customer.image != null && customer.image.isNotEmpty)
+                                    ? Image.network(
+                                  customer.image,
+                                  width: 54,
+                                  height: 54,
+                                  fit: BoxFit.cover,
+                                  loadingBuilder: (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return const Center(
+                                      child: SizedBox(
+                                        width: 24,
+                                        height: 24,
+                                        child: CircularProgressIndicator(strokeWidth: 2),
+                                      ),
+                                    );
+                                  },
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Image.asset(
+                                      "assets/images/person3.jpg",
+                                      width: 54,
+                                      height: 54,
+                                      fit: BoxFit.cover,
+                                    );
+                                  },
+                                )
+                                    : Image.asset(
+                                  "assets/images/person3.jpg",
+                                  width: 54,
+                                  height: 54,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
                             ),
                           ),
+
                           title: InkWell(
                             onTap: () {
                               Get.to(CustomerProfilePage());

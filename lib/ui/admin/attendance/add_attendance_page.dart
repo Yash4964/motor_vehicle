@@ -292,6 +292,13 @@ class AddAttendancePages extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 20),
+            if (controller.loader.value)
+              Container(
+                color: Colors.black.withOpacity(0.4),
+                child: const Center(
+                  child: CircularProgressIndicator(color: Colors.white),
+                ),
+              ),
           ],
         ),
       ),
