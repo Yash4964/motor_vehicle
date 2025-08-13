@@ -198,6 +198,13 @@ class AddcustomerPage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
+              if (customerController.loader.value)
+                Container(
+                  color: Colors.black.withOpacity(0.4),
+                  child: const Center(
+                    child: CircularProgressIndicator(color: Colors.white),
+                  ),
+                ),
             ],
           ),
         ),
