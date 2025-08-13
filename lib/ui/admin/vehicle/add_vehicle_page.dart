@@ -74,7 +74,7 @@ class AddVehiclePage extends StatelessWidget {
                                 right: 0,
                                 child: InkWell(
                                   onTap: () {
-                                    vehicleController.imageController.camera();
+                                    vehicleController.imageController.pickImageOption(context);
                                   },
                                   child: Container(
                                     padding: const EdgeInsets.all(6),

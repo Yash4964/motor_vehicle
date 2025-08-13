@@ -52,39 +52,63 @@ class CustomerController extends GetxController {
   // add
 
   Future<void> postcustomerapi() async {
+    loader.value = true;
     File? profile;
+
     if (imageController.returnimage != null &&
         imageController.returnimage.value != null) {
-      profile = File(imageController.returnimage.value?.path ?? "");
+      profile = File(imageController.returnimage.value!.path);
     }
 
-    Response response = await apiService.customeradd(_getData(), profile);
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      Get.snackbar("Success", "Customer added successfully");
-      getCustomerList();
-      clr();
-    } else {
-      Get.snackbar("Error", "Not data Add");
+    try {
+      Response response = await apiService.customeradd(_getData(), profile);
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        loader.value = false;
+        Get.back();
+        Get.snackbar("Success", "Customer added successfully");
+        getCustomerList();
+        clr();
+      } else {
+        Get.snackbar("Error", "Not data Add");
+      }
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    } finally {
+      loader.value = false;
     }
   }
+
 
   //update
+
   Future<void> updatecustomerapi(String id) async {
-    Response cusresponse = await apiService.customerupdate(id, _getData());
-    if (cusresponse.statusCode == 200 || cusresponse.statusCode == 201) {
-      clr();
+    loader.value = true;
+    File? profile;
 
-      int index = customerlist.indexWhere((customer) => customer.id == id);
-      customerlist[index] = CustomerModel.fromJson(
-        cusresponse.body['data'] as Map<String, dynamic>,
-      );
-      customerlist.refresh();
+    if (imageController.returnimage.value != null) {
+      profile = File(imageController.returnimage.value!.path);
+    }
 
-      Get.snackbar("Success", "Customer added successfully");
-    } else {
-      Get.snackbar("Error", "Not data Add");
+    try {
+      Response response = await apiService.customerupdate(id, _getData(), profile);
+
+      if (response.statusCode == 200) {
+        Get.back();
+        Get.snackbar("Success", "Customer updated successfully");
+        getCustomerList(); // refresh list
+        Get.back();
+      } else {
+        Get.snackbar("Error", "Failed to update customer");
+      }
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    } finally {
+      loader.value = false;
     }
   }
+
+
 
   //delete
   Future<void> deletecustomerapi(String id) async {

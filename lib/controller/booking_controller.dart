@@ -15,7 +15,7 @@ class BookingController extends GetxController {
   ApiService apiService = ApiService();
   final TextEditingController learner_name = TextEditingController();
   final TextEditingController timeSlot = TextEditingController();
-  RxBool bookingloader = false.obs;
+  RxBool bookingloaders = false.obs;
   RxList<BookingModel> bookingList = <BookingModel>[].obs;
 
   Rx<BookingModel>? bookingDetails;
@@ -44,7 +44,7 @@ class BookingController extends GetxController {
 
   //get
   Future<void> bookingget() async {
-    bookingloader.value = true;
+    bookingloaders.value = true;
     final response = await apiService.bookingget();
     if (response.status.isOk) {
       final data = response.body;
@@ -55,11 +55,11 @@ class BookingController extends GetxController {
             .toList();
       }
     }
-    bookingloader.value = false;
+    bookingloaders.value = false;
   }
 
   Future<void> addBooking() async {
-    bookingloader.value = true;
+    bookingloaders.value = true;
     Response response = await apiService.addBooking(_getData());
     if (response.statusCode == 200 || response.statusCode == 201) {
       Get.snackbar("Success", "driver added successfully");
@@ -68,7 +68,7 @@ class BookingController extends GetxController {
     } else {
       Get.snackbar("Error", "Not data Add");
     }
-    bookingloader.value = false;
+    bookingloaders.value = false;
   }
 
   Future<void> updateBooking() async {

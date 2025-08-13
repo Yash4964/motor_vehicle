@@ -81,7 +81,7 @@ class AddAttendancePages extends StatelessWidget {
                         bottom: 0,
                         right: 0,
                         child: InkWell(
-                          onTap: () => controller.imageController.camera(),
+                          onTap: () => controller.imageController.pickImageOption(context),
                           child: Container(
                             padding: const EdgeInsets.all(6),
                             decoration: const BoxDecoration(
@@ -107,7 +107,7 @@ class AddAttendancePages extends StatelessWidget {
               labels("Select Booking Name"),
               SizedBox(height: 10),
               Obx(() {
-                if (bookingcontroller.bookingloader.value) {
+                if (bookingcontroller.bookingloaders.value) {
                   return Center(child: CircularProgressIndicator());
                 }
                 if (bookingcontroller.bookingList.isEmpty) {

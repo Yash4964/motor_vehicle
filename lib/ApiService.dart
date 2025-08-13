@@ -114,27 +114,39 @@ class ApiService extends GetConnect {
   }
 
   // customer update
-  Future<Response> customerupdate(String id, Map<String, dynamic> data) async {
-    try {
-      final String fullUrl =
-          "https://motordriving.sathwarainfotech.com/api/customers/$id";
-      debugPrint("Login API Request: $fullUrl\nPayload: $data");
+  Future<Response> customerupdate(String id, Map<String, String> data, File? profile) async {
+    var request = http.MultipartRequest(
+      "POST", // Laravel-style PUT with method override
+      Uri.parse("https://motordriving.sathwarainfotech.com/api/customers/$id"),
+    );
 
-      final response = await put(
-        fullUrl,
-        jsonEncode(data),
-        headers: await getAuthHeaders(),
-      ).timeout(const Duration(seconds: 30));
+    // Laravel expects this for update with POST
+    request.fields["_method"] = "PUT";
+    request.fields.addAll(data);
 
-      debugPrint(
-        "Login API Response: ${response.statusCode}\nBody: ${response.bodyString}",
+    if (profile != null) {
+      request.files.add(
+        await http.MultipartFile.fromPath('image', profile.path),
       );
-      return response;
-    } catch (e, stack) {
-      debugPrint("Login API Error: $e\nStack: $stack");
+    }
+
+    var headers = await getAuthHeaders();
+    request.headers.addAll(headers);
+
+    try {
+      var streamedResponse = await request.send();
+      var response = await http.Response.fromStream(streamedResponse);
+
+      return Response(
+        statusCode: response.statusCode,
+        body: jsonDecode(response.body), // always decode JSON here
+      );
+    } catch (e) {
       rethrow;
     }
   }
+
+
 
   Future<Response> customerdelete(String id) async {
     try {

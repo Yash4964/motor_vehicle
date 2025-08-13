@@ -25,7 +25,7 @@ class BookingListPage extends StatelessWidget {
       ),
       body: Obx(
             ()  {
-              if (b.bookingloader.value) {
+              if (b.bookingloaders.value) {
                 return Center(child: CircularProgressIndicator());
               }
               if(b.bookingList.isEmpty)
