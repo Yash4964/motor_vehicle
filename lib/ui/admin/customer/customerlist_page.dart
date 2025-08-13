@@ -3,17 +3,17 @@ import 'package:get/get.dart';
 import 'package:motor_vehicle/ui/admin/customer/addcustomer_page.dart';
 import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
-import 'package:motor_vehicle/controller_api/customer_api_controller.dart';
+import 'package:motor_vehicle/controller/customer_api_controller.dart';
 
 
 class CustomerListPage extends StatelessWidget {
   CustomerListPage({super.key});
 
-  CustomerApiController cusapi = Get.put(CustomerApiController());
+  CustomerController cusapi = Get.put(CustomerController());
 
   @override
   Widget build(BuildContext context) {
-    cusapi.getCustomer();
+    cusapi.getCustomerList();
     return Scaffold(
       backgroundColor: Appcolor.background,
       appBar: AppBar(
@@ -58,9 +58,9 @@ class CustomerListPage extends StatelessWidget {
                             },
                             child: CircleAvatar(
                               radius: 30,
-                              backgroundImage: AssetImage(
-                                'assets/images/person3.jpg',
-                              ),
+                              backgroundImage: (customer.image != null && customer.image.isNotEmpty)
+                                  ? NetworkImage(customer.image)
+                                  : AssetImage('assets/images/person3.jpg') as ImageProvider,
                             ),
                           ),
                           title: InkWell(

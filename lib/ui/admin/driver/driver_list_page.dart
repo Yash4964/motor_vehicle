@@ -6,7 +6,7 @@ import 'package:motor_vehicle/ui/admin/driver/add_driver_page.dart';
 import 'package:motor_vehicle/ui/admin/driver/view_driver_details.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
-import '../../../controller_api/driver_api_controller.dart';
+import '../../../controller/driver_api_controller.dart';
 
 class DriverListPage extends StatelessWidget {
   DriverListPage({super.key});

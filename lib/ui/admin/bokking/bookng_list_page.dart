@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
+import 'package:motor_vehicle/controller/booking_controller.dart';
 import 'package:motor_vehicle/ui/admin/bokking/add_booking_page.dart';
 import 'package:motor_vehicle/ui/customer/home/booking_details_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
@@ -10,7 +10,7 @@ import 'package:motor_vehicle/widgets/appcolor_page.dart';
 class BookingListPage extends StatelessWidget {
   BookingListPage({super.key});
 
-  BookingApiController b = Get.put(BookingApiController());
+  BookingController b = Get.put(BookingController());
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class BookingListPage extends StatelessWidget {
       ),
       body: Obx(
             ()  {
-              if (b.loader.value) {
+              if (b.bookingloader.value) {
                 return Center(child: CircularProgressIndicator());
               }
               if(b.bookingList.isEmpty)
@@ -38,7 +38,7 @@ class BookingListPage extends StatelessWidget {
                     itemCount: b.bookingList.length,
                     itemBuilder: (context, index) {
                       final booking = b.bookingList[index];
-                      DateTime dateTime = DateTime.parse(booking.joining_date);
+                      DateTime dateTime = booking.joiningDate;
 
                       final formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
 
@@ -52,14 +52,14 @@ class BookingListPage extends StatelessWidget {
                               Get.to(() => BookingDetailsPage(),
                               arguments:
                               {
-                                "Booking_id":booking.id,
+                                "booking_id":booking.id.toString(),
                               });
                             },
                             child: ListTile(
                               contentPadding: const EdgeInsets.all(8),
 
                               title: Text(
-                                "Learner Name: ${booking.learner_name}",
+                                "Learner Name: ${booking.learnerName}",
                                 style: const TextStyle(fontWeight: FontWeight.bold),
                               ),
 
@@ -74,18 +74,18 @@ class BookingListPage extends StatelessWidget {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: '${booking.customer_id}\n',
+                                      text: '${booking.customer.name}\n',
                                       style: TextStyle(color: Colors.grey[700]),
                                     ),
                                     TextSpan(
-                                      text: 'package : ',
+                                      text: 'Package : ',
                                       style: TextStyle(
                                         color: Colors.grey[800],
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
                                     TextSpan(
-                                      text: "${booking.package_id}\n",
+                                      text: "${booking.package.name}\n",
                                       style: TextStyle(color: Colors.grey[700]),
                                     ),
                                     TextSpan(
@@ -107,7 +107,7 @@ class BookingListPage extends StatelessWidget {
                                       ),
                                     ),
                                     TextSpan(
-                                      text: "${booking.time_slot}\n",
+                                      text: "${booking.timeSlot}\n",
                                       style: TextStyle(color: Colors.grey[700]),
                                     ),
 
@@ -136,22 +136,16 @@ class BookingListPage extends StatelessWidget {
                               IconButton(
                                 icon: Icon(Icons.edit, color: Colors.green),
                                 onPressed: () {
-                                  b.clr();
+                                  b.clear();
                                   Get.to(() => AddBookingPage(), arguments: {
-                                    "isEdit": true,
-                                    "customer_id": booking.customer_id,
-                                    "learner_name": booking.learner_name,
-                                    "package_id": booking.package_id,
-                                    "joining_date":  formattedDate,
-                                    "time_slot": booking.time_slot,
-                                    "id": booking.id,
+                                    "booking_id": booking.id.toString(),
                                   });
                                 },
                               ),
                               IconButton(
                                 icon: Icon(Icons.delete, color: Colors.red),
                                 onPressed: () {
-                                  b.bookingdelete(booking.id);
+                                  b.deleteBooking(booking.id.toString());
                                 },
                               ),
                             ],
@@ -167,7 +161,7 @@ class BookingListPage extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          b.clr();
+          b.clear();
           Get.to(() => AddBookingPage());
         },
         child: Icon(Icons.add, color: Colors.white),

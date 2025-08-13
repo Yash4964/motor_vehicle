@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:motor_vehicle/controller_api/booking_api_controller.dart';
-import 'package:motor_vehicle/controller_api/payment_controller.dart';
+import 'package:motor_vehicle/controller/booking_controller.dart';
+import 'package:motor_vehicle/controller/payment_controller.dart';
 import 'package:motor_vehicle/ui/admin/payment/add_payment_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
@@ -10,7 +10,7 @@ class ComplateCustomerList extends StatelessWidget {
   ComplateCustomerList({super.key});
 
   final PaymentController paymentController = Get.put(PaymentController());
-  final BookingApiController bookingApiController = Get.put(BookingApiController());
+  final BookingController bookingApiController = Get.put(BookingController());
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +86,7 @@ class ComplateCustomerList extends StatelessWidget {
                                   "isEdit": true,
                                   "amount": payment.amount,
                                   "id": payment.id,
-                                  "booking_id": payment.booking_id,
+                                  "booking_id": payment.booking_id.toString(),
                                   "date": formattedDate,
                                 },
                               );

@@ -7,6 +7,7 @@ class VehicleModel {
   String color;
   String description;
   String id;
+  String image;
 
   VehicleModel({
     required this.name,
@@ -15,27 +16,31 @@ class VehicleModel {
     required this.color,
     required this.description,
     required this.id,
+    required this.image,
   });
 
-  factory VehicleModel.fromRawJson(String str) => VehicleModel.fromJson(json.decode(str));
+  factory VehicleModel.fromRawJson(String str) =>
+      VehicleModel.fromJson(json.decode(str));
 
   String toRawJson() => json.encode(toJson());
 
   factory VehicleModel.fromJson(Map<String, dynamic> json) => VehicleModel(
-    name: json["name"],
+    name: json["name"] ?? "",
     carno: json["car_no"] ?? "",
     modelno: json["model_no"] ?? "",
     color: json["color"] ?? "",
     description: json["description"] ?? "",
     id: json["id"].toString(),
+    image: json["image"] ?? "",
   );
 
   Map<String, dynamic> toJson() => {
     "name": name,
-    "carno": carno,
-    "modelno": modelno,
+    "car_no": carno,
+    "model_no": modelno,
     "color": color,
     "description": description,
     "id": id,
+    "image": image,
   };
 }

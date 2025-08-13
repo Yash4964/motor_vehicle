@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:motor_vehicle/controller_api/customer_api_controller.dart';
+import 'package:motor_vehicle/controller/customer_api_controller.dart';
 // ignore: must_be_immutable
 class CustomerProfilePage extends StatelessWidget {
 

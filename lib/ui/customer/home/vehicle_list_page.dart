@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:motor_vehicle/controller_api/package_api_controller.dart';
-import 'package:motor_vehicle/controller_api/vehicle_api_controller.dart';
+import 'package:motor_vehicle/controller/package_api_controller.dart';
+import 'package:motor_vehicle/controller/vehicle_api_controller.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class VehicleInformation extends StatelessWidget {
   var args = Get.arguments;
   VehicleController vehicleController =Get.put(VehicleController());
-  PackageConrollerApi packageConrollerApi = Get.put(PackageConrollerApi());
+  PackageController packageConrollerApi = Get.put(PackageController());
   @override
   Widget build(BuildContext context) {
     final vehicle_id = args['id'];

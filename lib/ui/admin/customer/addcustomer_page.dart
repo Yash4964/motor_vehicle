@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:motor_vehicle/controller/camera_contoller.dart';
-import 'package:motor_vehicle/controller_api/customer_api_controller.dart';
+import 'package:motor_vehicle/controller/customer_api_controller.dart';
 import 'package:motor_vehicle/ui/admin/customer/customerlist_page.dart';
 import 'package:motor_vehicle/utils/app_enum.dart';
 import 'package:motor_vehicle/widgets/text_field_widget.dart';
@@ -11,21 +11,24 @@ import 'package:motor_vehicle/widgets/text_field_widget.dart';
 class AddcustomerPage extends StatelessWidget {
   AddcustomerPage({super.key});
 
-  var args=Get.arguments;
+  var args = Get.arguments;
   final _formkey = GlobalKey<FormState>();
 
-  CameraContoller c = Get.put(CameraContoller());
-  CustomerApiController cusapi = Get.put(CustomerApiController());
+  CustomerController customerController = Get.put(CustomerController());
+
   @override
   Widget build(BuildContext context) {
-    if(args?['isEdit']??false){
-      cusapi.setData(Get.arguments);
+    if (args?['isEdit'] ?? false) {
+      customerController.setData(Get.arguments);
     }
 
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text('Customer Details', style: TextStyle(color: Colors.white)),
+        title: const Text(
+          'Customer Details',
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.blue,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
@@ -41,21 +44,32 @@ class AddcustomerPage extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white,
-                    border: Border.all(
-                      color: Colors.lightBlue,
-                      width: 2.5,
-                    ),
-                  ),padding: EdgeInsets.all(2),
-                  child: Obx(()=>
-                     Stack(
+                    border: Border.all(color: Colors.lightBlue, width: 2.5),
+                  ),
+                  padding: EdgeInsets.all(2),
+                  child: Obx(
+                    () => Stack(
                       children: [
-                         CircleAvatar(
+                        CircleAvatar(
                           radius: 50,
                           backgroundColor: Colors.white,
                           backgroundImage:
-                          c.returnimage.value != null ? FileImage(File(c.returnimage.value!.path))
-                              : AssetImage('assets/images/default_person.png') as ImageProvider,
-
+                              customerController
+                                      .imageController
+                                      .returnimage
+                                      .value !=
+                                  null
+                              ? FileImage(
+                                  File(
+                                    customerController
+                                        .imageController
+                                        .returnimage
+                                        .value!
+                                        .path,
+                                  ),
+                                )
+                              : AssetImage('assets/images/default_person.png')
+                                    as ImageProvider,
                         ),
                         Positioned(
                           bottom: 0,
@@ -63,17 +77,20 @@ class AddcustomerPage extends StatelessWidget {
                           child: InkWell(
                             onTap: () {},
                             child: InkWell(
-                              onTap: ()
-                              {
-                                c.camera();
+                              onTap: () {
+                                customerController.imageController.camera();
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(6),
-                                decoration:  BoxDecoration(
+                                decoration: BoxDecoration(
                                   color: Colors.lightBlue,
                                   shape: BoxShape.circle,
                                 ),
-                                child:  Icon(Icons.add, color: Colors.white, size: 22),
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.white,
+                                  size: 22,
+                                ),
                               ),
                             ),
                           ),
@@ -83,35 +100,33 @@ class AddcustomerPage extends StatelessWidget {
                   ),
                 ),
               ),
-               SizedBox(height: 10),
-               Center(
+              SizedBox(height: 10),
+              Center(
                 child: Text(
-                   'Customer Details',
+                  'Customer Details',
                   style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
                 ),
               ),
-               SizedBox(height: 20),
+              SizedBox(height: 20),
 
               labels("Name"),
               TextFieldWidget(
-                controller: cusapi.cname,
+                controller: customerController.cname,
                 hint: 'Name',
                 textInputType: TextInputType.name,
               ),
 
               labels("Email"),
               TextFieldWidget(
-                controller: cusapi.email,
-                hint:  'ex: jon.smith@gmail.com',
+                controller: customerController.email,
+                hint: 'ex: jon.smith@gmail.com',
                 textInputType: TextInputType.emailAddress,
                 inputTypeMode: InputTypeMode.email,
               ),
 
-
-
               labels("Password"),
               TextFieldWidget(
-                controller:cusapi.pass,
+                controller: customerController.pass,
                 hint: "password",
                 obscureText: true,
                 inputTypeMode: InputTypeMode.password,
@@ -119,15 +134,15 @@ class AddcustomerPage extends StatelessWidget {
 
               labels("Mobile"),
               TextFieldWidget(
-                controller: cusapi.mobile,
-                hint:"91+ 9698521475",
+                controller: customerController.mobile,
+                hint: "91+ 9698521475",
                 textInputType: TextInputType.phone,
                 inputTypeMode: InputTypeMode.phone,
               ),
 
               labels("Age"),
               TextFieldWidget(
-                controller: cusapi.age,
+                controller: customerController.age,
                 hint: "Age must be 18+",
                 textInputType: TextInputType.number,
                 inputTypeMode: InputTypeMode.age,
@@ -135,40 +150,33 @@ class AddcustomerPage extends StatelessWidget {
 
               labels("Address"),
               TextFieldWidget(
-                controller: cusapi.address,
+                controller: customerController.address,
                 hint: "Address",
                 textInputType: TextInputType.text,
               ),
 
               labels("Pincode"),
               TextFieldWidget(
-                controller: cusapi.pincode,
-                hint:"Pincode",
+                controller: customerController.pincode,
+                hint: "Pincode",
                 obscureText: false,
                 textInputType: TextInputType.number,
                 inputTypeMode: InputTypeMode.pincode,
               ),
               const SizedBox(height: 20),
               InkWell(
-                onTap: () {
-
-                },
+                onTap: () {},
                 child: InkWell(
-                  onTap: ()
-                  {
-                    if(_formkey.currentState!.validate())
-                      {
-                        if((args?['isEdit'] ?? false) == false) {
-                          cusapi.postcustomerapi();
-                          Get.back();
-                        }
-                        else
-                        {
-                          cusapi.updatecustomerapi(
-                            args['id']);
-                          Get.back();
-                        }
+                  onTap: () {
+                    if (_formkey.currentState!.validate()) {
+                      if ((args?['isEdit'] ?? false) == false) {
+                        customerController.postcustomerapi();
+                        Get.back();
+                      } else {
+                        customerController.updatecustomerapi(args['id']);
+                        Get.back();
                       }
+                    }
                   },
                   child: Container(
                     width: double.infinity,
@@ -178,8 +186,8 @@ class AddcustomerPage extends StatelessWidget {
                       color: Colors.blueAccent,
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    child:  Text(
-                        "Submit",
+                    child: Text(
+                      "Submit",
                       style: TextStyle(
                         fontSize: 18,
                         color: Colors.white,

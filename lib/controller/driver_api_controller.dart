@@ -1,21 +1,15 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http ;
 import 'package:motor_vehicle/ApiService.dart';
-import 'package:motor_vehicle/model/customer_model.dart';
-import 'package:motor_vehicle/model/response_model.dart';
+import '../model/driver_model.dart';
 
-import '../ui/admin/customer/customerlist_page.dart';
-class CustomerApiController extends GetxController
-{
-  RxList<CustomerModel> customerlist =<CustomerModel>[].obs;
+class DriverConrollerApi extends GetxController {
 
-  GetStorage getStorage = GetStorage();
+  RxBool loader = false.obs;
   ApiService apiService = ApiService();
 
-  // String url = 'https://motordriving.sathwarainfotech.com/api/customers';
   TextEditingController cname = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
@@ -23,40 +17,40 @@ class CustomerApiController extends GetxController
   TextEditingController age = TextEditingController();
   TextEditingController address = TextEditingController();
   TextEditingController pincode = TextEditingController();
-  RxBool loader = false.obs;
+  TextEditingController licenceno = TextEditingController();
+
   @override
-     void onInit()
-    {
-      clr();
-      super.onInit();
+  void onInit() {
+    super.onInit();
+    clr();
+    getDriver();
 
-    }
-
-  void getCustomer() async {
+  }
+  var driverlist = <DriverModel>[].obs;
+//get
+  void getDriver() async {
     loader.value = true;
-    final response = await apiService.customerget();
+    final response = await apiService.driverget();
     if (response.status.isOk) {
       final data = response.body;
       if (data["status"] == true && data["data"] != null) {
         final List<dynamic> responseData = data["data"];
-        customerlist.value = responseData
-            .map((json) => CustomerModel.fromJson(json))
+        driverlist.value = responseData
+            .map((json) => DriverModel.fromJson(json))
             .toList();
       }
     }
+    clr();
     loader.value = false;
   }
-
-  // add
-
-  Future<void> postcustomerapi () async
+//add
+  Future<void> postDriverapi () async
   {
-
-    Response response = await apiService.customeradd(_getData());
+    Response response = await apiService.driveradd(_getData());
     if(response.statusCode==200 || response.statusCode==201)
     {
-      Get.snackbar("Success", "Customer added successfully");
-      getCustomer();
+      Get.snackbar("Success", "driver added successfully");
+      getDriver();
       clr();
     }
     else
@@ -64,19 +58,17 @@ class CustomerApiController extends GetxController
       Get.snackbar("Error", "Not data Add");
     }
   }
-  //update
-  Future<void> updatecustomerapi (String id) async
+//update
+  Future<void> updatedriverapi (String id) async
   {
-    Response cusresponse = await apiService.customerupdate(id, _getData());
+    Response cusresponse = await apiService.driverupdate(id, _getData());
     if(cusresponse.statusCode==200 || cusresponse.statusCode==201)
     {
       clr();
-
-      int index = customerlist.indexWhere((customer) => customer.id == id);
-      customerlist[index] = CustomerModel.fromJson(cusresponse.body['data'] as Map<String, dynamic>);
-      customerlist.refresh();
-
-      Get.snackbar("Success", "Customer added successfully");
+      int index = driverlist.indexWhere((driver) => driver.id == id);
+      driverlist[index] = DriverModel.fromJson(cusresponse.body['data'] as Map<String, dynamic>);
+      driverlist.refresh();
+      Get.snackbar("Success", "driver update successfully");
     }
     else
     {
@@ -85,12 +77,12 @@ class CustomerApiController extends GetxController
   }
 
   //delete
-  Future<void> deletecustomerapi (String id) async
+  Future<void> deletedriverapi (String id) async
   {
-    final cusresponse = await apiService.customerdelete(id);
+    final cusresponse = await apiService.driverdelete(id);
     if(cusresponse.statusCode==200)
     {
-      customerlist.removeWhere((item)=> item.id == id);
+      driverlist.removeWhere((item)=> item.id == id);
       Get.snackbar("Success", "Item deleted successfully");
     }
     else
@@ -100,25 +92,26 @@ class CustomerApiController extends GetxController
   }
 
   void setData(arguments) {
-    cname.text =  arguments['name'];
-    email.text = arguments['email'];
-    pass.text = arguments['password'];
-    mobile.text = arguments['mobileno'];
-    age.text = arguments['age'];
-    address.text = arguments['address'];
-    pincode.text = arguments['pincode'];
-  }
 
-  void clr ()
-  {
+    cname.text = arguments['name'];
+    email.text=arguments['email'];
+    pass.text = arguments['password'];
+    mobile.text=arguments['mobileno'];
+    age.text = arguments['age'];
+    address.text=arguments['address'];
+    licenceno.text = arguments['licenceno'];
+
+
+  }
+  void clr(){
     cname.clear();
     email.clear();
     pass.clear();
     mobile.clear();
     age.clear();
     address.clear();
-    pincode.clear();
-  }
+    licenceno.clear();
+}
   Map<String,dynamic> _getData ()
   {
     return
@@ -129,7 +122,7 @@ class CustomerApiController extends GetxController
         "mobile_no":mobile.text,
         "age":int.parse(age.text),
         "address": address.text,
-        "pincode":pincode.text
+        "licence_no":licenceno.text,
       };
   }
 }

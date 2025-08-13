@@ -1,11 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:motor_vehicle/ApiService.dart';
 import 'package:motor_vehicle/model/customer_model.dart';
-import 'package:http/http.dart' as http;
 import 'package:motor_vehicle/model/response_model.dart';
 
 class Register extends GetxController {
