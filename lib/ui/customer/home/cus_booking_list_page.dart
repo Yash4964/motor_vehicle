@@ -15,7 +15,7 @@ class BookingListPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: Color(0xFFF1F4F8),
       body: Obx(() {
-        if (bookingApiController.bookingloader.value) {
+        if (bookingApiController.bookingloaders.value) {
           bookingApiController.bookingget();
           return Center(child: CircularProgressIndicator());
         }
@@ -47,7 +47,42 @@ class BookingListPage extends StatelessWidget {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: Image.asset(
+                          child: booking.customer.image != null && booking.customer.image.isNotEmpty
+                              ? Image.network(
+                            booking.customer.image,
+                            width: 90,
+                            height: 120,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (context, child, loadingProgress) {
+                              if (loadingProgress == null) {
+                                // Image fully loaded
+                                return child;
+                              }
+                              // Still loading — show loader
+                              return Container(
+                                width: 90,
+                                height: 120,
+                                color: Colors.grey[200],
+                                child: Center(
+                                  child: CircularProgressIndicator(
+                                    value: loadingProgress.expectedTotalBytes != null
+                                        ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                        : null,
+                                  ),
+                                ),
+                              );
+                            },
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset(
+                                'assets/images/person.jpg',
+                                width: 90,
+                                height: 120,
+                                fit: BoxFit.cover,
+                              );
+                            },
+                          )
+                              : Image.asset(
                             'assets/images/person.jpg',
                             width: 90,
                             height: 120,

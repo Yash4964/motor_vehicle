@@ -45,7 +45,7 @@ class AddPaymentPage extends StatelessWidget {
               labels("Select Booking Name"),
               const SizedBox(height: 10),
               Obx(() {
-                if (bookingcontroller.bookingloader.value) {
+                if (bookingcontroller.bookingloaders.value) {
                   return const Center(child: CircularProgressIndicator());
                 }
                 if (bookingcontroller.bookingList.isEmpty) {
