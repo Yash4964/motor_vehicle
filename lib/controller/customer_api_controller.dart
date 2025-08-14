@@ -7,18 +7,14 @@ import 'package:http/http.dart' as http;
 import 'package:motor_vehicle/ApiService.dart';
 import 'package:motor_vehicle/controller/camera_contoller.dart';
 import 'package:motor_vehicle/model/customer_model.dart';
-import 'package:motor_vehicle/model/response_model.dart';
-
-import '../ui/admin/customer/customerlist_page.dart';
 
 class CustomerController extends GetxController {
   RxList<CustomerModel> customerlist = <CustomerModel>[].obs;
-
   GetStorage getStorage = GetStorage();
   ApiService apiService = ApiService();
   CameraContoller imageController = Get.put(CameraContoller());
 
-  // String url = 'https://motordriving.sathwarainfotech.com/api/customers';
+  // text fields
   TextEditingController cname = TextEditingController();
   TextEditingController email = TextEditingController();
   TextEditingController pass = TextEditingController();
@@ -26,7 +22,11 @@ class CustomerController extends GetxController {
   TextEditingController age = TextEditingController();
   TextEditingController address = TextEditingController();
   TextEditingController pincode = TextEditingController();
+
   RxBool loader = false.obs;
+
+  // store existing image in edit mode
+  RxString existingImageUrl = ''.obs;
 
   @override
   void onInit() {
@@ -41,27 +41,23 @@ class CustomerController extends GetxController {
       final data = response.body;
       if (data["status"] == true && data["data"] != null) {
         final List<dynamic> responseData = data["data"];
-        customerlist.value = responseData
-            .map((json) => CustomerModel.fromJson(json))
-            .toList();
+        customerlist.value =
+            responseData.map((json) => CustomerModel.fromJson(json)).toList();
       }
     }
     loader.value = false;
   }
 
   // add
-
   Future<void> postcustomerapi() async {
     loader.value = true;
     File? profile;
-    if (imageController.returnimage != null &&
-        imageController.returnimage.value != null) {
+    if (imageController.returnimage.value != null) {
       profile = File(imageController.returnimage.value?.path ?? "");
     }
 
     try {
       Response response = await apiService.customeradd(_getData(), profile);
-
       if (response.statusCode == 200 || response.statusCode == 201) {
         Get.back();
         getCustomerList();
@@ -78,9 +74,7 @@ class CustomerController extends GetxController {
 
 
 
-
-  //update
-
+  // update
   Future<void> updatecustomerapi(String id) async {
     loader.value = true;
     File? profile;
@@ -90,12 +84,12 @@ class CustomerController extends GetxController {
     }
 
     try {
-      Response response = await apiService.customerupdate(id, _getData(), profile);
-
+      Response response =
+      await apiService.customerupdate(id, _getData(), profile);
       if (response.statusCode == 200) {
         Get.back();
         Get.snackbar("Success", "Customer updated successfully");
-        getCustomerList(); // refresh list
+        getCustomerList();
         Get.back();
       } else {
         Get.snackbar("Error", "Failed to update customer");
@@ -107,29 +101,30 @@ class CustomerController extends GetxController {
     }
   }
 
-
-
-  //delete
+  // delete
   Future<void> deletecustomerapi(String id) async {
     final cusresponse = await apiService.customerdelete(id);
     if (cusresponse.statusCode == 200) {
       customerlist.removeWhere((item) => item.id == id);
       Get.snackbar("Success", "Item deleted successfully");
     } else {
-      Get.snackbar("Error", "Not data fatch");
+      Get.snackbar("Error", "Not data fetch");
     }
   }
 
+  // set data for edit mode
   void setData(arguments) {
-    cname.text = arguments['name'];
-    email.text = arguments['email'];
-    pass.text = arguments['password'];
-    mobile.text = arguments['mobileno'];
-    age.text = arguments['age'];
-    address.text = arguments['address'];
-    pincode.text = arguments['pincode'];
+    cname.text = arguments['name'] ?? '';
+    email.text = arguments['email'] ?? '';
+    pass.text = arguments['password'] ?? '';
+    mobile.text = arguments['mobileno'] ?? '';
+    age.text = arguments['age'] ?? '';
+    address.text = arguments['address'] ?? '';
+    pincode.text = arguments['pincode'] ?? '';
+    existingImageUrl.value = arguments['image'] ?? '';
   }
 
+  // clear data
   void clr() {
     cname.clear();
     email.clear();
@@ -138,6 +133,7 @@ class CustomerController extends GetxController {
     age.clear();
     address.clear();
     pincode.clear();
+    existingImageUrl.value = '';
     imageController.returnimage.value = null;
   }
 

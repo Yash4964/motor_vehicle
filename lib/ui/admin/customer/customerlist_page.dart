@@ -150,6 +150,7 @@ class CustomerListPage extends StatelessWidget {
                                       "age": customer.age.toString(),
                                       "address": customer.address,
                                       "pincode": customer.pincode.toString(),
+                                      "image" : customer.image,
                                       "id": customer.id,
                                     },
                                   );
