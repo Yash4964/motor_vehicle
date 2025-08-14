@@ -26,6 +26,7 @@ class AddAttendancePages extends StatelessWidget {
   final AttendenceConrollerApi controller = Get.put(AttendenceConrollerApi());
   final BookingController bookingcontroller = Get.put(BookingController());
   final DriverConrollerApi driverConrollerApi = Get.put(DriverConrollerApi());
+  final _formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -50,85 +51,144 @@ class AddAttendancePages extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white,
-                  border: Border.all(color: Colors.lightBlue, width: 2.5),
-                ),
-                padding: EdgeInsets.all(2),
-                child: Obx(
-                  () => Stack(
-                    children: [
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.white,
-                        backgroundImage:
-                            controller.imageController.returnimage.value != null
-                            ? FileImage(
-                                File(controller.imageController.returnimage.value!.path),
-                              )
-                            : const AssetImage(
-                                    'assets/images/default_person.png',
-                                  )
-                                  as ImageProvider,
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: InkWell(
-                          onTap: () => controller.imageController.pickImageOption(context),
-                          child: Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: const BoxDecoration(
-                              color: Colors.lightBlue,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(
-                              Icons.add,
-                              color: Colors.white,
-                              size: 22,
+        child: Form(
+          key: _formkey,
+
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Colors.white,
+                    border: Border.all(color: Colors.lightBlue, width: 2.5),
+                  ),
+                  padding: EdgeInsets.all(2),
+                  child: Obx(
+                    () => Stack(
+                      children: [
+                        CircleAvatar(
+                          radius: 50,
+                          backgroundColor: Colors.white,
+                          backgroundImage:
+                              controller.imageController.returnimage.value != null
+                              ? FileImage(
+                                  File(controller.imageController.returnimage.value!.path),
+                                )
+                              : const AssetImage(
+                                      'assets/images/default_person.png',
+                                    )
+                                    as ImageProvider,
+                        ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: InkWell(
+                            onTap: () => controller.imageController.pickImageOption(context),
+                            child: Container(
+                              padding: const EdgeInsets.all(6),
+                              decoration: const BoxDecoration(
+                                color: Colors.lightBlue,
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.add,
+                                color: Colors.white,
+                                size: 22,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
               ),
-            ),
 
-            SizedBox(height: 10),
-            if (controller.bookingId.isEmpty)...[
-              labels("Select Booking Name"),
               SizedBox(height: 10),
+              if (controller.bookingId.isEmpty)...[
+                labels("Select Booking Name"),
+                SizedBox(height: 10),
+                Obx(() {
+                  if (bookingcontroller.bookingloaders.value) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (bookingcontroller.bookingList.isEmpty) {
+                    return Text("No vehicles available");
+                  }
+
+                  if (controller.selectedbooking == null) {
+                    if ((args?['isEdit'] ?? false)) {
+                      final bookingid = args['booking_id'];
+                      final match = bookingcontroller.bookingList
+                          .firstWhereOrNull((b) => b.id == bookingid);
+                      if (match != null) {
+                        controller.selectedbooking = Rx<BookingModel>(
+                          bookingcontroller.bookingList.firstWhere(
+                                (b) => b.id == match.id,
+                          ),
+                        );
+                      }
+                    } else {
+                      controller.selectedbooking = Rx<BookingModel>(
+                        bookingcontroller.bookingList.first,
+                      );
+                    }
+                  }
+
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(5),
+                      color: const Color(0xFFF3F4F6),
+                    ),
+                    padding: const EdgeInsets.only(left: 5),
+                    width: double.infinity,
+                    child: DropdownButton<BookingModel>(
+                      isExpanded: true,
+                      value: controller.selectedbooking?.value,
+                      items: bookingcontroller.bookingList
+                          .map(
+                            (book) => DropdownMenuItem(
+                          value: book,
+                          child: Text(book.learnerName ?? ''),
+                        ),
+                      )
+                          .toList(),
+                      onChanged: (val) {
+                        if (val != null) controller.selectedbooking?.value = val;
+                      },
+                    ),
+                  );
+                }),
+              ],
+              const SizedBox(height: 10),
+              labels("Select Driver Name"),
               Obx(() {
-                if (bookingcontroller.bookingloaders.value) {
-                  return Center(child: CircularProgressIndicator());
-                }
-                if (bookingcontroller.bookingList.isEmpty) {
-                  return Text("No vehicles available");
+                if (driverConrollerApi.loader.value) {
+                  return const Center(child: CircularProgressIndicator());
                 }
 
-                if (controller.selectedbooking == null) {
-                  if ((args?['isEdit'] ?? false)) {
-                    final bookingid = args['booking_id'];
-                    final match = bookingcontroller.bookingList
-                        .firstWhereOrNull((b) => b.id == bookingid);
+                if (driverConrollerApi.driverlist.isEmpty) {
+                  return const Text("No drivers available");
+                }
+
+                if (controller.selecteddriver == null) {
+                  if ((args?['isEdit'] ?? false) && args?['driver_id'] != null) {
+                    final driverid = args['driver_id'];
+                    final match = driverConrollerApi.driverlist.firstWhereOrNull(
+                      (v) => v.id == driverid,
+                    );
                     if (match != null) {
-                      controller.selectedbooking = Rx<BookingModel>(
-                        bookingcontroller.bookingList.firstWhere(
-                              (b) => b.id == match.id,
+                      controller.selecteddriver = Rx<DriverModel>(
+                        driverConrollerApi.driverlist.firstWhere(
+                          (v) => v.id == match.id,
                         ),
                       );
                     }
                   } else {
-                    controller.selectedbooking = Rx<BookingModel>(
-                      bookingcontroller.bookingList.first,
+                    controller.selecteddriver = Rx<DriverModel>(
+                      driverConrollerApi.driverlist.first,
                     );
                   }
                 }
@@ -140,168 +200,116 @@ class AddAttendancePages extends StatelessWidget {
                   ),
                   padding: const EdgeInsets.only(left: 5),
                   width: double.infinity,
-                  child: DropdownButton<BookingModel>(
+                  child: DropdownButton<DriverModel>(
                     isExpanded: true,
-                    value: controller.selectedbooking?.value,
-                    items: bookingcontroller.bookingList
+                    value: controller.selecteddriver?.value,
+                    items: driverConrollerApi.driverlist
                         .map(
-                          (book) => DropdownMenuItem(
-                        value: book,
-                        child: Text(book.learnerName ?? ''),
-                      ),
-                    )
+                          (driver) => DropdownMenuItem(
+                            value: driver,
+                            child: Text(driver.name ?? ''),
+                          ),
+                        )
                         .toList(),
                     onChanged: (val) {
-                      if (val != null) controller.selectedbooking?.value = val;
+                      if (val != null) controller.selecteddriver?.value = val;
                     },
                   ),
                 );
               }),
-            ],
-            const SizedBox(height: 10),
-            labels("Select Driver Name"),
-            Obx(() {
-              if (driverConrollerApi.loader.value) {
-                return const Center(child: CircularProgressIndicator());
-              }
 
-              if (driverConrollerApi.driverlist.isEmpty) {
-                return const Text("No drivers available");
-              }
-
-              if (controller.selecteddriver == null) {
-                if ((args?['isEdit'] ?? false) && args?['driver_id'] != null) {
-                  final driverid = args['driver_id'];
-                  final match = driverConrollerApi.driverlist.firstWhereOrNull(
-                    (v) => v.id == driverid,
-                  );
-                  if (match != null) {
-                    controller.selecteddriver = Rx<DriverModel>(
-                      driverConrollerApi.driverlist.firstWhere(
-                        (v) => v.id == match.id,
+              labels("Date"),
+              InkWell(
+                onTap: () => _selecteddate(context),
+                child: AbsorbPointer(
+                  child: Obx(
+                    () => Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        color: const Color(0xFFF3F4F6),
                       ),
-                    );
+                      padding: const EdgeInsets.only(left: 5),
+                      width: double.infinity,
+                      child: Padding(
+                        padding: const EdgeInsets.all(15.0),
+                        child: Text(c.datepick.value),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+
+              labels("Select Time"),
+              Obx(() {
+                if (!c.timelist.contains(c.timeselected.value)) {
+                  c.timeselected.value = c.timelist.first;
+                }
+
+                return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: const Color(0xFFF3F4F6),
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 12),
+                  width: double.infinity,
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    underline: const SizedBox(),
+                    value: c.timeselected.value,
+                    items: c.timelist
+                        .map((t) => DropdownMenuItem(value: t, child: Text(t)))
+                        .toList(),
+                    onChanged: (val) {
+                      if (val != null) c.timeselected.value = val;
+                    },
+                  ),
+                );
+              }),
+
+              const SizedBox(height: 20),
+              InkWell(
+                onTap: () {
+                  if (_formkey.currentState!.validate()) {
+                    if ((args?['isEdit'] ?? false) == false) {
+                      controller.addAttendance();
+                    } else {
+                      controller.updateAttendance(args['id']);
+                    }
+                    Get.back();
+
                   }
-                } else {
-                  controller.selecteddriver = Rx<DriverModel>(
-                    driverConrollerApi.driverlist.first,
-                  );
-                }
-              }
-
-              return Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: const Color(0xFFF3F4F6),
-                ),
-                padding: const EdgeInsets.only(left: 5),
-                width: double.infinity,
-                child: DropdownButton<DriverModel>(
-                  isExpanded: true,
-                  value: controller.selecteddriver?.value,
-                  items: driverConrollerApi.driverlist
-                      .map(
-                        (driver) => DropdownMenuItem(
-                          value: driver,
-                          child: Text(driver.name ?? ''),
-                        ),
-                      )
-                      .toList(),
-                  onChanged: (val) {
-                    if (val != null) controller.selecteddriver?.value = val;
-                  },
-                ),
-              );
-            }),
-
-            labels("Date"),
-            InkWell(
-              onTap: () => _selecteddate(context),
-              child: AbsorbPointer(
-                child: Obx(
-                  () => Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      color: const Color(0xFFF3F4F6),
-                    ),
-                    padding: const EdgeInsets.only(left: 5),
-                    width: double.infinity,
-                    child: Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Text(c.datepick.value),
+                },
+                child: Container(
+                  width: double.infinity,
+                  height: 45,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Appcolor.primary,
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: const Text(
+                    "Submit",
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
                 ),
               ),
-            ),
-
-            labels("Select Time"),
-            Obx(() {
-              if (!c.timelist.contains(c.timeselected.value)) {
-                c.timeselected.value = c.timelist.first;
-              }
-
-              return Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(5),
-                  color: const Color(0xFFF3F4F6),
-                ),
-                padding: const EdgeInsets.symmetric(horizontal: 12),
-                width: double.infinity,
-                child: DropdownButton<String>(
-                  isExpanded: true,
-                  underline: const SizedBox(),
-                  value: c.timeselected.value,
-                  items: c.timelist
-                      .map((t) => DropdownMenuItem(value: t, child: Text(t)))
-                      .toList(),
-                  onChanged: (val) {
-                    if (val != null) c.timeselected.value = val;
-                  },
-                ),
-              );
-            }),
-
-            const SizedBox(height: 20),
-            InkWell(
-              onTap: () {
-                Get.back();
-                if (controller.isEdit) {
-                  controller.updateAttendance();
-                } else {
-                  controller.addAttendance();
-                }
-                controller.clear();
-              },
-              child: Container(
-                width: double.infinity,
-                height: 45,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  color: Appcolor.primary,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: const Text(
-                  "Submit",
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.white,
-                    fontWeight: FontWeight.w500,
+              const SizedBox(height: 20),
+              if (controller.loader.value)
+                Container(
+                  color: Colors.black.withOpacity(0.4),
+                  child: const Center(
+                    child: CircularProgressIndicator(color: Colors.white),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            if (controller.loader.value)
-              Container(
-                color: Colors.black.withOpacity(0.4),
-                child: const Center(
-                  child: CircularProgressIndicator(color: Colors.white),
-                ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
+
     );
   }
 

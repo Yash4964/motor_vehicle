@@ -71,22 +71,33 @@ class VehicleController extends GetxController {
   }
 
 //update
-  Future<void> updatevehicleapi (String id) async
-  {
-    Response cusresponse = await apiService.vehicleupdate(id, _getData());
-    if(cusresponse.statusCode==200 || cusresponse.statusCode==201)
-    {
-      clr();
-      int index = vehicleList.indexWhere((vehicle) => vehicle.id == id);
-      vehicleList[index] = VehicleModel.fromJson(cusresponse.body['data'] as Map<String, dynamic>);
-      vehicleList.refresh();
-      Get.snackbar("Success", "vehicle update successfully");
+
+  Future<void> updatevehicleapi(String id) async {
+    loader.value = true;
+    File? profile;
+
+    // Only attach new image if picked
+    if (imageController.returnimage.value != null) {
+      profile = File(imageController.returnimage.value!.path);
     }
-    else
-    {
-      Get.snackbar("Error", "Not data Add");
+
+    try {
+      Response response = await apiService.vehicleupdate(id, _getData(), profile);
+
+      if (response.statusCode == 200) {
+        Get.snackbar("Success", "Vehicle updated successfully");
+         getVehicle(); // refresh vehicle list with new image
+        Get.back(); // now go back to list page
+      } else {
+        Get.snackbar("Error", "Failed to update vehicle");
+      }
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    } finally {
+      loader.value = false;
     }
   }
+
 
   //delete
   Future<void> deletevehicleapi (String id) async

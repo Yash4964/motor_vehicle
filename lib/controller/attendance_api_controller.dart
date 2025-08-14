@@ -65,25 +65,32 @@ class AttendenceConrollerApi extends GetxController {
     }
   }
 
-  Future<void> updateAttendance() async {
-    Response cusresponse = await apiService.attendanceupdate(
-      attendanceId,
-      _getData(),
-    );
-    if (cusresponse.statusCode == 200 || cusresponse.statusCode == 201) {
-      clear();
-      int index = attendList.indexWhere(
-        (attedance) => attedance.id == attendanceId,
-      );
-      attendList[index] = AttendanceModel.fromJson(
-        cusresponse.body['data'] as Map<String, dynamic>,
-      );
-      attendList.refresh();
-      Get.snackbar("Success", "attendance update successfully");
-    } else {
-      Get.snackbar("Error", "Not data Add");
+  Future<void> updateAttendance(String id) async {
+    loader.value = true;
+    File? profile;
+
+    // Only attach new image if picked
+    if (imageController.returnimage.value != null) {
+      profile = File(imageController.returnimage.value!.path);
+    }
+
+    try {
+      Response response = await apiService.attendanceupdate(id, _getData(), profile);
+
+      if (response.statusCode == 200) {
+        Get.snackbar("Success", "Vehicle updated successfully");
+        attendanceget(); // refresh vehicle list with new image
+        Get.back(); // now go back to list page
+      } else {
+        Get.snackbar("Error", "Failed to update vehicle");
+      }
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    } finally {
+      loader.value = false;
     }
   }
+
 
   Future<void> attendancedelete(String id) async {
     final cusresponse = await apiService.attendancedelete(id);
