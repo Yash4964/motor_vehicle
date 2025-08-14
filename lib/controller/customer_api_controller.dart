@@ -54,19 +54,16 @@ class CustomerController extends GetxController {
   Future<void> postcustomerapi() async {
     loader.value = true;
     File? profile;
-
     if (imageController.returnimage != null &&
         imageController.returnimage.value != null) {
-      profile = File(imageController.returnimage.value!.path);
+      profile = File(imageController.returnimage.value?.path ?? "");
     }
 
     try {
       Response response = await apiService.customeradd(_getData(), profile);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        loader.value = false;
         Get.back();
-        Get.snackbar("Success", "Customer added successfully");
         getCustomerList();
         clr();
       } else {
@@ -78,6 +75,8 @@ class CustomerController extends GetxController {
       loader.value = false;
     }
   }
+
+
 
 
   //update

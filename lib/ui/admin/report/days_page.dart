@@ -1,10 +1,8 @@
-// days_page.dart
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:motor_vehicle/model/report_model.dart';
-import 'package:motor_vehicle/ui/admin/customer/viewcustomer_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 import '../../../controller/report_api_controller.dart';
 
@@ -60,7 +58,7 @@ class _DaysPageState extends State<DaysPage> {
         final isLoading = reportController.reportloader.value;
         Summary? summary = reportController.reportlist?.value.summary;
         return Column(
-          children: <Widget>[
+          children: [
             const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),

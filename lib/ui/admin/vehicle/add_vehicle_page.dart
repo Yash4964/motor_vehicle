@@ -17,9 +17,11 @@ class AddVehiclePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    vehicleController.imageController.returnimage.value = null;
-    if (args?['isEdit'] ?? false) {
-      vehicleController.setData(Get.arguments);
+    // Only clear image if we're adding, not editing
+    if ((args?['isEdit'] ?? false) == false) {
+      vehicleController.imageController.returnimage.value = null;
+    } else {
+      vehicleController.setData(args);
     }
 
     return Scaffold(
@@ -51,23 +53,28 @@ class AddVehiclePage extends StatelessWidget {
                           ),
                         ),
                         padding: const EdgeInsets.all(2),
-                        child: Obx(
-                              () => Stack(
+                        child: Obx(() {
+                          ImageProvider imageProvider;
+
+                          if (vehicleController.imageController.returnimage.value != null) {
+                            // New image selected
+                            imageProvider = FileImage(
+                              File(vehicleController.imageController.returnimage.value!.path),
+                            );
+                          } else if ((args?['isEdit'] ?? false) && args?['image'] != null) {
+                            // Old image from server
+                            imageProvider = NetworkImage(args['image']);
+                          } else {
+                            // Default placeholder
+                            imageProvider = const AssetImage('assets/images/default_person.png');
+                          }
+
+                          return Stack(
                             children: [
                               CircleAvatar(
                                 radius: 50,
                                 backgroundColor: Colors.white,
-                                backgroundImage: vehicleController
-                                    .imageController.returnimage.value !=
-                                    null
-                                    ? FileImage(File(vehicleController
-                                    .imageController
-                                    .returnimage
-                                    .value!
-                                    .path))
-                                    : const AssetImage(
-                                    'assets/images/default_person.png')
-                                as ImageProvider,
+                                backgroundImage: imageProvider,
                               ),
                               Positioned(
                                 bottom: 0,
@@ -88,8 +95,8 @@ class AddVehiclePage extends StatelessWidget {
                                 ),
                               ),
                             ],
-                          ),
-                        ),
+                          );
+                        }),
                       ),
                     ),
 
@@ -151,8 +158,9 @@ class AddVehiclePage extends StatelessWidget {
                             vehicleController.postVehicle();
                           } else {
                             vehicleController.updatevehicleapi(args['id']);
-                            Get.back();
                           }
+                          Get.back();
+
                         }
                       },
                       child: Container(
@@ -179,7 +187,6 @@ class AddVehiclePage extends StatelessWidget {
               ),
             ),
 
-            // Loader overlay
             if (vehicleController.loader.value)
               Container(
                 color: Colors.black.withOpacity(0.4),
