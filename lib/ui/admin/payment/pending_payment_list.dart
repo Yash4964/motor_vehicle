@@ -90,11 +90,12 @@ class PandingCustomerList extends StatelessWidget {
                                   "isEdit": true,
                                   "amount": payment.amount,
                                   "id": payment.id,
-                                  "booking_id": payment.booking_id.toString(),
+                                  "booking_id": payment.booking_id,
                                   "date": formattedDate,
                                 },
                               );
                             },
+
                           ),
                           IconButton(
                             icon: Icon(Icons.delete, color: Colors.red),
