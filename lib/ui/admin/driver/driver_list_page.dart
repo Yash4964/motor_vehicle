@@ -44,22 +44,24 @@ class DriverListPage extends StatelessWidget {
                       child: ListTile(
                         contentPadding:  EdgeInsets.all(12),
                         leading: InkWell(
-                          onTap: (){
-                            // Get.to(
-                            //       () => ViewDriverDetailsPage(),
-                            //   arguments:[
-                            //     driver['name'] ,
-                            //     driver['email'] ,
-                            //     driver['image'] ,
-                            //     driver['phone'] ,
-                            //   ],
-                            // );
+                          onTap: () {
+                            // Navigate to driver details if needed
                           },
+
                           child: CircleAvatar(
                             radius: 30,
-                            backgroundImage: AssetImage('assets/images/person3.jpg'),
+                            backgroundColor: Colors.grey[200],
+                            child: Text(
+                              "${index + 1}",
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ),
+
                         ),
+
                         title: InkWell(
                           onTap: (){
                             Get.to(CustomerProfilePage());

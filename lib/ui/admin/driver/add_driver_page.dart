@@ -32,49 +32,7 @@ class AddDriverPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Center(
-                child: Container(
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Colors.lightBlue,
-                      width: 2.5,
-                    ),
-                  ),padding: EdgeInsets.all(2),
-                  child: Stack(
-                    children: [
-                      CircleAvatar(
-                        radius: 50,
-                        backgroundColor: Colors.white,
-                        backgroundImage: AssetImage("assets/images/default_person.png",),
-                      ),
-                      Positioned(
-                        bottom: 0,
-                        right: 0,
-                        child: InkWell(
-                          onTap: () {},
-                          child: Container(
-                            padding: const EdgeInsets.all(6),
-                            decoration: const BoxDecoration(
-                              color: Colors.lightBlue,
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(Icons.add, color: Colors.white, size: 22),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              Center(
-                child: Text(
-                  args?[0] ?? 'Driver Details',
-                  style: TextStyle(fontSize: 25, fontWeight: FontWeight.w500),
-                ),
-              ),
+
               const SizedBox(height: 20),
 
               labels("Name"),

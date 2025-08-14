@@ -54,6 +54,7 @@ class _VehicleListPageState extends State<VehicleListPage> {
                         "color": vehicle.color,
                         "description": vehicle.description,
                         "id": vehicle.id,
+                        "image": vehicle.image,
                       });
                     },
                     child: CircleAvatar(
@@ -153,6 +154,7 @@ class _VehicleListPageState extends State<VehicleListPage> {
                             "modelno": vehicle.modelno,
                             "color": vehicle.color,
                             "description": vehicle.description,
+                            "image": vehicle.image,
                             "id": vehicle.id,
                           });
                         },
