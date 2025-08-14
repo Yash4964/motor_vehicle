@@ -37,7 +37,6 @@ class AddPaymentPage extends StatelessWidget {
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: Form(
-
           child: Column(
             key: _formkey,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -52,20 +51,28 @@ class AddPaymentPage extends StatelessWidget {
                   return const Center(child: Text("No Data Found"));
                 }
 
-                if (paymentController.selectedbook == null) {
+                // Ensure selectedbook is always a valid object from bookingList
+                if (paymentController.selectedbook?.value == null ||
+                    !bookingcontroller.bookingList.contains(paymentController.selectedbook!.value)) {
+
                   if (args?['isEdit'] == true) {
-                    final bookingId = args["booking_id"] ?? "";
+                    final bookingId = args["booking_id"] is String
+                        ? int.tryParse(args["booking_id"]) ?? 0
+                        : args["booking_id"] ?? 0;
+
                     final matchedBooking = bookingcontroller.bookingList
                         .firstWhereOrNull((book) => book.id == bookingId);
 
                     if (matchedBooking != null) {
+                      paymentController.selectedbook = Rx<BookingModel>(matchedBooking);
+                    } else {
                       paymentController.selectedbook = Rx<BookingModel>(
-                        matchedBooking,
+                        bookingcontroller.bookingList.first,
                       );
                     }
                   } else {
                     paymentController.selectedbook = Rx<BookingModel>(
-                      bookingcontroller.bookingList[0],
+                      bookingcontroller.bookingList.first,
                     );
                   }
                 }
@@ -73,9 +80,9 @@ class AddPaymentPage extends StatelessWidget {
                 return Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: Color(0xFFF3F4F6),
+                    color: const Color(0xFFF3F4F6),
                   ),
-                  padding: EdgeInsets.only(left: 5),
+                  padding: const EdgeInsets.only(left: 5),
                   width: double.infinity,
                   child: DropdownButton<BookingModel>(
                     isExpanded: true,
@@ -83,20 +90,20 @@ class AddPaymentPage extends StatelessWidget {
                     items: bookingcontroller.bookingList
                         .map(
                           (book) => DropdownMenuItem<BookingModel>(
-                            value: book,
-                            child: Text(book.learnerName),
-                          ),
-                        )
+                        value: book, // same instance as in bookingList
+                        child: Text(book.learnerName),
+                      ),
+                    )
                         .toList(),
                     onChanged: (val) {
                       if (val != null) {
-                        paymentController.selectedbook?.value =
-                            val as BookingModel;
+                        paymentController.selectedbook?.value = val;
                       }
                     },
                   ),
                 );
               }),
+
 
               labels("Amount"),
               TextFieldWidget(
@@ -136,7 +143,7 @@ class AddPaymentPage extends StatelessWidget {
                   } else {
                     paymentController.editapi(args["id"]);
                   }
-                  },
+                },
                 child: Container(
                   width: double.infinity,
                   height: 45,
@@ -178,8 +185,8 @@ class AddPaymentPage extends StatelessWidget {
       lastDate: DateTime(2030),
     );
     if (pickedDate != null) {
-      paymentController.datevalue.value =
-          c.datepick.value = "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+      paymentController.datevalue.value = c.datepick.value =
+          "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
     }
   }
 }

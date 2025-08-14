@@ -8,6 +8,8 @@ import 'package:motor_vehicle/ApiService.dart';
 import 'package:motor_vehicle/model/booking_model.dart';
 import 'package:motor_vehicle/model/payment_model.dart';
 
+import 'booking_controller.dart';
+
 class PaymentController extends GetxController {
   final TextEditingController amount = TextEditingController();
   ApiService apiService = ApiService();
@@ -15,10 +17,13 @@ class PaymentController extends GetxController {
   RxBool loader = false.obs;
   RxString datevalue = '12/08/2025'.obs;
 
+  String bookingId = "";
+
   @override
   void onInit() {
     super.onInit();
-    // getapi();
+    final today = DateTime.now();
+    datevalue.value = "${today.year}-${today.month.toString().padLeft(2, '0')}-${today.day.toString().padLeft(2, '0')}";
     clr();
   }
 
@@ -50,22 +55,33 @@ class PaymentController extends GetxController {
     }
   }
 
-  Future<void> postapi() async
-  {
-    loader.value = true;
-    Response response = await apiService.paymentadd(_getData());
-    if(response.statusCode==200 || response.statusCode==201)
-    {
-      Get.snackbar("Success", "driver added successfully");
-      getapi();
-      clr();
+  Future<void> postapi() async {
+    try {
+      loader.value = true;
+
+      Response response = await apiService.paymentadd(_getData());
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // Refresh booking details so Payment tab updates
+        if (bookingId.isNotEmpty) {
+          BookingController bookingController = Get.find<BookingController>();
+          await bookingController.bookingDetailsget(bookingId);
+        }
+
+        Get.back();
+        Get.snackbar("Success", "Payment added successfully");
+
+        clr(); // clear fields
+      } else {
+        Get.snackbar("Error", "Data not added");
+      }
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    } finally {
+      loader.value = false;
     }
-    else
-    {
-      Get.snackbar("Error", "Not data Add");
-    }
-    loader.value = false;
   }
+
 
   Future<void> editapi(String id) async {
     final response = await apiService.paymentupdate(id, _getData());
@@ -85,24 +101,43 @@ class PaymentController extends GetxController {
 
 
 
-  void clr() {
+  void clr({bool clearBookingId = true}) {
     amount.clear();
     selectedbook = null;
+
+    if (clearBookingId) {
+      bookingId = "";
+    }
+
     final today = DateTime.now();
     datevalue.value = "${today.year}-${today.month}-${today.day}";
   }
+
   // add
   Map<String, dynamic> _getData() {
     return {
-      "booking_id": selectedbook?.value.id ?? "",
+      "booking_id": selectedbook?.value.id ?? bookingId,
       "amount": amount.text,
       "date":datevalue.value,
     };
   }
 
-  void setData(Map<String, dynamic> arguments) {
-    amount.text = arguments["amount"];
-    datevalue.value =
-        arguments["date"] ?? datevalue.value;
+  void setData(Map<String, dynamic> data) {
+    amount.text = data['amount'] ?? '';
+    datevalue.value = data['date'] ?? '';
+
+    if (data['booking_id'] != null) {
+      final bookingId = data['booking_id'] is String
+          ? int.tryParse(data['booking_id']) ?? 0
+          : data['booking_id'];
+
+      final matchedBooking = Get.find<BookingController>()
+          .bookingList
+          .firstWhereOrNull((book) => book.id == bookingId);
+      if (matchedBooking != null) {
+        selectedbook = Rx<BookingModel>(matchedBooking);
+      }
+    }
   }
+
 }
