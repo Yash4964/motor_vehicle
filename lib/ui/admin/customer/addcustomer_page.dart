@@ -45,43 +45,40 @@ class AddcustomerPage extends StatelessWidget {
                           border: Border.all(color: Colors.lightBlue, width: 2.5),
                         ),
                         padding: const EdgeInsets.all(2),
-                        child: Obx(
-                              () => Stack(
-                            children: [
-                              CircleAvatar(
-                                radius: 50,
-                                backgroundColor: Colors.white,
-                                backgroundImage: customerController
-                                    .imageController.returnimage.value !=
-                                    null
-                                    ? FileImage(File(customerController
-                                    .imageController
-                                    .returnimage
-                                    .value!
-                                    .path))
-                                    : const AssetImage('assets/images/default_person.png')
-                                as ImageProvider,
-                              ),
-                              Positioned(
-                                bottom: 0,
-                                right: 0,
-                                child: InkWell(
-                                  onTap: () {
-                                    customerController.imageController.pickImageOption(context);
-                                  },
-                                  child: Container(
-                                    padding: const EdgeInsets.all(6),
-                                    decoration: const BoxDecoration(
-                                      color: Colors.lightBlue,
-                                      shape: BoxShape.circle,
+                          child: Obx(
+                                () => Stack(
+                              children: [
+                                CircleAvatar(
+                                  radius: 50,
+                                  backgroundColor: Colors.white,
+                                  backgroundImage: customerController.imageController.returnimage.value != null
+                                      ? FileImage(File(customerController.imageController.returnimage.value!.path))
+                                      : (customerController.existingImageUrl.value.isNotEmpty)
+                                      ? NetworkImage(customerController.existingImageUrl.value)
+                                      : const AssetImage('assets/images/default_person.png')
+                                  as ImageProvider,
+                                ),
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: InkWell(
+                                    onTap: () {
+                                      customerController.imageController.pickImageOption(context);
+                                    },
+                                    child: Container(
+                                      padding: const EdgeInsets.all(6),
+                                      decoration: const BoxDecoration(
+                                        color: Colors.lightBlue,
+                                        shape: BoxShape.circle,
+                                      ),
+                                      child: const Icon(Icons.add, color: Colors.white, size: 22),
                                     ),
-                                    child: const Icon(Icons.add, color: Colors.white, size: 22),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
+                              ],
+                            ),
+                          )
+
                       ),
                     ),
                     const SizedBox(height: 10),
