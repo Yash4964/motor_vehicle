@@ -57,17 +57,15 @@ class AddVehiclePage extends StatelessWidget {
                           ImageProvider imageProvider;
 
                           if (vehicleController.imageController.returnimage.value != null) {
-                            // New image selected
                             imageProvider = FileImage(
                               File(vehicleController.imageController.returnimage.value!.path),
                             );
-                          } else if ((args?['isEdit'] ?? false) && args?['image'] != null) {
-                            // Old image from server
-                            imageProvider = NetworkImage(args['image']);
+                          } else if (vehicleController.existingImageUrl.value.isNotEmpty) {
+                            imageProvider = NetworkImage(vehicleController.existingImageUrl.value);
                           } else {
-                            // Default placeholder
                             imageProvider = const AssetImage('assets/images/default_person.png');
                           }
+
 
                           return Stack(
                             children: [

@@ -139,6 +139,7 @@
                                 "date": formattedDate,
                                 "booking_id": att.booking_id.toString(),
                                 "driver_id": att.driver_id.toString(),
+                                "image" : att.image,
 
                               });
                             },

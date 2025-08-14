@@ -72,15 +72,18 @@ class AddAttendancePages extends StatelessWidget {
                           radius: 50,
                           backgroundColor: Colors.white,
                           backgroundImage:
-                              controller.imageController.returnimage.value != null
+                          controller.imageController.returnimage.value != null
                               ? FileImage(
-                                  File(controller.imageController.returnimage.value!.path),
-                                )
-                              : const AssetImage(
-                                      'assets/images/default_person.png',
-                                    )
-                                    as ImageProvider,
+                            File(controller.imageController.returnimage.value!.path),
+                          )
+                              : (args?['isEdit'] == true && args?['image'] != null
+                              ? NetworkImage(args['image'])
+                              : const AssetImage('assets/images/default_person.png'))
+                          as ImageProvider,
                         ),
+
+
+
                         Positioned(
                           bottom: 0,
                           right: 0,
