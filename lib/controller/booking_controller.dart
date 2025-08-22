@@ -51,7 +51,7 @@ class BookingController extends GetxController {
       if (data["status"] == true && data["data"] != null) {
         final List<dynamic> responseData = data["data"];
         bookingList.value = responseData
-            .map((json) => BookingModel.fromJson(json))
+            .map((json) => BookingModel.  fromJson(json))
             .toList();
       }
     }

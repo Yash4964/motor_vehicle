@@ -11,8 +11,32 @@ import 'package:motor_vehicle/widgets/text_field_widget.dart';
 import '../attendance/add_attendance_customer.dart';
 
 class DropController extends GetxController {
-  var timeselected = '6:30 AM'.obs;
-  var timelist = ['6:30 AM', '7:00 AM', '7:30 AM'];
+  var timeselected =  "7:00 AM - 7:30 AM".obs;
+  var timelist = [ "6:30 AM - 7:00 AM",
+    "7:00 AM - 7:30 AM",
+    "7:30 AM - 8:00 AM",
+    "8:00 AM - 8:30 AM",
+    "8:30 AM - 9:00 AM",
+    "9:00 AM - 9:30 AM",
+    "9:30 AM - 10:00 AM",
+    "10:00 AM - 10:30 AM",
+    "10:30 AM - 11:00 AM",
+    "11:00 AM - 11:30 AM",
+    "11:30 AM - 12:00 PM",
+    "12:00 PM - 12:30 PM",
+    "12:30 PM - 1:00 PM",
+
+    "2:00 PM - 2:30 PM",
+    "2:30 PM - 3:00 PM",
+    "3:00 PM - 3:30 PM",
+    "3:30 PM - 4:00 PM",
+    "4:00 PM - 4:30 PM",
+    "4:30 PM - 5:00 PM",
+    "5:00 PM - 5:30 PM",
+    "5:30 PM - 6:00 PM",
+    "6:00 PM - 6:30 PM",
+    "6:30 PM - 7:00 PM",
+    "7:00 PM - 7:30 PM",];
 }
 
 class AddBookingPage extends StatelessWidget {
@@ -214,15 +238,17 @@ class AddBookingPage extends StatelessWidget {
   );
 
   void _selecteddate(BuildContext context) async {
+    DateTime today = DateTime.now();
     DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2025),
+      initialDate: today,
+      firstDate: DateTime(today.year, today.month, today.day),
       lastDate: DateTime(2030),
     );
     if (pickedDate != null) {
       bookingController.joining_date.value = c.datepick.value =
-          "${pickedDate.year}-${pickedDate.month}-${pickedDate.day}";
+      "${pickedDate.year}-${pickedDate.month.toString().padLeft(2, '0')}-${pickedDate.day.toString().padLeft(2, '0')}";
     }
   }
+
 }

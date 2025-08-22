@@ -94,7 +94,7 @@ class AddPackagePage extends StatelessWidget {
                     items: vehicleController.vehicleList.map((vehicle) {
                       return DropdownMenuItem<VehicleModel>(
                         value: vehicle,
-                        child: Text(vehicle.id),
+                        child: Text(vehicle.name),
                       );
                     }).toList(),
                     onChanged: (value) {
