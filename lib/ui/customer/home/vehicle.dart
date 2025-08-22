@@ -52,11 +52,25 @@ class VehiclePage extends StatelessWidget {
                             borderRadius: BorderRadius.vertical(
                               top: Radius.circular(16),
                             ),
-                            child: Image.asset(
-                              'assets/images/baleno.jpg',
+                            child: v.image.isNotEmpty
+                                ? Image.network(
+                              v.image,
+                              height: 200,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Image.asset(
+                                  'assets/images/placeholder.png', // fallback image
+                                  height: 200,
+                                  fit: BoxFit.cover,
+                                );
+                              },
+                            )
+                                : Image.asset(
+                              'assets/images/placeholder.png',
                               height: 200,
                               fit: BoxFit.cover,
                             ),
+
                           ),
                           Padding(
                             padding: EdgeInsets.all(16.0),

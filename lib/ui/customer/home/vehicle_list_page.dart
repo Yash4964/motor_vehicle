@@ -33,7 +33,6 @@ class VehicleInformation extends StatelessWidget {
             {
               return Center(child: Text('not package '),);
             }
-
           final match = vehicleController.vehicleList.firstWhereOrNull((i) =>i.id == vehicle_id);
           if (match == null)
             {
@@ -52,13 +51,29 @@ class VehicleInformation extends StatelessWidget {
                           padding: EdgeInsets.only(top: 13.0, left: 10, right: 10),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(10),
-                            child: Image.asset(
-                              'assets/images/baleno.jpg',
+                            child: match.image.isNotEmpty
+                                ? Image.network(
+                              match.image,
+                              width: 155,
+                              height: 110,
+                              fit: BoxFit.cover,
+                              errorBuilder: (context, error, stackTrace) {
+                                return Image.asset(
+                                  'assets/images/placeholder.png', // fallback if image fails
+                                  width: 155,
+                                  height: 110,
+                                  fit: BoxFit.cover,
+                                );
+                              },
+                            )
+                                : Image.asset(
+                              'assets/images/placeholder.png', // default if no image
                               width: 155,
                               height: 110,
                               fit: BoxFit.cover,
                             ),
                           ),
+
                         ),
                         SizedBox(width: 1),
                         Expanded(

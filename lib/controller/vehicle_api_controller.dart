@@ -55,7 +55,6 @@ class VehicleController extends GetxController {
       Response response = await apiService.vehicleadd(_getData(), profile);
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        Get.back();
         getVehicle();
         clr();
       } else {
