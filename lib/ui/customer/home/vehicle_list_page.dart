@@ -218,7 +218,7 @@ class VehicleInformation extends StatelessWidget {
                                 children: [
                                   Center(
                                     child: Text(
-                                      "Package ${index + 1}",
+                                      pkg.name,
                                       style: TextStyle(
                                         fontSize: 20,
                                         fontWeight: FontWeight.bold,
