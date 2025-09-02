@@ -514,6 +514,8 @@ class ApiService extends GetConnect {
     }
   }
 
+
+
   Future<Response> updateBooking(String id, Map<String, dynamic> data) async {
     try {
       final String fullUrl =
@@ -899,4 +901,6 @@ class ApiService extends GetConnect {
       rethrow;
     }
   }
+
+
 }

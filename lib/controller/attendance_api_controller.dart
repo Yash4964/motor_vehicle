@@ -34,6 +34,7 @@
     @override
     void onInit() {
       super.onInit();
+      attendanceget();
     }
 
     Future<void> attendanceget() async {

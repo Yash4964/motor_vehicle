@@ -8,68 +8,63 @@ import 'package:motor_vehicle/widgets/appcolor_page.dart';
 class BookingListPage extends StatelessWidget {
   BookingListPage({super.key});
 
-  BookingController bookingApiController = Get.put(BookingController());
+  final BookingController bookingApiController = Get.put(BookingController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF1F4F8),
+      backgroundColor: const Color(0xFFF1F4F8),
       body: Obx(() {
         if (bookingApiController.bookingloaders.value) {
-          bookingApiController.bookingget();
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
+
         if (bookingApiController.bookingList.isEmpty) {
-          return Center(child: Text('Not data Found'));
+          return const Center(child: Text('No data found'));
         }
+
         return ListView.builder(
           itemCount: bookingApiController.bookingList.length,
           itemBuilder: (BuildContext context, int index) {
             final booking = bookingApiController.bookingList[index];
-            DateTime dateTime = booking.joiningDate;
-            final formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
+            final formattedDate =
+            DateFormat('yyyy-MM-dd').format(booking.joiningDate);
+
             return Padding(
-              padding: EdgeInsets.all(5.0),
+              padding: const EdgeInsets.all(5.0),
               child: Card(
                 elevation: 2,
                 color: Colors.white,
                 child: InkWell(
                   onTap: () {
                     Get.to(
-                      () => BookingDetailsPage(),
+                          () => BookingDetailsPage(),
                       arguments: {"booking_id": booking.id.toString()},
                     );
                   },
                   child: Padding(
-                    padding: EdgeInsets.all(12.0),
+                    padding: const EdgeInsets.all(12.0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(8),
-                          child: booking.customer.image != null && booking.customer.image.isNotEmpty
+                          child: (booking.customer.image != null &&
+                              booking.customer.image.isNotEmpty)
                               ? Image.network(
                             booking.customer.image,
                             width: 90,
                             height: 120,
                             fit: BoxFit.cover,
-                            loadingBuilder: (context, child, loadingProgress) {
-                              if (loadingProgress == null) {
-                                // Image fully loaded
-                                return child;
-                              }
-                              // Still loading — show loader
+                            loadingBuilder:
+                                (context, child, loadingProgress) {
+                              if (loadingProgress == null) return child;
                               return Container(
                                 width: 90,
                                 height: 120,
                                 color: Colors.grey[200],
-                                child: Center(
-                                  child: CircularProgressIndicator(
-                                    value: loadingProgress.expectedTotalBytes != null
-                                        ? loadingProgress.cumulativeBytesLoaded /
-                                        loadingProgress.expectedTotalBytes!
-                                        : null,
-                                  ),
+                                child: const Center(
+                                  child: CircularProgressIndicator(),
                                 ),
                               );
                             },
@@ -90,13 +85,14 @@ class BookingListPage extends StatelessWidget {
                           ),
                         ),
 
-                        SizedBox(width: 15),
+                        const SizedBox(width: 15),
+
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Padding(
-                                padding: EdgeInsets.only(left: 50),
+                                padding: const EdgeInsets.only(left: 50),
                                 child: Text(
                                   booking.learnerName,
                                   style: TextStyle(
@@ -113,10 +109,8 @@ class BookingListPage extends StatelessWidget {
                                   color: Colors.grey[700],
                                 ),
                               ),
-                              // Text("Booking Date: ${booking.joining_date}",
-                              //     style: TextStyle(fontSize: 16, color: Colors.grey[700])),
                               Text(
-                                "Joining Date: ${formattedDate}",
+                                "Joining Date: $formattedDate",
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.grey[700],
