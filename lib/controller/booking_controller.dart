@@ -43,20 +43,20 @@ class BookingController extends GetxController {
   }
 
   //get
-  Future<void> bookingget() async {
-    bookingloaders.value = true;
-    final response = await apiService.bookingget();
-    if (response.status.isOk) {
-      final data = response.body;
-      if (data["status"] == true && data["data"] != null) {
-        final List<dynamic> responseData = data["data"];
-        bookingList.value = responseData
-            .map((json) => BookingModel.  fromJson(json))
-            .toList();
+    Future<void> bookingget() async {
+      bookingloaders.value = true;
+      final response = await apiService.bookingget();
+      if (response.status.isOk) {
+        final data = response.body;
+        if (data["status"] == true && data["data"] != null) {
+          final List<dynamic> responseData = data["data"];
+          bookingList.value = responseData
+              .map((json) => BookingModel.  fromJson(json))
+              .toList();
+        }
       }
+      bookingloaders.value = false;
     }
-    bookingloaders.value = false;
-  }
 
   Future<void> addBooking() async {
     bookingloaders.value = true;

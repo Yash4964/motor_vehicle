@@ -12,14 +12,15 @@ import 'package:motor_vehicle/ui/customer/home/home_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginApiController extends GetxController {
+  TextEditingController emailController =
+  TextEditingController(text: 'admin@example.com');
+  TextEditingController passwordController =
+  TextEditingController(text: 'Admin@123');
 
-
-  TextEditingController emailController = TextEditingController(text: 'admin@example.com');
-  TextEditingController passwordController = TextEditingController(text: 'Admin@123');
   BookingController bookingController = Get.put(BookingController());
   GetStorage getStorage = GetStorage();
 
-  RxList<AdminModel> customerlist = <AdminModel>[].obs;
+  RxBool isLoading = false.obs; // 🔹 Loader state
 
   Future<void> postapi() async {
     String email = emailController.text.trim();
@@ -35,48 +36,57 @@ class LoginApiController extends GetxController {
       return;
     }
 
-    Response response = await ApiService().login({"email": email, "password": password});
+    try {
+      isLoading.value = true; // 🔹 Start loader
 
-    if (response.statusCode == 200 || response.statusCode == 201) {
-      ResponseModel responseModel = ResponseModel.fromJson(response.body);
+      Response response =
+      await ApiService().login({"email": email, "password": password});
 
-      getStorage.write("token", responseModel.data['token_type'] + " " + responseModel.data['token']);
-      getStorage.write("user_mode", responseModel.data['user_type']);
-      getStorage.write("user", CustomerModel.fromJson(responseModel.data['user']).toJson());
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        ResponseModel responseModel = ResponseModel.fromJson(response.body);
 
-      final prefs = await SharedPreferences.getInstance();
-      final isCustomer = responseModel.data['user_type'] == "customer";
-      await prefs.setBool('isLogin', true);
-      await prefs.setBool('customer', isCustomer);
+        getStorage.write("token",
+            responseModel.data['token_type'] + " " + responseModel.data['token']);
+        getStorage.write("user_mode", responseModel.data['user_type']);
+        getStorage.write(
+            "user", CustomerModel.fromJson(responseModel.data['user']).toJson());
 
-      if(responseModel.data['user_type'] == "customer"){
-        Get.off(CustomerHomePage());
-        clr();
-      }
-      else if(responseModel.data['user_type'] == "admin")
-        {
+        final prefs = await SharedPreferences.getInstance();
+        final isCustomer = responseModel.data['user_type'] == "customer";
+        await prefs.setBool('isLogin', true);
+        await prefs.setBool('customer', isCustomer);
+
+        if (responseModel.data['user_type'] == "customer") {
+          Get.off(CustomerHomePage());
+          clr();
+        } else if (responseModel.data['user_type'] == "admin") {
           Get.off(Dashboard_page());
           clr();
+        } else {
+          Get.snackbar(
+            "Not user type",
+            "Invalid",
+            colorText: Colors.white,
+            backgroundColor: Colors.lightGreen,
+          );
         }
-      else{
+      } else {
         Get.snackbar(
-          "Not user type",
-          "Invalid",
+          "Login Failed",
+          "Invalid email or password",
           colorText: Colors.white,
           backgroundColor: Colors.lightGreen,
         );
       }
-    } else {
-      Get.snackbar(
-        "Login Failed",
-        "Invalid email or password",
-        colorText: Colors.white,
-        backgroundColor: Colors.lightGreen,
-      );
+    } catch (e) {
+      Get.snackbar("Error", e.toString(),
+          colorText: Colors.white, backgroundColor: Colors.red);
+    } finally {
+      isLoading.value = false;
     }
   }
-  void clr()
-  {
+
+  void clr() {
     emailController.clear();
     passwordController.clear();
   }

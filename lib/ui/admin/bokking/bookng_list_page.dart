@@ -30,7 +30,7 @@ class BookingListPage extends StatelessWidget {
               }
               if(b.bookingList.isEmpty)
                 {
-                  return  Center(child: Text("No packages available"));
+                  return  Center(child: Text("No Booking available"));
                 }
               else
                 {
