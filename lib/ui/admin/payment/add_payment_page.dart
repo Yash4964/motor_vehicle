@@ -182,7 +182,7 @@ class AddPaymentPage extends StatelessWidget {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2020),
-      lastDate: DateTime(2030),
+      lastDate: DateTime.now(),
     );
     if (pickedDate != null) {
       paymentController.datevalue.value = c.datepick.value =

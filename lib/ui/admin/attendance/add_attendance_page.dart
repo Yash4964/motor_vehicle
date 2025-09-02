@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:motor_vehicle/controller/camera_contoller.dart';
 import 'package:motor_vehicle/controller/booking_controller.dart';
 import 'package:motor_vehicle/controller/driver_api_controller.dart';
@@ -14,7 +15,7 @@ class DropController extends GetxController {}
 class DropdownController extends GetxController {
   var timelist = ['6:30 AM', '7:00 AM', '7:30 AM'];
   var timeselected = '6:30 AM'.obs;
-  var datepick = '12/08/2025'.obs;
+  var datepick = ''.obs;
 }
 
 class AddAttendancePages extends StatelessWidget {
@@ -33,10 +34,40 @@ class AddAttendancePages extends StatelessWidget {
     bookingcontroller.bookingget();
     controller.clear();
 
-    if (controller.isEdit) {
+    // if (controller.isEdit) {
+    //   c.datepick.value = args["date"];
+    //   controller.setData();
+    // }
+    // else{
+    //   controller.bookingId = Get.arguments?['booking_id'] ?? "";
+    // }
+    final args = Get.arguments ?? {};
+    if (args['isEdit'] == true) {
+      controller.isEdit = true;
+      controller.attendanceId = args['id'] ?? "";
+      controller.bookingId = args['booking_id'] ?? "";
+
+      // ✅ Pre-fill date safely
+      if (args['date'] != null && args['date'].toString().isNotEmpty) {
+        c.datepick.value = args['date'];
+      } else {
+        c.datepick.value = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      }
+
+      // ✅ Pre-fill time
+      if (args['Time'] != null) {
+        if (!c.timelist.contains(args['Time'])) {
+          c.timelist.add(args['Time']);
+        }
+        c.timeselected.value = args['Time'];
+      }
+
       controller.setData();
-    }else{
-      controller.bookingId = Get.arguments?['booking_id'] ?? "";
+    } else {
+      controller.isEdit = false;
+      controller.bookingId = args['booking_id'] ?? "";
+      c.datepick.value = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      c.timeselected.value = c.timelist.first;
     }
 
     return Scaffold(
@@ -327,8 +358,8 @@ class AddAttendancePages extends StatelessWidget {
     DateTime? pickedDate = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(2025),
-      lastDate: DateTime(2030),
+      firstDate: DateTime(2024),
+      lastDate: DateTime.now(),
     );
     if (pickedDate != null) {
       c.datepick.value =
