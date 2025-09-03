@@ -25,7 +25,7 @@ class BookingController extends GetxController {
   Rx<PackageModel>? selectpackage;
 
   RxString joining_date = '12/08/2025'.obs;
-  RxBool loadered = false.obs;
+  RxBool customerbookingloader = false.obs;
   bool isEdit = false;
   bool isCustomer = false;
 
@@ -62,9 +62,10 @@ class BookingController extends GetxController {
     bookingloaders.value = true;
     Response response = await apiService.addBooking(_getData());
     if (response.statusCode == 200 || response.statusCode == 201) {
-      Get.snackbar("Success", "driver added successfully");
-      bookingget();
+      Get.snackbar("Success", "Booking added successfully");
+      await bookingget();
       clear();
+      Get.back();
     } else {
       Get.snackbar("Error", "Not data Add");
     }
@@ -77,7 +78,9 @@ class BookingController extends GetxController {
       _getData(),
     );
     if (cusresponse.statusCode == 200 || cusresponse.statusCode == 201) {
-      clear();
+      await bookingget();
+      Get.snackbar("Success", "Booking updated successfully");
+
       int index = bookingList.indexWhere(
         (booking) => booking.id.toString() == bookingId,
       );
@@ -85,7 +88,6 @@ class BookingController extends GetxController {
       bookingList[index] = BookingModel.fromJson(
         cusresponse.body['data'] as Map<String, dynamic>,
       );
-      bookingList.refresh();
       Get.snackbar("Success", "booking update successfully");
     } else {
       Get.snackbar("Error", "Not data Add");
@@ -103,7 +105,7 @@ class BookingController extends GetxController {
   }
 
   Future<void> bookingDetailsget(String bookingId) async {
-    loadered.value = true;
+    customerbookingloader.value = true;
     final response = await apiService.bookingDetailsApi(bookingId);
     if (response.status.isOk) {
       final data = response.body['data'];
@@ -113,7 +115,7 @@ class BookingController extends GetxController {
         bookingDetails?.value = BookingModel.fromJson(data);
       }
     }
-    loadered.value = false;
+    customerbookingloader.value = false;
   }
 
   String bookingId = "";

@@ -16,6 +16,9 @@ class ViewAttendance extends StatelessWidget {
     if (attendenceList.isEmpty) {
       return const Center(child: Text('No Attendance yet'));
     }
+    //decending order
+    attendenceList.sort((a, b) => b.id.compareTo(a.id));
+
     return Scaffold(
       backgroundColor: Appcolor.background,
       body: Column(
@@ -26,7 +29,6 @@ class ViewAttendance extends StatelessWidget {
               itemCount: attendenceList.length,
               itemBuilder: (BuildContext context, int index) {
                 AttendanceModel attendance = attendenceList[index];
-                //
                 DateTime dateTime = DateTime.parse(attendance.date.trim());
                 final formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
 
@@ -41,12 +43,46 @@ class ViewAttendance extends StatelessWidget {
                   ),
                   elevation: 2,
                   child: ListTile(
-                    leading: const CircleAvatar(
-                      radius: 30,
-                      backgroundImage: AssetImage(
-                        'assets/images/default_person.png',
+                    leading: CircleAvatar(
+                      radius: 27,
+                      backgroundColor: Colors.grey[300],
+                      child: ClipOval(
+                        child: (attendance.image != null && attendance.image!.isNotEmpty)
+                            ? Image.network(
+                          attendance.image!,
+                          width: 54,
+                          height: 54,
+                          fit: BoxFit.cover,
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return const Center(
+                              child: SizedBox(
+                                width: 24,
+                                height: 24,
+                                child: CircularProgressIndicator(strokeWidth: 2),
+                              ),
+                            );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              "assets/images/default_person.png",
+                              width: 54,
+                              height: 54,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        )
+                            : Image.asset(
+                          "assets/images/default_person.png",
+                          width: 54,
+                          height: 54,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
+
+
+
                     contentPadding: const EdgeInsets.all(12),
                     title: Text(
                       "Driver ID: 1",

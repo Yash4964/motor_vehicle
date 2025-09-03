@@ -306,10 +306,10 @@ class AddAttendancePages extends StatelessWidget {
                   if (_formkey.currentState!.validate()) {
                     if ((args?['isEdit'] ?? false) == false) {
                       controller.addAttendance();
+                      Get.back(result: true);
                     } else {
                       controller.updateAttendance(args['id']);
                     }
-                    Get.back();
 
                   }
                 },

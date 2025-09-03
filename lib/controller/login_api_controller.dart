@@ -13,14 +13,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginApiController extends GetxController {
   TextEditingController emailController =
-  TextEditingController(text: 'admin@example.com');
+  TextEditingController();
   TextEditingController passwordController =
-  TextEditingController(text: 'Admin@123');
+  TextEditingController();
 
   BookingController bookingController = Get.put(BookingController());
   GetStorage getStorage = GetStorage();
 
-  RxBool isLoading = false.obs; // 🔹 Loader state
+  RxBool isLoading = false.obs;
 
   Future<void> postapi() async {
     String email = emailController.text.trim();

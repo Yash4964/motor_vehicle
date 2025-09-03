@@ -56,7 +56,7 @@ class LoginPage extends StatelessWidget {
                           controller: loginApiController.passwordController,
                           hint: "**********",
                           textInputType: TextInputType.text,
-                          obscureText: true,
+                          obscureText: false,
                         ),
                         SizedBox(height: 30),
                         SizedBox(
@@ -95,7 +95,7 @@ class LoginPage extends StatelessWidget {
               ),
             ),
 
-            // 🔹 Full Screen Loader (No container box)
+
             if (loginApiController.isLoading.value)
               Positioned.fill(
                 child: Container(

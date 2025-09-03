@@ -44,7 +44,7 @@ import '../../../controller/payment_controller.dart';
         ),
 
         body: Obx(() {
-          if (bookingController.loadered.value) {
+          if (bookingController.customerbookingloader.value) {
             return Center(child: CircularProgressIndicator());
           }
           if (bookingController.bookingDetails == null) {
@@ -218,7 +218,7 @@ import '../../../controller/payment_controller.dart';
                       label: 'Payment',
                         onTap: () {
 
-                          paymentController.bookingId = bookingId; // from BookingDetailsPage
+                          paymentController.bookingId = bookingId;
                           paymentController.amount.clear();
 
                           Get.defaultDialog(
@@ -275,6 +275,7 @@ import '../../../controller/payment_controller.dart';
                           AddAttendancePages(),
                           arguments: {"booking_id": bookingId.toString()},
                         );
+                        Get.reload();
                       },
                     ),
                   ],
