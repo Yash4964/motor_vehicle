@@ -53,9 +53,16 @@ class AddBookingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     customerController.getCustomerList();
     packageController.getPackageList();
-    bookingController.clear();
+    // bookingController.clear();
 
-    if (Get.arguments?['booking_id'] != null) {
+    // if (Get.arguments?['booking_id'] != null) {
+    //   bookingController.setData();
+    // }
+    if (Get.arguments?['booking_id'] == null) {
+      bookingController.clear();
+      bookingController.isEdit = false;
+    } else {
+      bookingController.isEdit = true;
       bookingController.setData();
     }
 
@@ -204,7 +211,6 @@ class AddBookingPage extends StatelessWidget {
                   } else {
                     bookingController.addBooking();
                   }
-
                   Get.back();
                 },
                 child: Container(

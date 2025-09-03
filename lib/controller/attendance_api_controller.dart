@@ -64,6 +64,7 @@
       if (response.statusCode == 200 || response.statusCode == 201) {
         Get.snackbar("Success", "vehicle added successfully");
         attendanceget();
+        Get.back();
 
       } else {
         Get.snackbar("Error", "Not data Add");

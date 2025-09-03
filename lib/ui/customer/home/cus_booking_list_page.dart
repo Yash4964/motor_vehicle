@@ -12,6 +12,7 @@ class BookingListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bookingApiController.bookingget();
     return Scaffold(
       backgroundColor: const Color(0xFFF1F4F8),
       body: Obx(() {
