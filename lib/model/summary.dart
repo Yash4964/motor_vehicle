@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 class SummaryModel {
   int totalAttendances;
   int totalPaid;
@@ -13,15 +11,11 @@ class SummaryModel {
     required this.remainingBalance,
   });
 
-  factory SummaryModel.fromRawJson(String str) => SummaryModel.fromJson(json.decode(str));
-
-  String toRawJson() => json.encode(toJson());
-
   factory SummaryModel.fromJson(Map<String, dynamic> json) => SummaryModel(
-    totalAttendances: json["total_attendances"],
-    totalPaid: json["total_paid"],
-    packagePrice: json["package_price"],
-    remainingBalance: json["remaining_balance"],
+    totalAttendances: json["total_attendances"] ?? 0,
+    totalPaid: json["total_paid"] ?? 0,
+    packagePrice: json["packagePrice"].toString(),
+    remainingBalance: json["remaining_balance"] ?? 0,
   );
 
   Map<String, dynamic> toJson() => {

@@ -55,6 +55,36 @@ class ReportController extends GetxController {
     }
   }
 
+  Future<void> fetchByBookingId(String bookingId) async {
+    reportloader.value = true;
+    try {
+      final payload = {'booking_id': bookingId};
+      print("fetchByBookingId payload: $payload");
+
+      final response = await apiService.reportpost(payload);
+      print("status: ${response.statusCode}, body: ${response.body}");
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final body = response.body as Map<String, dynamic>;
+        if (body["status"] == true && body["data"] != null) {
+          final dynamic data = body["data"];
+          if (reportlist == null) {
+            reportlist = Rx<ReportModel>(ReportModel.fromJson(data));
+          } else {
+            reportlist?.value = ReportModel.fromJson(data);
+          }
+        } else {
+          Get.snackbar("Error", body["message"]);
+        }
+      } else {
+        Get.snackbar("Error", "Failed to fetch. Code: ${response.statusCode}");
+      }
+    } catch (e) {
+      Get.snackbar("Error", "Exception: $e");
+    } finally {
+      reportloader.value = false;
+    }
+  }
 
 
 }
