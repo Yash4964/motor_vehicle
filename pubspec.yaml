@@ -27,6 +27,12 @@ dev_dependencies:
   intl: ^0.18.1
   date_picker_plus: ^4.2.0
   widget_zoom: ^0.0.4
+  flutter_launcher_icons: ^0.14.4
+
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.png"
 
 
 flutter:
@@ -34,3 +40,4 @@ flutter:
 
   assets:
     - assets/images/
+

@@ -90,7 +90,7 @@ import '../../../controller/payment_controller.dart';
                             ),
                             SizedBox(height: 4),
                             Text(
-                              "Pending: ₹500",
+                              "Pending: ₹${bookingController.bookingModel.summary?.remainingBalance}",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.red,
@@ -240,21 +240,56 @@ import '../../../controller/payment_controller.dart';
                                       child: Text("Back"),
                                     ),
                                     SizedBox(width: 20),
-                                    ElevatedButton(
+                                    Obx(() => ElevatedButton(
                                       style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-                                      onPressed: () async {
+                                      onPressed: paymentController.isLoading.value ? null : () async {
+                                        final booking = bookingController.bookingList.firstWhereOrNull(
+                                              (b) => b.id.toString() == bookingId,
+                                        );
+                                        Get.back();
+
+                                        if (booking == null) {
+                                          Get.snackbar("Error", "Booking not found");
+                                          return;
+                                        }
+
+                                        final enteredAmount = double.tryParse(paymentController.amount.text) ?? 0;
+                                        final remainingBalance = bookingController.bookingModel.summary?.remainingBalance ?? 0;
+
+                                        if (enteredAmount <= 0) {
+                                          Get.snackbar("Error", "Please enter a valid amount");
+                                          return;
+                                        }
+
+                                        if (enteredAmount > remainingBalance) {
+                                          Get.snackbar("Error", "Amount cannot exceed remaining balance ₹$remainingBalance");
+                                          return;
+                                        }
+
                                         await paymentController.postapi();
-                                        await bookingController.bookingDetailsget(bookingId); // Refresh immediately
+                                        await bookingController.bookingDetailsget(bookingId);
                                         Get.back();
                                       },
-                                      child: Text(
+                                      child: paymentController.isLoading.value
+                                          ? SizedBox(
+                                        width: 18,
+                                        height: 18,
+                                        child: CircularProgressIndicator(
+                                          color: Colors.white,
+                                          strokeWidth: 2,
+                                        ),
+                                      )
+                                          : Text(
                                         "+ ADD",
                                         style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ),
+                                    ))
+
+
+
                                   ],
                                 ),
                               ],

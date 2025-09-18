@@ -2,6 +2,7 @@ import 'package:motor_vehicle/model/attendence_model.dart';
 import 'package:motor_vehicle/model/customer_model.dart';
 import 'package:motor_vehicle/model/package_model.dart';
 import 'package:motor_vehicle/model/payment_model.dart';
+import 'package:motor_vehicle/model/summary.dart';
 
 class BookingModel {
   int id;
@@ -16,7 +17,7 @@ class BookingModel {
 
   CustomerModel customer;
   PackageModel package;
-  //SummaryModel summary;
+  SummaryModel? summary;
 
   BookingModel({
     required this.id,
@@ -30,7 +31,7 @@ class BookingModel {
     required this.transactions,
     required this.customer,
     required this.package,
-    //required this.summary,
+    required this.summary,
   });
 
   factory BookingModel.fromJson(Map<String, dynamic> json) => BookingModel(
@@ -45,6 +46,6 @@ class BookingModel {
     transactions: (json["transactions"] == null) ? [] : List<PaymentModel>.from(json["transactions"].map((x) => PaymentModel.fromJson(x))) ?? null,
     customer: CustomerModel.fromJson(json["customer"]),
     package: PackageModel.fromJson(json["package"]),
-    //summary: SummaryModel.fromJson(json["summary"]),
+    summary: json["summary"] == null ? null: SummaryModel.fromJson(json["summary"]),
   );
 }

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:motor_vehicle/ApiService.dart';
+import 'package:motor_vehicle/controller/report_api_controller.dart';
 
 import 'package:motor_vehicle/model/booking_model.dart';
 import 'package:motor_vehicle/model/payment_model.dart';
@@ -14,7 +15,9 @@ class PaymentController extends GetxController {
   final TextEditingController amount = TextEditingController();
   ApiService apiService = ApiService();
   GetStorage getStorage = GetStorage();
+  ReportController reportController =Get.put(ReportController());
   RxBool loader = false.obs;
+  RxBool isLoading = false.obs;
   RxString datevalue = '12/08/2025'.obs;
 
   String bookingId = "";
@@ -29,6 +32,11 @@ class PaymentController extends GetxController {
 
   RxList<PaymentModel> paymentList = <PaymentModel>[].obs;
   Rx<BookingModel>? selectedbook;
+
+
+
+
+
 
   Future<void> getapi() async {
 
@@ -54,15 +62,70 @@ class PaymentController extends GetxController {
       getapi();
     }
   }
+  //
+  // Future<void> postapi() async {
+  //   try {
+  //     loader.value = true;
+  //
+  //     Response response = await apiService.paymentadd(_getData());
+  //
+  //     if (response.statusCode == 200 || response.statusCode == 201) {
+  //
+  //       if (bookingId.isNotEmpty) {
+  //         BookingController bookingController = Get.find<BookingController>();
+  //         await bookingController.bookingDetailsget(bookingId);
+  //       }
+  //
+  //       Get.back();
+  //       Get.snackbar("Success", "Payment added successfully");
+  //
+  //       clr(); // clear fields
+  //     } else {
+  //       Get.snackbar("Error", "Data not added");
+  //     }
+  //   } catch (e) {
+  //     Get.snackbar("Error", e.toString());
+  //   } finally {
+  //     loader.value = false;
+  //   }
+  // }
+
 
   Future<void> postapi() async {
     try {
       loader.value = true;
 
+      // ✅ Check booking price limit with remaining balance
+      if (bookingId.isNotEmpty) {
+        BookingController bookingController = Get.find<BookingController>();
+        final booking = bookingController.bookingList.firstWhereOrNull(
+              (b) => b.id.toString() == bookingId,
+        );
+
+        if (booking != null) {
+          final enteredAmount = double.tryParse(amount.text) ?? 0;
+          final packagePrice =
+              double.tryParse(booking.package.price.toString()) ?? 0;
+
+          final alreadyPaid = booking.transactions?.fold<double>(
+            0.0,
+                (sum, p) => sum + (double.tryParse(p.amount) ?? 0),
+          ) ?? 0.0;
+
+          final remainingBalance = packagePrice - alreadyPaid;
+          if (enteredAmount > remainingBalance) {
+            Get.snackbar("Error",
+                "Amount cannot exceed remaining balance ₹$remainingBalance");
+            loader.value = false;
+            return;
+
+          }
+        }
+      }
+
       Response response = await apiService.paymentadd(_getData());
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        // Refresh booking details so Payment tab updates
         if (bookingId.isNotEmpty) {
           BookingController bookingController = Get.find<BookingController>();
           await bookingController.bookingDetailsget(bookingId);
@@ -70,7 +133,6 @@ class PaymentController extends GetxController {
 
         Get.back();
         Get.snackbar("Success", "Payment added successfully");
-
         clr(); // clear fields
       } else {
         Get.snackbar("Error", "Data not added");
@@ -81,7 +143,6 @@ class PaymentController extends GetxController {
       loader.value = false;
     }
   }
-
 
   Future<void> editapi(String id) async {
     final response = await apiService.paymentupdate(id, _getData());

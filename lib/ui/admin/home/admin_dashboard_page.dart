@@ -48,7 +48,7 @@ class Dashboard_page extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.only(bottom: 10),
               child: ListTile(
-                title: Text('BL Kumawat',style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),),
+                title: Text('Harshadsinh Zala',style: TextStyle(color: Colors.white,fontSize: 20,fontWeight: FontWeight.bold),),
                 subtitle: Text('Welcome Back',style: TextStyle(color: Colors.white,fontSize: 14,fontWeight: FontWeight.bold),),
                 trailing: CircleAvatar(backgroundImage: AssetImage('assets/images/person.jpg'),radius: 30,),
               ),
@@ -82,6 +82,7 @@ class Dashboard_page extends StatelessWidget {
                     tital: "Booking",
                     u_icon: Icons.bookmark_add,
                     bg_color: Colors.amber,
+
                   ),
                 ),
                 InkWell(

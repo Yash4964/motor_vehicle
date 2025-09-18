@@ -109,7 +109,7 @@
     }
 
     void clear() {
-      c.timeselected.value = '6:30 AM';
+      c.timeselected.value = c.timelist.first;
       selectedbooking = null;
       selecteddriver = null;
       final today = DateTime.now();

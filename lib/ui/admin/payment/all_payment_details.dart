@@ -2,108 +2,95 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:motor_vehicle/controller/booking_controller.dart';
-import 'package:motor_vehicle/controller/payment_controller.dart';
-import 'package:motor_vehicle/ui/admin/payment/add_payment_page.dart';
 import 'package:motor_vehicle/widgets/appcolor_page.dart';
 
 class ComplateCustomerList extends StatelessWidget {
   ComplateCustomerList({super.key});
 
-  final PaymentController paymentController = Get.put(PaymentController());
   final BookingController bookingApiController = Get.put(BookingController());
 
   @override
   Widget build(BuildContext context) {
-    paymentController.getapi();
+    bookingApiController.bookingget(); // fetch bookings
     return Scaffold(
       backgroundColor: Appcolor.background,
       body: Obx(() {
-        if (paymentController.loader.value) {
-          return Center(child: CircularProgressIndicator());
-        } else if (paymentController.paymentList.isEmpty) {
-          return Center(child: Text("No payment found"));
+        if (bookingApiController.bookingloaders.value) {
+          return const Center(child: CircularProgressIndicator());
         } else {
+
+          final completedBookings = bookingApiController.bookingList
+              .where((b) => (b.summary?.remainingBalance ?? -1) == 0)
+              .toList();
+
+          if (completedBookings.isEmpty) {
+            return const Center(child: Text("No completed customers found"));
+          }
+
           return ListView.builder(
-            itemCount: paymentController.paymentList.length,
+            itemCount: completedBookings.length,
             itemBuilder: (context, index) {
-              final payment = paymentController.paymentList[index];
-              DateTime dateTime = DateTime.parse(payment.date);
-              final formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
+              final booking = completedBookings[index];
+
+              final formattedDate =
+              DateFormat('yyyy-MM-dd').format(booking.joiningDate);
+
               return Column(
                 children: [
                   Card(
                     color: Appcolor.container,
-                    margin: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    margin:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                     elevation: 2,
                     child: ListTile(
-                      contentPadding: EdgeInsets.all(12),
-                      leading: CircleAvatar(
+                      contentPadding: const EdgeInsets.all(12),
+                      leading: const CircleAvatar(
                         radius: 30,
                         backgroundImage: AssetImage("assets/images/person3.jpg"),
                       ),
                       title: Text(
-                        "Booking ID: ${payment.booking_id}",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        "Customer: ${booking.customer?.name ?? 'Unknown'}",
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 6),
+                          const SizedBox(height: 6),
                           RichText(
                             text: TextSpan(
-                              style: TextStyle(fontSize: 15, color: Colors.black),
+                              style: const TextStyle(
+                                  fontSize: 15, color: Colors.black),
                               children: [
+                                const TextSpan(
+                                    text: 'Remaining Balance: ',
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold)),
                                 TextSpan(
-                                    text: 'Amount: ',
-                                    style: TextStyle(fontWeight: FontWeight.bold)),
-                                TextSpan(text: payment.amount),
+                                    text:
+                                    '${booking.summary?.remainingBalance ?? 0}'),
                               ],
                             ),
                           ),
-                          SizedBox(height: 4),
+                          const SizedBox(height: 4),
                           RichText(
                             text: TextSpan(
-                              style: TextStyle(fontSize: 13, color: Colors.black),
+                              style: const TextStyle(
+                                  fontSize: 13, color: Colors.black),
                               children: [
-                                TextSpan(
-                                    text: "Date: ",
-                                    style: TextStyle(fontWeight: FontWeight.bold)),
+                                const TextSpan(
+                                    text: "Joining Date: ",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold)),
                                 TextSpan(text: formattedDate),
                               ],
                             ),
                           ),
                         ],
                       ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.edit, color: Colors.green),
-                            onPressed: () {
-                              Get.to(
-                                    () => AddPaymentPage(),
-                                arguments: {
-                                  "isEdit": true,
-                                  "amount": payment.amount,
-                                  "id": payment.id,
-                                  "booking_id": payment.booking_id.toString(),
-                                  "date": formattedDate,
-                                },
-                              );
-                            },
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.delete, color: Colors.red),
-                            onPressed: () {
-                              paymentController.delapi(payment.id);
-                            },
-                          ),
-                        ],
-                      ),
                     ),
                   ),
-                  if (index == paymentController.paymentList.length - 1)
-                    SizedBox(height: 100),
+                  if (index == completedBookings.length - 1)
+                    const SizedBox(height: 100),
                 ],
               );
             },

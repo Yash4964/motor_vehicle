@@ -35,7 +35,7 @@ class AttendanceModel {
         booking_id: json["booking_id"].toString(),
         driver_id: json["driver_id"]?.toString() ?? "",
         date: json["date"] ?? "",
-        time: json["time"] ?? "",
+        time: json["time"]?.toString() ?? "",
         id: json["id"].toString(),
         image: json["image"],
         bookingModel: (json["booking"] == null)

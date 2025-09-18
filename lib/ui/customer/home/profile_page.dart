@@ -11,7 +11,7 @@ import '../../../model/customer_model.dart';
 
 class ProfilePage extends StatelessWidget {
   final Uri _url = Uri.parse(
-    'https://www.youtube.com/watch?v=JYLEyMvj6sE&list=RDf23e6nfVQiI&index=4',
+    'https://motordriving.sathwarainfotech.com/public/motot_terms.html',
   );
   final GetStorage getStorage = GetStorage();
 
