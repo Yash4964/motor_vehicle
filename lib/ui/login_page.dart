@@ -80,14 +80,14 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 8),
-                        Center(
-                          child: InkWell(
-                            onTap: () {
-                              Get.to(RegistrationPage());
-                            },
-                            child: Text("Don't have an account ? SIGN UP"),
-                          ),
-                        ),
+                        // Center(
+                        //   child: InkWell(
+                        //     onTap: () {
+                        //       Get.to(RegistrationPage());
+                        //     },
+                        //     child: Text("Don't have an account ? SIGN UP"),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),

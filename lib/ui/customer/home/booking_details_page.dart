@@ -36,7 +36,7 @@ import '../../../controller/payment_controller.dart';
         backgroundColor: Appcolor.background,
         appBar: AppBar(
           foregroundColor: Colors.white,
-          title: Text("Your Booking Details"),
+          title: Text("Your Booking Details ~ ${bookingId}"),
           backgroundColor: Appcolor.primary,
           elevation: 1,
           centerTitle: true,

@@ -17,6 +17,8 @@ class PandingCustomerList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     paymentController.getapi();
+    bookingApiController.bookingget();
+
     return Scaffold(
       backgroundColor: Appcolor.background,
       body: Obx(() {
@@ -30,7 +32,8 @@ class PandingCustomerList extends StatelessWidget {
             itemCount: paymentController.paymentList.length,
             itemBuilder: (context, index) {
               final payment = paymentController.paymentList[index];
-
+              final booking = bookingApiController.bookingList
+                  .firstWhereOrNull((b) => b.id == payment.booking_id);
               DateTime dateTime = DateTime.parse(payment.date);
               final formattedDate = DateFormat('yyyy-MM-dd').format(dateTime);
               return Column(
@@ -43,11 +46,25 @@ class PandingCustomerList extends StatelessWidget {
                       contentPadding: EdgeInsets.all(12),
                       leading: CircleAvatar(
                         radius: 30,
-                        backgroundImage: AssetImage("assets/images/person3.jpg"),
+                        backgroundColor: Colors.blue.shade200,
+                        child: Text(
+                          payment.id.toString(), // replace with your booking ID field
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
+
+
+                      // title: Text(
+                      //     "Customer: ${booking?.learnerName ?? 'Unknown'}",
+                      //     style: const TextStyle(fontWeight: FontWeight.bold),
+                      // ),
                       title: Text(
-                        "Booking ID: ${payment.booking_id}",
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        "Booking Id: ${payment?.booking_id ?? 'Unknown'}",
+                        style: const TextStyle(fontWeight: FontWeight.bold),
                       ),
                       subtitle: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
