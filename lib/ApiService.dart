@@ -13,6 +13,13 @@ class ApiService extends GetConnect {
   void onInit() {
     httpClient.baseUrl = 'https://motordriving.sathwarainfotech.com/api/';
     httpClient.timeout = const Duration(seconds: 30);
+
+    httpClient.addRequestModifier<void>((request) {
+      request.headers['Accept'] = 'application/json';
+      request.headers['User-Agent'] = 'FlutterApp';
+      return request;
+    });
+
     super.onInit();
   }
 
